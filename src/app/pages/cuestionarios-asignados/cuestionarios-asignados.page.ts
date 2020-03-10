@@ -25,8 +25,8 @@ export class CuestionariosAsignadosPage implements OnInit {
   _listaCuestionariosPublicadosAsignarEncuestado : any[]=[];
   
   _consultarCuestionariosPublicados(){
-    
-    this.asignarEncuestadoService._consultarporidasignarusuariotipousuariotecnico("MQAwADYANAA=")
+    //"MQAwADYANAA="
+    this.asignarEncuestadoService._consultarporidasignarusuariotipousuariotecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
       .then(data=>{
         if (data['http']['codigo']=='200') {
           this._listaCuestionariosPublicadosAsignarEncuestado= data['respuesta'];
@@ -44,7 +44,9 @@ export class CuestionariosAsignadosPage implements OnInit {
 
   async prepararCuestionario(_item:any){
     // this.router.navigate("cuestionarios-asignados/item",_item.IdAsignarEncuestadoEncriptado);
-    console.log(_item.IdAsignarEncuestadoEncriptado);
+    console.log("prepararCuestionario:_item.IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestadoEncriptado);
+    localStorage.setItem("IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestadoEncriptado) ;
+    console.log("localStore",localStorage.getItem("IdAsignarEncuestadoEncriptado"));
     
     this.router.navigateByUrl("cuestionario-respuestas/"+_item.IdAsignarEncuestadoEncriptado);
 

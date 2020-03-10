@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
 
   }
 
-  ocultar = true;
+  _ocultar = true;
   _misTiposUsuarios:any[]=[];
   // @ViewChild('formLogin',{static:false}) formLogin : FormGroup;
 
@@ -64,7 +64,7 @@ export class LoginPage implements OnInit {
               // this.mensaje("No Tiene Roles Asignados");
             }else if (this._misTiposUsuarios.length==1) {
 
-              localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._misTiposUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado)
+              localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',this._misTiposUsuarios[0].IdAsignarUsuarioTipoUsuarioEncriptado);
               if (localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado').length==0) {
                 
               }else{
@@ -74,9 +74,11 @@ export class LoginPage implements OnInit {
               }
               
             }
-            // else if (this._misTiposUsuarios.length>1) {
-            //   // this._verFormularioMisTiposUsuarios=true;
-            // }
+            else if (this._misTiposUsuarios.length>1) {
+              console.log(this._misTiposUsuarios);
+              this._ocultar = false;
+              // this._verFormularioMisTiposUsuarios=true;
+            }
             
           }else if (data['http']['codigo']=='500') {
             // this.mensaje("A ocurrido un error inesperado, intente más tarde.")
@@ -88,6 +90,11 @@ export class LoginPage implements OnInit {
         }).finally(()=>{
 
         });
+  }
+
+  _escojerRol(_item){
+    localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',_item.IdAsignarUsuarioTipoUsuarioEncriptado);
+    this.router.navigateByUrl("/home");
   }
 
 }

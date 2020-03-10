@@ -20,7 +20,7 @@
         Siguiente
       </ion-button>
     </form> -->
-    <form  [formGroup]="formLogin" (ngSubmit)="_validarCredenciales()" >
+    <form *ngIf="_ocultar==true" [formGroup]="formLogin" (ngSubmit)="_validarCredenciales()" >
       <ion-item>
         <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
         <ion-input required formControlName="_usuario" type="email"></ion-input>
@@ -33,5 +33,13 @@
         Login
       </ion-button>
     </form>
+    <ion-list *ngIf="_ocultar==false">
+      <ion-list-header>
+        <ion-label>Escoja Un Rol</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let item of _misTiposUsuarios" button lines="none" (click)="_escojerRol(item)">
+        <ion-label>{{item.TipoUsuario.Descripcion}}</ion-label>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>

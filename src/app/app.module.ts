@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
+// import { EscojerRolPipe } from './pages/escojer-rol.pipe';
 // import { CuestionarioRespuestasPageModule } from './pages/cuestionario-respuestas/cuestionario-respuestas.module';
 
 @NgModule({
