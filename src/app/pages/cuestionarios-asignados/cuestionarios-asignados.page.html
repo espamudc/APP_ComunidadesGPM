@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>cuestionarios-asignados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+ 
+  <ion-list>
+
+    <ion-card (click)="prepararCuestionario(item)" button *ngFor="let item of _listaCuestionariosPublicadosAsignarEncuestado; let i = index">
+      <ion-card-header>
+        <!-- <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle> -->
+        <ion-card-title> Cuestionario #{{i+1}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <strong> Cantón :    </strong> {{item.Comunidad.Parroquia.Canton.NombreCanton}} <br>
+        <strong> Parroquia : </strong> {{item.Comunidad.Parroquia.NombreParroquia}} <br>
+        <strong> Comunidad : </strong> {{item.Comunidad.NombreComunidad}} <br>
+        <!-- <strong> Representante :</strong>  <br> -->
+        <!-- Técnico : <br> -->
+        <strong> Fecha de Inicio : </strong>  {{item.FechaInicio | date: 'yyyy-MM-dd'}} <br>
+        <strong> Fecha de Fin :   </strong> {{item.FechaFin | date: 'yyyy-MM-dd'}} <br>
+      </ion-card-content>
+      
+    </ion-card>
+  </ion-list>
+  
+
+  
+</ion-content>

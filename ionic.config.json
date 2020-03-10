@@ -1,0 +1,7 @@
+{
+  "name": "APPComunidadesGPM",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
