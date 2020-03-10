@@ -48,7 +48,8 @@ export class AppComponent implements OnInit {
     //   icon: 'warning'
     // }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  public labels =[];
 
   constructor(
     private platform: Platform,

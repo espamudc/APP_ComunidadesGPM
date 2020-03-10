@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
 
   formLogin: FormGroup;
-  formValidarCorreo : FormGroup;
+ 
 
   constructor( private usuarioService: UsuarioService,
                 private router: Router ) { 
@@ -21,9 +21,7 @@ export class LoginPage implements OnInit {
       _clave    : new FormControl('', [Validators.required])
     });
 
-    this.formValidarCorreo = new FormGroup({
-      _usuario  : new FormControl('',[Validators.required,Validators.email])
-    });
+    
 
   }
 
@@ -32,37 +30,27 @@ export class LoginPage implements OnInit {
   // @ViewChild('formLogin',{static:false}) formLogin : FormGroup;
 
   ngOnInit() {
+    this.formLogin.get('_usuario').setValue(localStorage.getItem("_correo"));
   }
 
-  _validarformValidarCorreo(){
-    if (this.formValidarCorreo.valid==true) {
-      this._validarUsuario();
-    }
+  _redirecto(){
+    console.log("RETU");
+    this
+    this.router.navigateByUrl("login");
   }
 
-  _validarUsuario(){
-    this.usuarioService._validarCorreo(this.formValidarCorreo.get('_usuario').value)
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          console.log(data['respuesta']);
-          localStorage.setItem("_correo",data['respuesta']);
-          this.ocultar = false;
-        } else {
-          
-        }
-      }).catch(error=>{
-
-      }).finally(()=>{
-
-      });
-  }
+ 
 
 
   _validarCredenciales(){
     // let _correo = this.formValidarCorreo.get('_usuario').value;
 
+    console.log("usuario .",this.formLogin.get('_usuario').value);
+    console.log("clave .",this.formLogin.get('_clave').value);
+    
+
     let _correo = this.formLogin.get('_usuario').value;
-    let _clave = this.formLogin.get('clave').value;
+    let _clave = this.formLogin.get('_clave').value;
 
     this.usuarioService._login(_correo,_clave,"")
         .then(data=>{
@@ -82,7 +70,7 @@ export class LoginPage implements OnInit {
               }else{
                 console.log("IdAsignarUsuarioTipoUsuarioEncriptado solo uno:",localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
                 
-                this.router.navigateByUrl("/inicio");
+                this.router.navigateByUrl("/home");
               }
               
             }

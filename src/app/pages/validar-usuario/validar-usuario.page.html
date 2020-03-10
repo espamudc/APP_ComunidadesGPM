@@ -1,0 +1,20 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>validar-usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <img src="" height="40px !important" width="40px !important" alt="">
+    <form [formGroup]="formValidarCorreo" (ngSubmit)="_validarformValidarCorreo()">
+      <ion-item>
+        <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required formControlName="_usuario" type="email"></ion-input>
+      </ion-item>
+      <ion-button expand="block"  color="primary" type="submit" [disabled]="formValidarCorreo.invalid">
+        Siguiente
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
