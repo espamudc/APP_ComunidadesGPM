@@ -1,75 +1,115 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>cuestionario-respuestas</ion-title>
     <ion-buttons slot="end">
       <ion-back-button defaultHref="cuestionarios-asignados"></ion-back-button>
     </ion-buttons>
+
   </ion-toolbar>
-  
-</ion-header>
-  <ion-grid fixed>
-    <ion-row>
-      
-      <ion-card style="width: 100% !important;">
-        <ion-card-header>
-          <!-- <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle> -->
-          <ion-card-title> CUESTIONARIO : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }} </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <form [formGroup]="formAsignarEncuestado" >
-            <strong> Cantón :    </strong>        {{ formAsignarEncuestado.get('_canton').value }} <br>
-            <strong> Parroquia : </strong>        {{ formAsignarEncuestado.get('_parroquia').value }} <br>
-            <strong> Comunidad : </strong>        {{ formAsignarEncuestado.get('_comunidad').value }} <br>
-            <strong> Fecha de Inicio : </strong>  {{ formAsignarEncuestado.get('_fechaInicio').value | date: 'yyyy-MM-dd' }} <br>
-            <strong> Fecha de Fin :   </strong>   {{ formAsignarEncuestado.get('_fechaFin').value | date: 'yyyy-MM-dd' }} <br>
-          </form>
-          <!-- <form [formGroup]="ç" (ngSubmit)="onSubmit()">
-            <ion-button expand="block" (click)="onClick()">
-              <ion-icon slot="start" name="add"></ion-icon>
-              Llenar Cuestionario
-            </ion-button>
-          </form> -->
-        </ion-card-content>
-      </ion-card>
-      <!-- <ion-list > -->
-       
-      <!-- </ion-list> -->
-      
-     
-    </ion-row>
-    
-  </ion-grid>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="12" *ngFor="let item of listaPreguntas">
-        <ion-card  class="ion-no-padding"  >
-        
-          <ion-card-content>
-            {{item.Pregunta.Descripcion}}
-          </ion-card-content>
-          <ion-item *ngIf="item.Pregunta.TipoPregunta.Identificador == 2">
-            <ion-list>
-              <ion-radio-group name="auto" value="tesla">
-                <ion-list-header>
-                  <ion-label>Auto Manufacturers</ion-label>
-                </ion-list-header>
-                <ion-item>
-                  <ion-label>Tesla</ion-label>
-                  <ion-radio value="tesla"></ion-radio>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Ford</ion-label>
-                  <ion-radio value="ford"></ion-radio>
-                </ion-item>
-              </ion-radio-group>
-            </ion-list>
-          </ion-item>
 
-        </ion-card>  
-      </ion-col>
+</ion-header> -->
 
-    </ion-row>
-  </ion-grid>
 <ion-content>
+  <br>
+  <ion-card >
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle> -->
+      <ion-card-title> CUESTIONARIO : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }} </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="formAsignarEncuestado" >
+        <strong> Cantón :    </strong>        {{ formAsignarEncuestado.get('_canton').value }} <br>
+        <strong> Parroquia : </strong>        {{ formAsignarEncuestado.get('_parroquia').value }} <br>
+        <strong> Comunidad : </strong>        {{ formAsignarEncuestado.get('_comunidad').value }} <br>
+        <strong> Fecha de Inicio : </strong>  {{ formAsignarEncuestado.get('_fechaInicio').value | date: 'yyyy-MM-dd' }} <br>
+        <strong> Fecha de Fin :   </strong>   {{ formAsignarEncuestado.get('_fechaFin').value | date: 'yyyy-MM-dd' }} <br>
+      </form>
+      <!-- <form [formGroup]="ç" (ngSubmit)="onSubmit()">
+        <ion-button expand="block" (click)="onClick()">
+          <ion-icon slot="start" name="add"></ion-icon>
+          Llenar Cuestionario
+        </ion-button>
+      </form> -->
+    </ion-card-content>
+  </ion-card>
 
+  <!-- They can also be used to group sliding items -->
+
+
+  <ion-list>
+    <ion-card  class="ion-no-padding" *ngFor="let _item_pregunta of listaPreguntas">
+        
+      <ion-card-content>
+        {{_item_pregunta.Pregunta.Descripcion}}
+      </ion-card-content>
+      
+      <ion-item lines="none" *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 1">
+        <ion-input clearInput placeholder="Ingresa la Respuesta">  </ion-input>
+        <ion-button (click)="onClick()">
+          <ion-icon slot="icon-only" name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 2">
+        <ion-list style="width: 100% !important;">
+          <ion-radio-group name="auto" *ngIf="_listaOpcionesPreguntaSeleccion.length>0">
+            <div *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
+              <ion-item lines="none" *ngIf="_item_opcion.Pregunta.IdPreguntaEncriptado === _item_pregunta.Pregunta.IdPreguntaEncriptado">
+                <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+                <ion-radio slot="start" value="{{_item_opcion.IdOpcionPreguntaSeleccionEncriptado}}"></ion-radio>
+              </ion-item>
+            </div>
+          </ion-radio-group>
+        </ion-list>
+      </ion-item>
+
+      <ion-list *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 3 && _listaOpcionesPreguntaSeleccion.length>0">
+        
+        <div *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
+          <ion-item lines="none" *ngIf="_item_opcion.Pregunta.IdPreguntaEncriptado === _item_pregunta.Pregunta.IdPreguntaEncriptado">
+            <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+            <ion-checkbox slot="start"></ion-checkbox>
+          </ion-item>
+        </div>
+
+      </ion-list>
+      
+      <ion-grid *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 4">
+        <div *ngFor="let _item_matriz of _listaPreguntaMatriz">
+          
+          <div *ngIf="_item_matriz.IdPreguntaEncriptado==_item_pregunta.Pregunta.IdPreguntaEncriptado">
+            <ion-row>
+              <ion-col>
+                <ion-text > op/op </ion-text>
+              </ion-col>
+              <ion-col *ngFor="let _item_columna of _item_matriz.columnas">
+                <ion-text > columna 1 </ion-text>
+              </ion-col>
+ 
+            </ion-row>
+            <ion-row>
+              <ion-col *ngFor="let _item_fila of _item_matriz.filas">_item_fila</ion-col>
+              <ion-list>
+                <ion-radio-group name="auto" >
+                  <ion-item lines="none">
+                    <ion-label>{{_item_fila.Descripcion}}</ion-label>
+                    <ion-radio value="{{_item_fila.IdOpcionUnoMatrizEncriptado}}"></ion-radio>
+                  </ion-item>
+                </ion-radio-group>
+              </ion-list>
+            </ion-row>
+          </div>
+        </div>
+        
+      </ion-grid>
+
+    </ion-card>  
+  </ion-list>
+
+  
+
+  <!-- <ion-item>
+    <ion-label position="stacked">Stacked Label</ion-label>
+    <ion-input></ion-input>
+  </ion-item> -->
 </ion-content>

@@ -17,11 +17,11 @@ export class AppComponent implements OnInit {
       url: '/cuestionarios-asignados',
       icon: 'mail'
     },
-    {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
+    // {
+    //   title: 'Inbox',
+    //   url: '/folder/Inbox',
+    //   icon: 'mail'
+    // },
     // {
     //   title: 'Outbox',
     //   url: '/folder/Outbox',

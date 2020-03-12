@@ -4,6 +4,7 @@ import { CabeceraRespuestaService } from 'src/app/services/cabecera-respuesta.se
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
 import { VersionamientoPreguntaService } from 'src/app/services/versionamiento-pregunta.service';
+import { PreguntasService } from 'src/app/services/preguntas.service';
 
 @Component({
   selector: 'app-cuestionario-respuestas',
@@ -17,6 +18,7 @@ export class CuestionarioRespuestasPage implements OnInit {
               ,private cabeceraRespuestaService: CabeceraRespuestaService
               ,private asignarEncuestadoService: AsignarEncuestadoService
               ,private versionamientoPreguntaService: VersionamientoPreguntaService
+              ,private preguntasService: PreguntasService
               ) 
   {
     this.formAsignarEncuestado = new FormGroup({
@@ -46,6 +48,15 @@ export class CuestionarioRespuestasPage implements OnInit {
   formCabeceraRespuesta : FormGroup;
   listaPreguntas: any[]=[];
   listaRespuestas : any[]=[];
+
+  _listaPreguntaMatriz:any[]=[];
+
+  _listaPreguntaConfigurarMatriz:any[]=[];
+  //_listaOpcionUnoMatriz:any[]=[];
+  FilaOpcionUnoMatriz: any[] = [];
+  ColumnsOpcionDosMatriz: any[] = [];
+  //_listaOpcionesPreguntaSeleccionGeneral:any[]=[];
+  _listaOpcionesPreguntaSeleccion:any[]=[];
   //_IdAsignarEncuestadoEncriptado : any ="";
   //_CabeceraRespuesta:any={};
   
@@ -124,6 +135,12 @@ export class CuestionarioRespuestasPage implements OnInit {
         if (data['http']['codigo']=='200') {
           console.log("_preguntas",data['respuesta']);
           this.listaPreguntas = data['respuesta'];
+
+          // data['respuesta'].map(element=>{
+          //   this.listaPreguntas.push(element);
+          // });
+
+
         } else {
           console.log("codigo",data['http']['codigo']);
           
@@ -132,8 +149,131 @@ export class CuestionarioRespuestasPage implements OnInit {
         console.log(error);
         
       }).finally(()=>{
+        this.listaPreguntas.map(element=>{
+          if (element.Pregunta.TipoPregunta.Identificador == 2 || element.Pregunta.TipoPregunta.Identificador == 3) {
+            this._pregunta_consultarPreguntasSeleccion(element.Pregunta.IdPreguntaEncriptado);
+          }else if (element.Pregunta.TipoPregunta.Identificador == 4) {
+            this._consultarPreguntaConfigurarMatriz(element.Pregunta.IdPreguntaEncriptado);
+          }
+
+          
+        });
+      });
+  }
+
+  _pregunta_consultarPreguntasSeleccion(_IdPreguntaEncriptado){
+    this.preguntasService._consultarOpcionPreguntaSeleccion(
+      _IdPreguntaEncriptado
+    ).then(data=>{
+      if (data['http']['codigo']=='200') {
+        
+       //this._listaOpcionesPreguntaSeleccion.push( data['respuesta']);
+       //console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
+      
+       data['respuesta'].map(element=>{
+         this._listaOpcionesPreguntaSeleccion.push(element);
+       });
+       console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
+
+
+      }else{
+
+      }
+    }).catch(error=>{
+
+    }).finally(()=>{
+
+    });
+  }
+
+  // _pregunta_consultarOpcionUnoMatriz(_IdPreguntaEncriptado){
+  //   this.preguntasService._consultarOpcionUnoPreguntaMatriz(_IdPreguntaEncriptado)
+  //     .then(data=>{
+  //       if (data['http']['codigo']=='200') {
+  //         this._listaOpcionUnoMatriz=data['respuesta'];
+  //         //console.log("_listaOpcionUnoMatriz",this._listaOpcionUnoMatriz);
+          
+  //       } else {
+          
+  //       }
+  //     }).catch(error=>{
+
+  //     }).finally(()=>{
+
+  //     });
+  // }
+
+  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
+   // console.log(this.item.IdPreguntaEncriptado);
+    
+    this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
+      .then(data=>{
+        if (data['http']['codigo']=='200') {
+          console.log("matriz-->",data['respuesta']);
+          this._listaPreguntaConfigurarMatriz=data['respuesta'];
+          this._vistaPreguntaConfigurarMatriz();
+          
+        } else {
+          
+        }
+      }).catch(error=>{
+
+      }).finally(()=>{
+        this._vistaPreguntaConfigurarMatriz();
+
+        var matriz = {
+            IdPreguntaEncriptado : _IdPreguntaEncriptado,
+            filas: this.FilaOpcionUnoMatriz,
+            columnas : this.ColumnsOpcionDosMatriz
+        }
+      
+          this._listaPreguntaMatriz.push(matriz);
+
+        console.log("_listaPreguntaMatriz",this._listaPreguntaMatriz);
+        
 
       });
+  }
+
+  _vistaPreguntaConfigurarMatriz(){
+    this._listaPreguntaConfigurarMatriz.map((element,index)=>{
+      this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz);
+    });
+    let unicosOpcionUno = [ ];
+    
+    this.FilaOpcionUnoMatriz.map((element,index)=>{
+      let x= unicosOpcionUno.find(data=>data.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado);
+      if (unicosOpcionUno.indexOf( x ) == -1){
+        unicosOpcionUno.push(element);
+      }
+    });
+
+    this.FilaOpcionUnoMatriz = unicosOpcionUno;
+    console.log("FilaOpcionUnoMatriz",this.FilaOpcionUnoMatriz);
+    
+    //------------------------------------------------------------------------------------
+    this._listaPreguntaConfigurarMatriz.map((element,index)=>{
+      this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
+    });
+
+    let unicosOpcionDos = [ ];
+
+    this.ColumnsOpcionDosMatriz.map((element,index)=>{
+      let x= unicosOpcionDos.find(data=>data.IdOpcionDosMatrizEncriptado===element.IdOpcionDosMatrizEncriptado);
+      if (unicosOpcionDos.indexOf( x ) == -1){
+        unicosOpcionDos.push(element);
+      }
+    });
+    
+
+    this.ColumnsOpcionDosMatriz = unicosOpcionDos;
+
+   
+
+    console.log("unicosOpcionDos",unicosOpcionDos);
+    
+  
+    
   }
 
 }
