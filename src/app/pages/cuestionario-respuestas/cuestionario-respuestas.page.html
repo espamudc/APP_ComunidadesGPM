@@ -1,75 +1,75 @@
+
 <ion-header>
-  <ion-toolbar>
-    <ion-title>cuestionario-respuestas</ion-title>
+  <ion-toolbar color="gpm-success">
+    <ion-title>CUESTIONARIO : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }}</ion-title>
     <ion-buttons slot="end">
-      <ion-back-button defaultHref="cuestionarios-asignados"></ion-back-button>
+      <ion-back-button defaultHref="tabs/cuestionarios-asignados"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
-  
 </ion-header>
-  <ion-grid fixed>
-    <ion-row>
-      
-      <ion-card style="width: 100% !important;">
-        <ion-card-header>
-          <!-- <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle> -->
-          <ion-card-title> CUESTIONARIO : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }} </ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <form [formGroup]="formAsignarEncuestado" >
-            <strong> Cantón :    </strong>        {{ formAsignarEncuestado.get('_canton').value }} <br>
-            <strong> Parroquia : </strong>        {{ formAsignarEncuestado.get('_parroquia').value }} <br>
-            <strong> Comunidad : </strong>        {{ formAsignarEncuestado.get('_comunidad').value }} <br>
-            <strong> Fecha de Inicio : </strong>  {{ formAsignarEncuestado.get('_fechaInicio').value | date: 'yyyy-MM-dd' }} <br>
-            <strong> Fecha de Fin :   </strong>   {{ formAsignarEncuestado.get('_fechaFin').value | date: 'yyyy-MM-dd' }} <br>
-          </form>
-          <!-- <form [formGroup]="ç" (ngSubmit)="onSubmit()">
-            <ion-button expand="block" (click)="onClick()">
-              <ion-icon slot="start" name="add"></ion-icon>
-              Llenar Cuestionario
+
+<ion-header>
+  <ion-toolbar>
+    <!-- <ion-title>Header</ion-title> -->
+    <ion-grid >
+      <ion-row>
+        <ion-col size="6"> <strong> Provincia :</strong> </ion-col>
+        <ion-col size="6"> <strong> Cantón :    </strong>        {{ formAsignarEncuestado.get('_canton').value }} </ion-col>
+
+      </ion-row>
+      <ion-row>
+        <ion-col size="6"> <strong> Parroquia : </strong>        {{ formAsignarEncuestado.get('_parroquia').value }} </ion-col>
+        <ion-col size="6"> <strong> Comunidad : </strong>        {{ formAsignarEncuestado.get('_comunidad').value }} </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6"> <strong> Fecha de Inicio : </strong>  {{ formAsignarEncuestado.get('_fechaInicio').value | date: 'yyyy-MM-dd' }} </ion-col>
+        <ion-col size="6"> <strong> Fecha de Fin :   </strong>   {{ formAsignarEncuestado.get('_fechaFin').value | date: 'yyyy-MM-dd' }} </ion-col>
+      </ion-row>
+
+      <ion-row [hidden]="_ocultar">
+        <ion-col size="12">
+          <div class="centrar">
+            <ion-button  color="gpm-success" shape="round" (click)="_comenzarencuesta()">
+              <ion-label slot="start">Comenzar Encuesta</ion-label>
+              <!-- <ion-icon slot="end" name="add"></ion-icon> -->
             </ion-button>
-          </form> -->
-        </ion-card-content>
-      </ion-card>
-      <!-- <ion-list > -->
-       
-      <!-- </ion-list> -->
-      
-     
-    </ion-row>
-    
-  </ion-grid>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="12" *ngFor="let item of listaPreguntas">
-        <ion-card  class="ion-no-padding"  >
-        
-          <ion-card-content>
-            {{item.Pregunta.Descripcion}}
-          </ion-card-content>
-          <ion-item *ngIf="item.Pregunta.TipoPregunta.Identificador == 2">
-            <ion-list>
-              <ion-radio-group name="auto" value="tesla">
-                <ion-list-header>
-                  <ion-label>Auto Manufacturers</ion-label>
-                </ion-list-header>
-                <ion-item>
-                  <ion-label>Tesla</ion-label>
-                  <ion-radio value="tesla"></ion-radio>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Ford</ion-label>
-                  <ion-radio value="ford"></ion-radio>
-                </ion-item>
-              </ion-radio-group>
-            </ion-list>
-          </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
 
-        </ion-card>  
-      </ion-col>
+    </ion-grid>
 
-    </ion-row>
-  </ion-grid>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
+  <ion-list>
+    <div *ngFor="let _item_pregunta of listaPreguntas">
+
+      <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+        [ItemPregunta]="_item_pregunta" 
+        [ListaRespuestas] = "listaRespuestas"
+        *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 1"> </app-abierta>
+
+      <app-seleccion-unica  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+                            [ItemPregunta]="_item_pregunta" 
+                            [ListaRespuestas] = "listaRespuestas"
+                            *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 2"></app-seleccion-unica>
+
+      <app-seleccion-multiple [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+                              [ItemPregunta]="_item_pregunta" 
+                              [ListaRespuestas] = "listaRespuestas"
+                              *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 3"></app-seleccion-multiple>
+
+      <app-matriz [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+                  [ItemPregunta]="_item_pregunta" 
+                  [ListaRespuestas] = "listaRespuestas"
+                  *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 4"></app-matriz>
+
+
+    </div>
+
+
+  </ion-list>
 
 </ion-content>

@@ -1,7 +1,8 @@
 {
   "name": "APPComunidadesGPM",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

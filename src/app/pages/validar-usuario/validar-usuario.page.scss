@@ -5,4 +5,35 @@
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    
 }
+
+ion-input[required]{
+    color : green ;
+}
+
+// ion-item {
+//     border-radius: 1rem;
+// }
+
+// ion-content{
+//     --background: #23922c;
+//     ion-item{
+//         --background: #23922c;
+//         ion-input {
+//             // --background: #3880ff;
+//             --color: #ffffff !important;
+            
+//         }
+//     }
+// }
+
+// .cuerpo {
+//     --background: #18bf8e;
+//     ion-item{
+//         --background: #18bf8e;
+//         ion-label{
+//             --color: blue;
+//         }
+//     }
+// }

@@ -1,0 +1,40 @@
+<!-- <form [formGroup]="formRespuesta" (ngSubmit)="_validarFormRespuesta()">
+  
+  <ion-item lines="none" >
+    <ion-input formControlName="_descripcion" clearInput placeholder="Ingresa la Respuesta">  </ion-input>
+    <ion-button [disabled]="formRespuesta.invalid" type="submit">
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+</form> -->
+
+<form [formGroup]="formRespuesta" (ngSubmit)="_validarFormRespuesta()">
+  <ion-item button (click)="_ocultar()">
+    <ion-label><strong>{{ItemPregunta.Pregunta.Descripcion}}</strong></ion-label>
+    <ion-buttons  slot="end">
+      <ion-button color="gpm-success" >
+        <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <ion-item [hidden]="_ver" class="animated jello ">
+    <ion-input formControlName="_descripcion"  >  </ion-input>
+    <ion-buttons  slot="end">
+      <ion-button color="gpm-success" [disabled]="formRespuesta.invalid" type="submit">
+        <ion-icon shape="round" slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <!-- <ion-item button >
+    <ion-label position="floating"><strong>{{ItemPregunta.Pregunta.Descripcion}}</strong></ion-label>
+    <ion-input formControlName="_descripcion"  >  </ion-input>
+    <ion-buttons  slot="end">
+      <ion-button color="gpm-success" [disabled]="formRespuesta.invalid" type="submit">
+        <ion-icon shape="round" slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-item> -->
+
+</form>

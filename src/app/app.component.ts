@@ -17,11 +17,11 @@ export class AppComponent implements OnInit {
       url: '/cuestionarios-asignados',
       icon: 'mail'
     },
-    {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
+    // {
+    //   title: 'Inbox',
+    //   url: '/folder/Inbox',
+    //   icon: 'mail'
+    // },
     // {
     //   title: 'Outbox',
     //   url: '/folder/Outbox',
@@ -51,6 +51,8 @@ export class AppComponent implements OnInit {
   // public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   public labels =[];
 
+  public _usuario = "";
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -66,7 +68,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+
   ngOnInit() {
+    this._usuario = localStorage.getItem("_correo");
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());

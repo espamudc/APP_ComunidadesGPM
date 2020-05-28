@@ -14,3 +14,21 @@
     top: 50%;
     transform: translateY(-50%);
   }
+
+  ion-label{
+    --color: var(--ion-color-gpm-success);
+    h2{
+        color: var(--ion-color-gpm-success);
+    }
+  }
+
+
+ion-input[required]{
+    color : green ;
+}
+
+ion-list {
+  ion-item:hover{
+    background: var(--ion-color-gpm-success);
+  }
+}

@@ -1,20 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, Form } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
+import { MenuController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements OnInit,AfterViewInit {
 
   formLogin: FormGroup;
  
 
   constructor( private usuarioService: UsuarioService,
-                private router: Router ) { 
+                private router: Router 
+                ,private menuController:MenuController,
+                private toastController: ToastController,
+                ) { 
     
     this.formLogin = new FormGroup({
       _usuario  : new FormControl('', [Validators.required,Validators.email]),
@@ -32,15 +36,52 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.formLogin.get('_usuario').setValue(localStorage.getItem("_correo"));
   }
+  ngAfterViewInit(){
+    this.menuController.enable(false);
 
+  }
+  ionViewWillEnter(){
+    this.menuController.enable(false);
+  }
   _redirecto(){
     console.log("RETU");
     this
     this.router.navigateByUrl("login");
+    
   }
 
- 
+ async presentToastWithButtons(_mensaje,_duracion:number=2000)  {
+   const toast = await this.toastController.create({
+     animated: true,
+     buttons: [
+        {
+         text: 'Cerrar',
+         role: 'cancel',
+         handler: () => {
+           console.log('Cancel clicked');
+         }
+       }
+     ],
+    //  color: 'danger',
+    //  cssClass: 'toast-success',
+     duration: _duracion,
+    //  header: 'Toast header',
+     keyboardClose: true,
+     message: _mensaje,
+    //  mode: 'ios',
+     position: 'bottom',
+     translucent: true
+   });
+   toast.present();
+ }
 
+ async presentToast(_mensaje,_duracion:number=2000) {
+   const toast = await this.toastController.create({
+     message: _mensaje,
+     duration: _duracion
+   });
+   toast.present();
+ }
 
   _validarCredenciales(){
     // let _correo = this.formValidarCorreo.get('_usuario').value;
@@ -70,7 +111,8 @@ export class LoginPage implements OnInit {
               }else{
                 console.log("IdAsignarUsuarioTipoUsuarioEncriptado solo uno:",localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado'));
                 
-                this.router.navigateByUrl("/home");
+                // this.router.navigateByUrl("/home");
+                this.router.navigateByUrl("/tabs");
               }
               
             }
@@ -81,8 +123,11 @@ export class LoginPage implements OnInit {
             }
             
           }else if (data['http']['codigo']=='500') {
+            this.presentToastWithButtons("Contraceña Incorrecta",3000);
             // this.mensaje("A ocurrido un error inesperado, intente más tarde.")
           }else{
+            this.presentToastWithButtons("Contraceña Incorrecta",3000);
+
             // this.mensaje(data['http']['mensaje']);
           }
         }).catch(error=>{
@@ -94,7 +139,8 @@ export class LoginPage implements OnInit {
 
   _escojerRol(_item){
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',_item.IdAsignarUsuarioTipoUsuarioEncriptado);
-    this.router.navigateByUrl("/home");
+    // this.router.navigateByUrl("/home");
+    this.router.navigateByUrl("/tabs/home");
   }
 
 }

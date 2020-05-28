@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ValidarUsuarioPageRoutingModule } from './validar-usuario-routing.module';
 
 import { ValidarUsuarioPage } from './validar-usuario.page';
+// import { Network } from '@ionic-native/network/ngx';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ValidarUsuarioPage } from './validar-usuario.page';
     IonicModule,
     ValidarUsuarioPageRoutingModule
     , ReactiveFormsModule
+    // , Network
   ],
   declarations: [ValidarUsuarioPage]
 })

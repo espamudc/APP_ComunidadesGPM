@@ -7,6 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: CuestionariosAsignadosPage,
+    children:[
+      // {
+      //   path: 'cuestionario-respuestas',
+      //   loadChildren: () => import('../cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
+      // },
+    ]
     // children : [
     //   {
     //     path: 'item/:item',

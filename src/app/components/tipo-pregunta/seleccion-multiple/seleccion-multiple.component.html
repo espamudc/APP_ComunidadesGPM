@@ -1,0 +1,33 @@
+<!-- <p>
+  seleccion-multiple works!
+</p> -->
+<!-- <ion-list *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 3 && _listaOpcionesPreguntaSeleccion.length>0">
+        
+  <div *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
+    <ion-item lines="none" *ngIf="_item_opcion.Pregunta.IdPreguntaEncriptado === _item_pregunta.Pregunta.IdPreguntaEncriptado">
+      <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </ion-item>
+  </div>
+
+</ion-list> -->
+<ion-item button (click)="_ocultar()">
+  <ion-label ><strong>{{ItemPregunta.Pregunta.Descripcion}}</strong></ion-label>
+  <ion-buttons  slot="end">
+    <ion-button color="gpm-success"  type="submit"> <!--[disabled]="formRespuesta.invalid"-->
+      <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+<!-- [hidden]="true" -->
+<ion-list  [hidden]="_ver" class="animated jello " style="width: 100% !important;">
+ 
+    <ion-radio-group CheckGroupOpciones >
+      <ion-item lines="none" *ngFor="let _item_opcion of ListaCheckBox">
+        <ion-checkbox checked *ngIf="_item_opcion.check===true" (click)="_guardarOpcion(_item_opcion.opcion.IdOpcionPreguntaSeleccionEncriptado)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-checkbox>
+        <ion-checkbox  *ngIf="_item_opcion.check===false" (click)="_guardarOpcion(_item_opcion.opcion.IdOpcionPreguntaSeleccionEncriptado)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-checkbox>
+        <ion-label>{{_item_opcion.opcion.Descripcion}}</ion-label>
+      </ion-item>
+    </ion-radio-group>
+
+</ion-list>

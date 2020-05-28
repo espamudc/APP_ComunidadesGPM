@@ -24,4 +24,14 @@ export class CabeceraRespuestaService {
     });
   }
 
+  insertarcabecerarespuesta(
+    _idAsignarEncuestadoEncriptado
+  ){
+    const _body = new HttpParams()
+            .set('_objCabeceraRespuesta.AsignarEncuestado.IdAsignarEncuestadoEncriptado',_idAsignarEncuestadoEncriptado);
+    
+    return new Promise((resolve,reject)=>{
+      this.http.post(url+'',_body.toString(),{headers:this._header});
+    });
+  }
 }

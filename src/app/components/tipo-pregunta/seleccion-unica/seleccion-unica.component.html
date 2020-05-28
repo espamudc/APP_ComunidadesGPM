@@ -1,0 +1,34 @@
+<!-- <ion-item *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 2">
+  <ion-list style="width: 100% !important;">
+    <ion-radio-group name="auto" *ngIf="_listaOpcionesPreguntaSeleccion.length>0">
+      <div *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
+        <ion-item lines="none" *ngIf="_item_opcion.Pregunta.IdPreguntaEncriptado === _item_pregunta.Pregunta.IdPreguntaEncriptado">
+          <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+          <ion-radio slot="start" value="{{_item_opcion.IdOpcionPreguntaSeleccionEncriptado}}"></ion-radio>
+        </ion-item>
+      </div>
+    </ion-radio-group>
+  </ion-list>
+</ion-item> -->
+
+
+
+<ion-item button (click)="_ocultar()">
+  <ion-label ><strong>{{ItemPregunta.Pregunta.Descripcion}}</strong></ion-label>
+  <ion-buttons  slot="end">
+    <ion-button color="gpm-success"  type="submit"> <!--[disabled]="formRespuesta.invalid"-->
+      <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+
+<ion-list [hidden]="_ver" class="animated jello " style="width: 100% !important;">
+  <ion-radio-group #RadioGroupOpciones>
+
+    <ion-item lines="none" *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
+      <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+      <ion-radio (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-radio>
+    </ion-item>
+    
+  </ion-radio-group>
+</ion-list>

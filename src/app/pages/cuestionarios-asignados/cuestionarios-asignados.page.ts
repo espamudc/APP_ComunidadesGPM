@@ -48,7 +48,8 @@ export class CuestionariosAsignadosPage implements OnInit {
     localStorage.setItem("IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestadoEncriptado) ;
     console.log("localStore",localStorage.getItem("IdAsignarEncuestadoEncriptado"));
     
-    this.router.navigateByUrl("cuestionario-respuestas/"+_item.IdAsignarEncuestadoEncriptado);
+    // this.router.navigateByUrl("cuestionario-respuestas/"+_item.IdAsignarEncuestadoEncriptado);
+    this.router.navigateByUrl("tabs/cuestionarios-asignados/cuestionario-respuestas");
 
     // const modal = await this.modalController.create({
     //   component: CuestionarioRespuestasPage,

@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
+import { Network } from '@ionic-native/network/ngx';
 // import { EscojerRolPipe } from './pages/escojer-rol.pipe';
 // import { CuestionarioRespuestasPageModule } from './pages/cuestionario-respuestas/cuestionario-respuestas.module';
 
@@ -17,17 +18,23 @@ import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
   ],
+  exports:[],
   providers: [
+    
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Network,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+
   ],
   bootstrap: [AppComponent]
 })
