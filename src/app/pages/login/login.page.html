@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <!-- <ion-title>login</ion-title> -->
-    <ion-buttons slot="end">
+    <ion-buttons slot="end" [hidden]="verBackButton">
       <ion-back-button defaultHref="validar-usuario"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -36,7 +36,7 @@
               <ion-label><h2> <strong> ESCOJA UN ROL </strong> </h2></ion-label>
               <hr>
             </ion-list-header>
-            <ion-item *ngFor="let item of _misTiposUsuarios" button lines="none" (click)="_escojerRol(item)">
+            <ion-item button *ngFor="let item of _misTiposUsuarios" button lines="none" (click)="_escojerRol(item)">
               <ion-label class="ion-text-center">{{item.TipoUsuario.Descripcion}}</ion-label>
             </ion-item>
           </ion-list>

@@ -35,14 +35,25 @@ export class LoginPage implements OnInit,AfterViewInit {
 
   ngOnInit() {
     this.formLogin.get('_usuario').setValue(localStorage.getItem("_correo"));
+
   }
   ngAfterViewInit(){
     this.menuController.enable(false);
 
   }
+  verBackButton = false;
   ionViewWillEnter(){
+    if (localStorage.getItem("IdAsignarUsuarioTipoUsuarioEncriptado")!=null) {
+      this.verBackButton = false;
+      console.log("true",this.verBackButton);
+    }else{
+      this.verBackButton = true;
+      console.log("false",this.verBackButton);
+      
+    }
     this.menuController.enable(false);
   }
+
   _redirecto(){
     console.log("RETU");
     this

@@ -29,8 +29,19 @@
       <ion-row [hidden]="_ocultar">
         <ion-col size="12">
           <div class="centrar">
-            <ion-button  color="gpm-success" shape="round" (click)="_comenzarencuesta()">
+            <ion-button fill="outline" color="gpm-success" shape="round" (click)="_comenzarencuesta()">
               <ion-label slot="start">Comenzar Encuesta</ion-label>
+              <!-- <ion-icon slot="end" name="add"></ion-icon> -->
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [hidden]="!_ocultar">
+        <ion-col size="12">
+          <div class="centrar">
+            <ion-button fill="outline" color="gpm-success" shape="round" (click)="_finalizarencuesta()">
+              <ion-label slot="start">Finalizar Encuesta</ion-label>
               <!-- <ion-icon slot="end" name="add"></ion-icon> -->
             </ion-button>
           </div>
@@ -47,22 +58,22 @@
     <div *ngFor="let _item_pregunta of listaPreguntas">
 
       <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
-        [ItemPregunta]="_item_pregunta" 
+        [ItemPregunta]="_item_pregunta"
         [ListaRespuestas] = "listaRespuestas"
         *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 1"> </app-abierta>
 
       <app-seleccion-unica  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
-                            [ItemPregunta]="_item_pregunta" 
+                            [ItemPregunta]="_item_pregunta"
                             [ListaRespuestas] = "listaRespuestas"
                             *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 2"></app-seleccion-unica>
 
       <app-seleccion-multiple [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
-                              [ItemPregunta]="_item_pregunta" 
+                              [ItemPregunta]="_item_pregunta"
                               [ListaRespuestas] = "listaRespuestas"
                               *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 3"></app-seleccion-multiple>
 
       <app-matriz [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
-                  [ItemPregunta]="_item_pregunta" 
+                  [ItemPregunta]="_item_pregunta"
                   [ListaRespuestas] = "listaRespuestas"
                   *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 4"></app-matriz>
 

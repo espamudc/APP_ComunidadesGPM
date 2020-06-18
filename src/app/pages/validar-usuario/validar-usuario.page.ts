@@ -2,7 +2,7 @@ import { Component, OnInit,AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { MenuController, ToastController } from '@ionic/angular';
 import { Network } from "@ionic-native/network/ngx";
 
 @Component({
@@ -18,7 +18,8 @@ export class ValidarUsuarioPage implements OnInit,AfterViewInit {
     private usuarioService: UsuarioService,
     private router: Router,
     private menuController:MenuController,
-    private network:Network
+    private network:Network,
+    private toastController: ToastController
   ) {
 
     this.formValidarCorreo = new FormGroup({
@@ -82,13 +83,47 @@ export class ValidarUsuarioPage implements OnInit,AfterViewInit {
           this.router.navigateByUrl("login");
           // this.ocultar = false;
         } else {
-          
+          console.log("no user");
+          this.presentToastWithButtons("El usuario no existe, por favor, verifique el usuario",3000 );
         }
       }).catch(error=>{
 
       }).finally(()=>{
 
       });
+  }
+
+  async presentToastWithButtons(_mensaje:string,_duracion:number=2000) {
+    const toast = await this.toastController.create({
+      animated: true,
+      buttons: [
+        // {
+        //   side: 'start',
+        //   icon: 'star',
+        //   text: 'Favorite',
+        //   handler: () => {
+        //     console.log('Favorite clicked');
+        //   }
+        // },
+        {
+          text: 'Cerrar',
+          role: 'cancel',
+          handler: () => {
+            // console.log('Cancel clicked');
+          }
+        }
+      ],
+      // color: 'primary',
+      // cssClass: 'toast-success',
+      duration: _duracion,
+      // header: 'Toast header',
+      keyboardClose: true,
+      message: _mensaje,
+      // mode: 'ios',
+      position: 'bottom',
+      translucent: true
+    });
+    toast.present();
   }
 
 }

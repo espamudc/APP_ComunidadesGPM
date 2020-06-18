@@ -116,11 +116,16 @@ export class CuestionarioRespuestasPage implements OnInit {
 
           this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
           this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
-          
+
 
         } else {
-          //console.log("",data['http']);
-
+          console.log("erorororo  ",data['http']);
+          if(this.listaPreguntas.length==0){
+            this._ocultar = false;
+          }
+          else{
+            this._ocultar = true;
+          }
         }
       }).catch(error=>{
         console.log(error);
@@ -138,6 +143,7 @@ export class CuestionarioRespuestasPage implements OnInit {
         if (data['http']['codigo']=='200') {
           console.log("_preguntas",data['respuesta']);
           this.listaPreguntas = data['respuesta'];
+          console.log("this.listaPreguntas",this.listaPreguntas);
           if(this.listaPreguntas.length==0){
             this._ocultar = false;
           }
@@ -281,22 +287,27 @@ export class CuestionarioRespuestasPage implements OnInit {
         }).catch(error=>{
           console.log(error);
         }).finally(()=>{
-          
+
         });
   }
 
   _comenzarencuesta(){
     // this.cabeceraRespuestaService.insertarcabecerarespuesta()
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
+    console.log("boton Comenzar encuesta",id);
+
     this.cabeceraRespuestaService.insertarcabecerarespuesta(id)
       .then(data=>{
+        console.log(data)
         if (data['http']['codigo']=='200') {
           this._asignarencuestado_consultarporidasignarencuestado();
         } else {
-        
+          console.log(data['http']);
         }
+
       }).catch(error=>{
 
+        console.log(error);
       }).finally(()=>{});
   }
 
