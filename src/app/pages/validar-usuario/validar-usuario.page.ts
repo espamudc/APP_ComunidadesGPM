@@ -69,12 +69,14 @@ export class ValidarUsuarioPage implements OnInit,AfterViewInit {
   
   
   _validarformValidarCorreo(){
+    debugger
     if (this.formValidarCorreo.valid==true) {
       this._validarUsuario();
     }
   }
 
   _validarUsuario(){
+    debugger
     this.usuarioService._validarCorreo(this.formValidarCorreo.get('_usuario').value)
       .then(data=>{
         if (data['http']['codigo']=='200') {

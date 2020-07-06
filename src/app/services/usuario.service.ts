@@ -21,8 +21,10 @@ export class UsuarioService {
      return new Promise((resolve, reject) => {
           this.http.post(url+'ValidarCorreo',body.toString(), { headers: this._header})
             .subscribe(res => {
+              debugger
                 resolve(res);
             }, (err) => {
+              debugger
               reject(err);
           });
       });
