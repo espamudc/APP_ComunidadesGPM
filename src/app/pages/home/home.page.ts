@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController,ToastController } from '@ionic/angular';
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
 @Component({
   selector: 'app-home',
@@ -11,7 +11,8 @@ numeroCuestionarioNuevos:number;
 numeroCuestionarioCanceladas:number=0;
   constructor(
     private menuController:MenuController,
-    private asignarEncuestadoService:AsignarEncuestadoService
+    private asignarEncuestadoService:AsignarEncuestadoService,
+    private toastController: ToastController,
   ) { }
 
   ngOnInit() {
@@ -19,7 +20,7 @@ numeroCuestionarioCanceladas:number=0;
     this._consultarCuestionariosNuevos();
   }
   _consultarCuestionariosNuevos(){
-    this.asignarEncuestadoService._consultarporidasignarusuariotipousuariotecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
+    this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
       .then(data=>{
         this.numeroCuestionarioNuevos=data["respuesta"].length;
         data["respuesta"].forEach(element => {
@@ -28,8 +29,25 @@ numeroCuestionarioCanceladas:number=0;
           }
        });
       }).catch(error=>{
-        debugger
+        this.Toast("Error la cargar datos")
       })
   }
-
+  async Toast(_mensaje: string, _duracion: number = 2000) {
+    const toast = await this.toastController.create({
+      message: _mensaje,
+      position: 'bottom',
+      animated: true,
+      duration: _duracion,
+      color: 'dark',
+      cssClass: 'toastFormato',
+      buttons: [
+        {
+          side: 'end',
+          icon: 'close-circle-outline',
+          role: 'cancel',
+        }
+      ]
+    });
+    toast.present();
+  }
 }

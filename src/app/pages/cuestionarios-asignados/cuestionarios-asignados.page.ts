@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CuestionarioPublicadoService } from "../../services/cuestionario-publicado.service";
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
-import { ModalController } from '@ionic/angular';
-import { CuestionarioRespuestasPage } from '../cuestionario-respuestas/cuestionario-respuestas.page';
+import { ModalController,ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-cuestionarios-asignados',
@@ -10,12 +9,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./cuestionarios-asignados.page.scss'],
 })
 export class CuestionariosAsignadosPage implements OnInit {
-
+  cuestionario:any=[];
   constructor(
               private cuestionarioPublicadoService:CuestionarioPublicadoService,
               private asignarEncuestadoService:AsignarEncuestadoService,
-              private modalController : ModalController
-              ,private router :Router
+              private modalController : ModalController,
+              private router :Router,
+              private toastController: ToastController,
               ) { }
 
   ngOnInit() {
@@ -25,23 +25,32 @@ export class CuestionariosAsignadosPage implements OnInit {
   _listaCuestionariosPublicadosAsignarEncuestado : any[]=[];
   
   _consultarCuestionariosPublicados(){
-    //"MQAwADYANAA="
-    this.asignarEncuestadoService._consultarporidasignarusuariotipousuariotecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          this._listaCuestionariosPublicadosAsignarEncuestado= data['respuesta'];
-          console.log("_listaCuestionariosPublicados",this._listaCuestionariosPublicadosAsignarEncuestado);
-          
-        } else {
-          
-        }
-      }).catch(error=>{
+    this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
+    .then(data=>{
 
-      }).finally(()=>{
-
-      });
+      this.cuestionario=data["respuesta"];
+    }).catch(error=>{
+      this.Toast("Error al cargar los datos");
+    });
   }
-
+  async Toast(_mensaje: string, _duracion: number = 2000) {
+    const toast = await this.toastController.create({
+      message: _mensaje,
+      position: 'bottom',
+      animated: true,
+      duration: _duracion,
+      color: 'dark',
+      cssClass: 'toastFormato',
+      buttons: [
+        {
+          side: 'end',
+          icon: 'close-circle-outline',
+          role: 'cancel',
+        }
+      ]
+    });
+    toast.present();
+  }
   async prepararCuestionario(_item:any){
     // this.router.navigate("cuestionarios-asignados/item",_item.IdAsignarEncuestadoEncriptado);
     console.log("prepararCuestionario:_item.IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestadoEncriptado);

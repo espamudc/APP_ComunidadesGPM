@@ -16,6 +16,7 @@ export class LoginPage implements OnInit, AfterViewInit {
     private router: Router
     , private menuController: MenuController,
     private toastController: ToastController,
+
   ) {
     this.formLogin = new FormGroup({
       _usuario: new FormControl('', [Validators.required, Validators.email]),
