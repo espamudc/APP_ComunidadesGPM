@@ -1,17 +1,31 @@
 <ion-header>
   <ion-toolbar color="gpm-success">
-    <!-- <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons> -->
-    <ion-buttons slot="end">
-      <ion-button (click)="onClick()">
-        <ion-icon slot="icon-only" name="home"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="login"></ion-back-button>
     </ion-buttons>
-    <ion-title>home</ion-title>
+    <ion-title>Encuestas</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-
+<ion-content class="ion-no-padding">
+    <ion-searchbar  placeholder="Buscar" class="ion-no-padding" animated></ion-searchbar>
+  <div  class="catalogoDerecha" routerLink="/tabs/cuestionarios-asignados">
+    <ion-icon style="font-size:30px;" name="document-outline"></ion-icon>
+    <div style="margin-top:15px;"> Nuevas </div>
+    <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">{{numeroCuestionarioNuevos}}</ion-badge>
+  </div>
+  <div  class="catalogoIzquierda">
+    <ion-icon style="font-size:30px;" name="trending-down-outline"></ion-icon>
+    <div style="margin-top:15px;"> En proceso </div>
+    <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">12</ion-badge>
+  </div>
+  <div  class="catalogoDerecha">
+    <ion-icon style="font-size:30px;" name="close-circle-outline"></ion-icon>
+    <div style="margin-top:15px;"> Canceladas </div>
+    <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">{{numeroCuestionarioCanceladas}}</ion-badge>
+  </div>
+  <div  class="catalogoIzquierda">
+    <ion-icon style="font-size:30px;" name="apps-outline"></ion-icon>
+    <div style="margin-top:15px;"> Terminadas </div>
+    <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">12</ion-badge>
+  </div>
 </ion-content>

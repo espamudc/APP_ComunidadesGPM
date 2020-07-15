@@ -6,33 +6,42 @@ import { url } from "../../environments/environment";
 })
 export class AsignarEncuestadoService {
   constructor(private http: HttpClient) { }
-  
+
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
- 
 
-  _consultarporidasignarencuestado(_idAsignarEncuestadoEncriptado){
+
+  _consultarporidasignarencuestado(_idAsignarEncuestadoEncriptado) {
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {
-      this.http.post(url+'asignarencuestado_consultar?_idAsignarEncuestadoEncriptado='+_idAsignarEncuestadoEncriptado,_body.toString(),{headers:this._header})
-                .subscribe(res=>{
-                  resolve(res);
-                },(err)=>{
-                  reject(err);
-                });
+      this.http.post(url + 'asignarencuestado_consultar?_idAsignarEncuestadoEncriptado=' + _idAsignarEncuestadoEncriptado, _body.toString(), { headers: this._header })
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
     });
   }
 
-  _consultarporidasignarusuariotipousuariotecnico(_idAsignarUsuarioTipoUsuarioTecnicoEncriptado){
+  _consultarporidasignarusuariotipousuariotecnico(_idAsignarUsuarioTipoUsuarioTecnicoEncriptado) {
     const _body = new HttpParams();
-    // debugger
     return new Promise((resolve, reject) => {
-      this.http.post(url+'asignarencuestado_consultarporidasignarusuariotipousuariotecnico?_idAsignarUsuarioTipoUsuarioTecnicoEncriptado='+_idAsignarUsuarioTipoUsuarioTecnicoEncriptado,_body.toString(),{headers:this._header})
-                .subscribe(res=>{
-                  resolve(res);
-                },(err)=>{
-                  reject(err);
-                });
+      this.http.post(url + 'asignarencuestado_consultarporidasignarusuariotipousuariotecnico?_idAsignarUsuarioTipoUsuarioTecnicoEncriptado=' + _idAsignarUsuarioTipoUsuarioTecnicoEncriptado, _body.toString(), { headers: this._header })
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
     });
   }
-
+  mostrarEncuestasPorTecnico(_idTipoUsuarioTecnico:string) {
+    const urlApi = url + `cuestionarios/nuevos/tecnico?idUsuarioTipoUsuarioTecnico=${_idTipoUsuarioTecnico}`;
+    return new Promise((resolve, reject) => {
+      this.http.get(urlApi)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
 }

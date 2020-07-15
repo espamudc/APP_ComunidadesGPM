@@ -6,18 +6,13 @@ import { url } from "../../environments/environment";
   providedIn: 'root'
 })
 export class UsuarioService {
-
   constructor(private http: HttpClient) { }
-
-  //-----------------------------------------------------------------------------------------
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
   _validarCorreo(correo:string, token:string='')
   {    
     const body = new HttpParams()
     .set('Correo', correo)
     .set('Token', token);
-
      return new Promise((resolve, reject) => {
           this.http.post(url+'ValidarCorreo',body.toString(), { headers: this._header})
             .subscribe(res => {
