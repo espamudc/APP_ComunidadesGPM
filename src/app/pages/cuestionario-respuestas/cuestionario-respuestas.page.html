@@ -1,29 +1,107 @@
-
 <ion-header>
   <ion-toolbar color="gpm-success">
-    <ion-title>CUESTIONARIO : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }}</ion-title>
-    <ion-buttons slot="end">
+    <ion-title>{{fichanombre | uppercase}} : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }}</ion-title>
+    <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/cuestionarios-asignados"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-header>
   <ion-toolbar>
-    <!-- <ion-title>Header</ion-title> -->
+    <fieldset>
+      <legend><ion-label color="success"> A. DATOS GENERALES</ion-label></legend>
     <ion-grid >
       <ion-row>
-        <ion-col size="6"> <strong> Provincia :</strong> </ion-col>
-        <ion-col size="6"> <strong> Cantón :    </strong>        {{ formAsignarEncuestado.get('_canton').value }} </ion-col>
-
+        <ion-col size="3"><strong> Provincia: </strong>{{ formAsignarEncuestado.get('_provincia').value }} </ion-col>
+        <ion-col size="3"><strong> Cantón:    </strong>{{ formAsignarEncuestado.get('_canton').value }} </ion-col>
+        <ion-col size="3"><strong> Parroquia: </strong>{{ formAsignarEncuestado.get('_parroquia').value }} </ion-col>
+        <ion-col size="3"><strong> Comunidad: </strong>{{ formAsignarEncuestado.get('_comunidad').value }} </ion-col>
+      </ion-row>
+      <ion-row class="align-vertical">
+        <ion-col size="2"><strong> Coordenadas UTM </strong></ion-col>
+        <ion-col size="3" class="align-vertical">
+            <b style="float: left;" >X</b>
+            <ion-input 
+            type="number" 
+            class="styletxt" 
+            color="primary" 
+            autofocus="true" 
+            autocomplete="off" 
+            min="6">
+             </ion-input>
+        </ion-col>
+        <ion-col size="3" class="align-vertical">
+          <b style="float: left;" >Y</b>
+          <ion-input 
+          type="number" 
+          class="styletxt" 
+          color="primary" 
+          autofocus="true" 
+          autocomplete="off" 
+          min="7">
+           </ion-input>
+      </ion-col>
+      <ion-col size="4">
+        <b style="float: right; background-color:#F5F2F2  ; margin: 5px;" >Fecha: Día: {{fecha|date:'dd'}} Mes: {{fecha|date:'MM'}} Año: {{fecha|date:'yyyy'}}</b>
+      </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="6"> <strong> Parroquia : </strong>        {{ formAsignarEncuestado.get('_parroquia').value }} </ion-col>
-        <ion-col size="6"> <strong> Comunidad : </strong>        {{ formAsignarEncuestado.get('_comunidad').value }} </ion-col>
+        <ion-col size="8" class="align-vertical"> 
+          <strong> Nombre del habitante: </strong>
+          <ion-input 
+          type="text" 
+          class="styletxt" 
+          color="primary" 
+          autofocus="true" 
+          autocomplete="off">
+           </ion-input>
+        </ion-col>
+        <ion-col size="4" class="align-vertical">
+          <strong> Teléfono: </strong>
+          <ion-input 
+          type="number" 
+          class="styletxt" 
+          color="primary" 
+          autofocus="true" 
+          autocomplete="off">
+           </ion-input>
+        </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="6"> <strong> Fecha de Inicio : </strong>  {{ formAsignarEncuestado.get('_fechaInicio').value | date: 'yyyy-MM-dd' }} </ion-col>
-        <ion-col size="6"> <strong> Fecha de Fin :   </strong>   {{ formAsignarEncuestado.get('_fechaFin').value | date: 'yyyy-MM-dd' }} </ion-col>
+        <ion-col size="6" class="align-vertical"> 
+          <strong> Responsable: </strong>
+          <ion-input 
+          type="text" 
+          class="styletxt" 
+          color="primary" 
+          autofocus="true" 
+          autocomplete="off"
+          value="{{responsableCuestionario}}" 
+          disabled="disabled">
+           </ion-input>
+        </ion-col>
+        <ion-col size="3" class="align-vertical">
+          <strong> Área: </strong>
+          <ion-input 
+          type="text" 
+          class="styletxt" 
+          color="primary" 
+          autofocus="true" 
+          autocomplete="off">
+           </ion-input>
+        </ion-col>
+        <ion-col size="3" class="align-vertical">
+          <strong> Teléfono: </strong>
+          <ion-input 
+          type="number" 
+          class="styletxt" 
+          color="primary" 
+          autofocus="true" 
+          autocomplete="off"
+          value="{{responsableTelefono}}"
+          disabled="disabled">
+           </ion-input>
+        </ion-col>
       </ion-row>
 
       <ion-row [hidden]="_ocultar">
@@ -49,11 +127,12 @@
       </ion-row>
 
     </ion-grid>
-
+  </fieldset>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+ 
   <ion-list>
     <div *ngFor="let _item_pregunta of listaPreguntas">
 

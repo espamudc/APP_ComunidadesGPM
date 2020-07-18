@@ -52,9 +52,10 @@ export class CuestionariosAsignadosPage implements OnInit {
     toast.present();
   }
   async prepararCuestionario(_item:any){
+    debugger
     // this.router.navigate("cuestionarios-asignados/item",_item.IdAsignarEncuestadoEncriptado);
-    console.log("prepararCuestionario:_item.IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestadoEncriptado);
-    localStorage.setItem("IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestadoEncriptado) ;
+    console.log("prepararCuestionario:_item.IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestado);
+    localStorage.setItem("IdAsignarEncuestadoEncriptado",_item.IdAsignarEncuestado) ;
     console.log("localStore",localStorage.getItem("IdAsignarEncuestadoEncriptado"));
     
     // this.router.navigateByUrl("cuestionario-respuestas/"+_item.IdAsignarEncuestadoEncriptado);

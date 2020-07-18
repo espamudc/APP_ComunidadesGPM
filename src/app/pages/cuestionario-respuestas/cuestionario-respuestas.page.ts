@@ -13,7 +13,22 @@ import { RespuestasService } from 'src/app/services/respuestas.service';
   styleUrls: ['./cuestionario-respuestas.page.scss'],
 })
 export class CuestionarioRespuestasPage implements OnInit {
+fichanombre:string="Ficha técnica para levantamiento de información en la comunidad";
+fecha:any = new Date();
 
+
+responsableCuestionario:string;
+responsableTelefono:string;
+formAsignarEncuestado : FormGroup;
+formCabeceraRespuesta : FormGroup;
+listaPreguntas: any[]=[];             
+_ocultar=true;
+listaRespuestas : any[]=[];
+_listaPreguntaMatriz:any[]=[];
+_listaPreguntaConfigurarMatriz:any[]=[];
+FilaOpcionUnoMatriz: any[] = [];
+ColumnsOpcionDosMatriz: any[] = [];
+_listaOpcionesPreguntaSeleccion:any[]=[];
   constructor(
               // private activatedRoute:ActivatedRoute
               private cabeceraRespuestaService: CabeceraRespuestaService
@@ -26,6 +41,7 @@ export class CuestionarioRespuestasPage implements OnInit {
     this.formAsignarEncuestado = new FormGroup({
       _idAsignarEncuestadoEncriptado : new FormControl(''),
       _idCuestionarioPublicadoEncriptado : new FormControl(''),
+      _provincia : new FormControl(''),
       _canton : new FormControl(''),
       _parroquia : new FormControl(''),
       _comunidad : new FormControl(''),
@@ -46,21 +62,7 @@ export class CuestionarioRespuestasPage implements OnInit {
 
   }
 
-  formAsignarEncuestado : FormGroup;
-  formCabeceraRespuesta : FormGroup;
-  listaPreguntas: any[]=[];             _ocultar=true;
-  listaRespuestas : any[]=[];
 
-  _listaPreguntaMatriz:any[]=[];
-
-  _listaPreguntaConfigurarMatriz:any[]=[];
-  //_listaOpcionUnoMatriz:any[]=[];
-  FilaOpcionUnoMatriz: any[] = [];
-  ColumnsOpcionDosMatriz: any[] = [];
-  //_listaOpcionesPreguntaSeleccionGeneral:any[]=[];
-  _listaOpcionesPreguntaSeleccion:any[]=[];
-  //_IdAsignarEncuestadoEncriptado : any ="";
-  //_CabeceraRespuesta:any={};
 
   ngOnInit() {
     this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').setValue(localStorage.getItem("IdAsignarEncuestadoEncriptado"));
@@ -68,6 +70,7 @@ export class CuestionarioRespuestasPage implements OnInit {
     // console.log("onInit",this._IdAsignarEncuestadoEncriptado);
     // console.log("onInit",this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value);
     this._asignarencuestado_consultarporidasignarencuestado();
+    
   }
 
 
@@ -79,8 +82,15 @@ export class CuestionarioRespuestasPage implements OnInit {
         if (data['http']['codigo']=='200') {
           console.log("asignarEncuestadoService.data",data['respuesta']);
           let _item = data['respuesta'];
+
+          this.responsableTelefono=_item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.Telefono;
+          this.responsableCuestionario=_item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre +" " + 
+                                     _item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.SegundoNombre+" "+
+                                     _item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerApellido +" "+
+                                     _item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.SegundoApellido;
           this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').setValue(_item.IdAsignarEncuestadoEncriptado);
           this.formAsignarEncuestado.get('_idCuestionarioPublicadoEncriptado').setValue(_item.CuestionarioPublicado.IdCuestionarioPublicadoEncriptado);
+          this.formAsignarEncuestado.get('_provincia')                    .setValue(_item.Comunidad.Parroquia.Canton.Provincia.NombreProvincia);
           this.formAsignarEncuestado.get('_canton')                       .setValue(_item.Comunidad.Parroquia.Canton.NombreCanton);
           this.formAsignarEncuestado.get('_parroquia')                    .setValue(_item.Comunidad.Parroquia.NombreParroquia);
           this.formAsignarEncuestado.get('_comunidad')                    .setValue(_item.Comunidad.NombreComunidad);
@@ -103,8 +113,6 @@ export class CuestionarioRespuestasPage implements OnInit {
     this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          //this._CabeceraRespuesta=data['respuesta'];
-          //console.log("listaCabeceraRespuesta",this._CabeceraRespuesta);
           console.log("cabeceraRespuesta",data['respuesta']);
           let _item = data['respuesta'];
           this.formCabeceraRespuesta.get("_idCabeceraRespuestaEncriptado").setValue(_item.IdCabeceraRespuestaEncriptado);
@@ -113,13 +121,9 @@ export class CuestionarioRespuestasPage implements OnInit {
           this.formCabeceraRespuesta.get("_fechaFinalizado")              .setValue(_item.FechaFinalizado);
           this.formCabeceraRespuesta.get("_finalizado")                   .setValue(_item.Finalizado);
           this.formCabeceraRespuesta.get("_estado")                       .setValue(_item.Estado);
-
           this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
           this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
-
-
         } else {
-          console.log("erorororo  ",data['http']);
           if(this.listaPreguntas.length==0){
             this._ocultar = false;
           }
@@ -129,10 +133,7 @@ export class CuestionarioRespuestasPage implements OnInit {
         }
       }).catch(error=>{
         console.log(error);
-
-      }).finally(()=>{
-
-      });
+      })
   }
 
   _preguntas_consultarporcabeceraversionCuestionario(_idCabeceraVersionCuestionarioEncriptado){
