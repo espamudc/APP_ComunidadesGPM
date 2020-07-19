@@ -139,7 +139,7 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
   mostarPreguntas(item:any){
     this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado).then(data=>{
       this.listaPreguntas2=data["respuesta"];
-      console.log("RESPUESTA: ", this.listaPreguntas2);
+      console.log("RESPUESTAss: ", this.listaPreguntas2);
     }).catch(error=>{
       debugger
     })

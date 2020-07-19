@@ -15,11 +15,15 @@ export class SeleccionUnicaComponent implements OnInit {
   //@Input() IdCabeceraRespuestaEncriptado : any = '';
   //@Input() ListaPreguntas : any[] = [];
   _listaOpcionesPreguntaSeleccion :any [] = [];
+  @Input() listaPreguntas2: any[]=[]; 
+  preguntaEncajonada:string;
+  isHidden:boolean=true;
   @ViewChild('RadioGroupOpciones',{static:false}) RadioGroupOpciones :IonRadioGroup ;
   constructor(
-    private preguntasService:PreguntasService
-    ,private respuestasService:RespuestasService
-    ,private toastController: ToastController
+    private preguntasService:PreguntasService,
+    private respuestasService:RespuestasService,
+    private toastController: ToastController,
+
    ) { 
     this.formRespuesta = new FormGroup({
       _idCabeceraRespuestaEncriptado  : new FormControl('',[Validators.required]),
@@ -30,7 +34,7 @@ export class SeleccionUnicaComponent implements OnInit {
   }
   ngOnInit() {
     debugger
-     console.log("prueba:" ,this.ItemPregunta);
+     console.log("prueba sleccion unica:" ,this.ItemPregunta);
    // this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
   //  this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
     this._pregunta_consultarPreguntasSeleccion(this.ItemPregunta.IdPreguntaEncriptado);
@@ -88,6 +92,7 @@ export class SeleccionUnicaComponent implements OnInit {
       if (data['http']['codigo']=='200') {
       this._listaOpcionesPreguntaSeleccion = [];
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
+      console.log('RESPUESTA PREGUNTAS', this._listaOpcionesPreguntaSeleccion);
       }else{
 
       }
@@ -110,25 +115,45 @@ export class SeleccionUnicaComponent implements OnInit {
 
     });
   }
-
-  _guardarOpcion(_idOpcionEncriptado){
-    // console.log("seleccionada",_idOpcionEncriptado);
-    this.respuestasService.respuesta_insertaropcionseleccionunica(
-      this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value,
-      this.formRespuesta.get('_idPreguntaEncriptado').value,
-      _idOpcionEncriptado,
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-        // console.log('======>la respuesta de la opcion',data['respuesta']);
+ 
+  _guardarOpcion(_idOpcionEncriptado:string, encajonado:number ){
+    debugger
+    
+    if(encajonado==1){
+      this.isHidden=false;
+    }else{
+      this.isHidden=true;
+    }
+    console.log("seleccionada",_idOpcionEncriptado);
+    console.log("----------",this.listaPreguntas2);
+  //  IdOpcionPreguntaSeleccion
+   // mostarPreguntas(item:any){
+    
+    this.listaPreguntas2.forEach(element => {
+     if(element.IdOpcionPreguntaSeleccion==_idOpcionEncriptado){
+     
+      this.preguntaEncajonada=element.Descripcion;
+        debugger
+     }
+   });
+    
+   // }
+    // this.respuestasService.respuesta_insertaropcionseleccionunica(
+    //   this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value,
+    //   this.formRespuesta.get('_idPreguntaEncriptado').value,
+    //   _idOpcionEncriptado,
+    // ).then(data=>{
+    //   if (data['http']['codigo']=='200') {
+    //     // console.log('======>la respuesta de la opcion',data['respuesta']);
         
-      } else {
-        // console.log('error 1',data['http']);
+    //   } else {
+    //     // console.log('error 1',data['http']);
         
-      }
-    }).catch(error=>{
-      console.log('error 2');
+    //   }
+    // }).catch(error=>{
+    //   console.log('error 2');
 
-    }).finally(()=>{});
+    // }).finally(()=>{});
   }
 
 

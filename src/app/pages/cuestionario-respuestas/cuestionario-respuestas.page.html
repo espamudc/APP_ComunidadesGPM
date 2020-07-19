@@ -1,6 +1,6 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar color="gpm-success">
-    <ion-title>{{fichanombre | uppercase}} : {{ this.formAsignarEncuestado.get('_nombreCuestionario').value }}</ion-title>
+    <ion-title>{{ this.formAsignarEncuestado.get('_nombreCuestionario').value | uppercase}} : </ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/cuestionarios-asignados"></ion-back-button>
     </ion-buttons>
@@ -126,12 +126,6 @@
   </ion-toolbar>
 </ion-header>
 <ion-content> 
-  <!-- <div class="horizontal-scroll">
-    <ion-chip *ngFor="let item of listComponents" color="success">
-      <ion-label>{{item.Descripcion}}</ion-label>
-    </ion-chip>
-  </div> -->
-
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let item of listComponents" style="width: auto; height: 60px; border: 1px solid #f8f8f8">
       <ion-col (click)="mostarPreguntas(item)">
@@ -167,10 +161,15 @@
         </ion-radio-group>
       </ion-list> -->
       <app-seleccion-unica  
-                            [ItemPregunta]="_item_pregunta"
-                            
-                            *ngIf="_item_pregunta.TipoPregunta.Identificador == 2"></app-seleccion-unica>
-      <!-- <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+        [ItemPregunta]="_item_pregunta"
+        [listaPreguntas2]="listaPreguntas2"
+        *ngIf="_item_pregunta.TipoPregunta.Identificador == 2">
+      </app-seleccion-unica>
+      <app-abierta  
+        [ItemPregunta]="_item_pregunta"
+        *ngIf="_item_pregunta.TipoPregunta.Identificador == 1"> 
+      </app-abierta>
+                            <!-- <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
         [ItemPregunta]="_item_pregunta"
         [ListaRespuestas] = "listaRespuestas"
         *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 1"> </app-abierta>

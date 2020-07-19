@@ -11,7 +11,7 @@ import { ToastController } from '@ionic/angular';
 export class AbiertaComponent implements OnInit {
 
   @Input() ItemPregunta: any={};
-  @Input() IdCabeceraRespuestaEncriptado : any = '';
+  //@Input() IdCabeceraRespuestaEncriptado : any = '';
   @Input() ListaRespuestas : any[] = [];
 
   constructor( 
@@ -26,6 +26,8 @@ export class AbiertaComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger
+     console.log("prueba abierta:" ,this.ItemPregunta);
     //console.log("inicio---------------------------------------------------------------------------------");
     
     //console.log("IdCabeceraRespuestaEncriptado",this.IdCabeceraRespuestaEncriptado);
@@ -33,21 +35,21 @@ export class AbiertaComponent implements OnInit {
     
     //console.log("fin---------------------------------------------------------------------------------");
     
-    this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado.toString());
-    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
+    //this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado.toString());
+    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
     // this.formRespuesta.get('_descripcion').invalid
     
     //console.log("PREGUNTTA ABIERTA - LISTA DE RESPUESTAS" , this.ListaRespuestas);
     //console.log("-------------------------------------------------------------------");
     
-    for (let index = 0; index < this.ListaRespuestas.length; index++) {
-      const element = this.ListaRespuestas[index];
-      //console.log("element",element);
-      //console.log("ItemPregunta",this.ItemPregunta)
-      if (element.Pregunta.IdPreguntaEncriptado==this.ItemPregunta.Pregunta.IdPreguntaEncriptado) {
-        this.formRespuesta.get('_descripcion').setValue(element.DescripcionRespuestaAbierta);        
-      }
-    }
+    // for (let index = 0; index < this.ListaRespuestas.length; index++) {
+    //   const element = this.ListaRespuestas[index];
+    //   //console.log("element",element);
+    //   //console.log("ItemPregunta",this.ItemPregunta)
+    //   if (element.IdPreguntaEncriptado==this.ItemPregunta.IdPreguntaEncriptado) {
+    //     this.formRespuesta.get('_descripcion').setValue(element.DescripcionRespuestaAbierta);        
+    //   }
+   // }
     //console.log("-------------------------------------------------------------------");
 
   }

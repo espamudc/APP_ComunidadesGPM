@@ -27,7 +27,15 @@
 .toastFormato{
     --width:80%;
 }
-
+.styletxt{
+    width: 100%;
+    border: 1px solid #dee2e6;
+    height: 30px;
+    float: left;
+    margin-left: 7px;
+    text-align: center;
+    border-radius: 7px;
+  }
 .searchbar-input {
     background: #FFF !important;
     border-radius: 0px !important;
