@@ -11,13 +11,11 @@ import { RespuestasService } from 'src/app/services/respuestas.service';
 })
 export class SeleccionUnicaComponent implements OnInit {
 
-  @Input() ItemPregunta: any={}; //en realidad es un objeto con dos objetos dentro de el uno de preguntas y otro de cabeceraVersionCustionario
-  @Input() IdCabeceraRespuestaEncriptado : any = '';
-  @Input() ListaRespuestas : any[] = [];
+  @Input() ItemPregunta: any; //en realidad es un objeto con dos objetos dentro de el uno de preguntas y otro de cabeceraVersionCustionario
+  //@Input() IdCabeceraRespuestaEncriptado : any = '';
+  //@Input() ListaPreguntas : any[] = [];
   _listaOpcionesPreguntaSeleccion :any [] = [];
-
   @ViewChild('RadioGroupOpciones',{static:false}) RadioGroupOpciones :IonRadioGroup ;
-
   constructor(
     private preguntasService:PreguntasService
     ,private respuestasService:RespuestasService
@@ -30,37 +28,26 @@ export class SeleccionUnicaComponent implements OnInit {
       _descripcion                    : new FormControl('',[Validators.required])
     });
   }
-
   ngOnInit() {
-    // console.log("Pregunta de Seleccion _IdPreguntaEncriptado :" ,this.ItemPregunta);
-    this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
-    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
-
-    this._pregunta_consultarPreguntasSeleccion(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
-
-    
-
-
+    debugger
+     console.log("prueba:" ,this.ItemPregunta);
+   // this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
+  //  this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
+    this._pregunta_consultarPreguntasSeleccion(this.ItemPregunta.IdPreguntaEncriptado);
   }
 
   formRespuesta: FormGroup;
-  
-
   _ver = true;
   _icon = "add";
   _ocultar(){
-    // console.log(this._ver);
-    
     if(this._ver==true){
       this._ver = false;
       this._icon = "remove";
     }else{
       this._ver = true;
       this._icon = "add";
-
     }
   }
-
   async presentToastWithButtons(_mensaje:string,_duracion:number=2000) {
     const toast = await this.toastController.create({
       animated: true,
@@ -95,23 +82,12 @@ export class SeleccionUnicaComponent implements OnInit {
   }
 
   _pregunta_consultarPreguntasSeleccion(_IdPreguntaEncriptado){
-    // console.log("Pregunta de Seleccion _IdPreguntaEncriptado :" ,_IdPreguntaEncriptado);
-    
     this.preguntasService._consultarOpcionPreguntaSeleccion(
       _IdPreguntaEncriptado
     ).then(data=>{
       if (data['http']['codigo']=='200') {
-        
-       //this._listaOpcionesPreguntaSeleccion.push( data['respuesta']);
-       //console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
       this._listaOpcionesPreguntaSeleccion = [];
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-      //  data['respuesta'].map(element=>{
-      //    this._listaOpcionesPreguntaSeleccion.push(element);
-      //  });
-      //  console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
-
-
       }else{
 
       }
@@ -121,15 +97,15 @@ export class SeleccionUnicaComponent implements OnInit {
 
       // console.log("-------------------------------------------------------------------");
     
-      for (let index = 0; index < this.ListaRespuestas.length; index++) {
-        const element = this.ListaRespuestas[index];
-        // console.log("element",element);
-        // console.log("ItemPregunta",this.ItemPregunta)
-        if (element.Pregunta.IdPreguntaEncriptado==this.ItemPregunta.Pregunta.IdPreguntaEncriptado) {
-          // this.formRespuesta.get('_descripcion').setValue(element.DescripcionRespuestaAbierta); 
-          this.RadioGroupOpciones.value = element.IdRespuestaLogicaEncriptado;       
-        }
-      }
+      // for (let index = 0; index < this.ListaPreguntas.length; index++) {
+      //   const element = this.ListaPreguntas[index];
+      //   // console.log("element",element);
+      //   // console.log("ItemPregunta",this.ItemPregunta)
+      //   if (element.Pregunta.IdPreguntaEncriptado==this.ItemPregunta.Pregunta.IdPreguntaEncriptado) {
+      //     // this.formRespuesta.get('_descripcion').setValue(element.DescripcionRespuestaAbierta); 
+      //     this.RadioGroupOpciones.value = element.IdRespuestaLogicaEncriptado;       
+      //   }
+      // }
       // console.log("-------------------------------------------------------------------");
 
     });

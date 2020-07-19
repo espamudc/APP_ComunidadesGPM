@@ -6,7 +6,7 @@ import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.se
 import { VersionamientoPreguntaService } from 'src/app/services/versionamiento-pregunta.service';
 import { PreguntasService } from 'src/app/services/preguntas.service';
 import { RespuestasService } from 'src/app/services/respuestas.service';
-
+import { ComponentesService } from 'src/app/services/componentes.service'
 @Component({
   selector: 'app-cuestionario-respuestas',
   templateUrl: './cuestionario-respuestas.page.html',
@@ -15,23 +15,24 @@ import { RespuestasService } from 'src/app/services/respuestas.service';
 export class CuestionarioRespuestasPage implements OnInit {
 fichanombre:string="Ficha técnica para levantamiento de información en la comunidad";
 fecha:any = new Date();
-
-
 responsableCuestionario:string;
 responsableTelefono:string;
 formAsignarEncuestado : FormGroup;
 formCabeceraRespuesta : FormGroup;
-listaPreguntas: any[]=[];             
-_ocultar=true;
+listaPreguntas: any[]=[]; 
+listaPreguntas2: any[]=[]; 
+listComponents: any[]=[];                 
+_ocultar=false;
 listaRespuestas : any[]=[];
 _listaPreguntaMatriz:any[]=[];
 _listaPreguntaConfigurarMatriz:any[]=[];
 FilaOpcionUnoMatriz: any[] = [];
 ColumnsOpcionDosMatriz: any[] = [];
 _listaOpcionesPreguntaSeleccion:any[]=[];
+
   constructor(
-              // private activatedRoute:ActivatedRoute
-              private cabeceraRespuestaService: CabeceraRespuestaService
+               private componentesService:ComponentesService,
+               private cabeceraRespuestaService: CabeceraRespuestaService
               ,private asignarEncuestadoService: AsignarEncuestadoService
               ,private versionamientoPreguntaService: VersionamientoPreguntaService
               ,private preguntasService: PreguntasService
@@ -50,7 +51,6 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
       _representante : new FormControl(''),
       _nombreCuestionario : new FormControl(''),
     });
-
     this.formCabeceraRespuesta = new FormGroup({
       _idCabeceraRespuestaEncriptado : new FormControl(''),
       _idAsignarEncuestadoEncriptado : new FormControl(''),
@@ -59,30 +59,27 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
       _finalizado : new FormControl(''),
       _estado : new FormControl('')
     });
-
   }
-
-
-
   ngOnInit() {
     this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').setValue(localStorage.getItem("IdAsignarEncuestadoEncriptado"));
-    //this._IdAsignarEncuestadoEncriptado = localStorage.getItem("IdAsignarEncuestadoEncriptado"); // = this.activatedRoute.snapshot.paramMap.get('item');
-    // console.log("onInit",this._IdAsignarEncuestadoEncriptado);
-    // console.log("onInit",this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value);
     this._asignarencuestado_consultarporidasignarencuestado();
-    
   }
+  components(idCuestionario:string){
+    this.componentesService.componentesPorEncuesta(idCuestionario).then(data=>{
+    this.listComponents=data["respuesta"];
+    }).catch(error=>{
+      debugger
+    })
 
-
-
+  }
   _asignarencuestado_consultarporidasignarencuestado(){
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
     this.asignarEncuestadoService._consultarporidasignarencuestado(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
+          debugger
           console.log("asignarEncuestadoService.data",data['respuesta']);
           let _item = data['respuesta'];
-
           this.responsableTelefono=_item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.Telefono;
           this.responsableCuestionario=_item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre +" " + 
                                      _item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.SegundoNombre+" "+
@@ -103,17 +100,25 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
         }
       }).catch(error=>{
 
-      }).finally(()=>{
-        this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
-      });
+      })
+  }
+  _comenzarencuesta(){
+    this._ocultar=true;
+    this.components(localStorage.getItem("IdVersionCuestionario"));
+    this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
   }
 
+  
+ 
+//una
   _cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta(){
+    debugger
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
     this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log("cabeceraRespuesta",data['respuesta']);
+          debugger
+          console.log("cabeceraRespuesta: ",data['respuesta']);
           let _item = data['respuesta'];
           this.formCabeceraRespuesta.get("_idCabeceraRespuestaEncriptado").setValue(_item.IdCabeceraRespuestaEncriptado);
           this.formCabeceraRespuesta.get("_idAsignarEncuestadoEncriptado").setValue(_item.AsignarEncuestado.IdAsignarEncuestadoEncriptado);
@@ -124,38 +129,48 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
           this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
           this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
         } else {
-          if(this.listaPreguntas.length==0){
-            this._ocultar = false;
-          }
-          else{
-            this._ocultar = true;
-          }
+
         }
       }).catch(error=>{
+        debugger
         console.log(error);
       })
   }
+  mostarPreguntas(item:any){
+    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado).then(data=>{
+      this.listaPreguntas2=data["respuesta"];
+      console.log("RESPUESTA: ", this.listaPreguntas2);
+    }).catch(error=>{
+      debugger
+    })
+  }
+//dos
+_respuestas_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado){
+  this.respuestasService.respuesta_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado)
+      .then(data=>{
+        debugger
+        if (data['http']['codigo']=='200') {
+          console.log('respuestas:',data['respuesta']);
+          this.listaRespuestas = data['respuesta'];
+        }else{}
 
+      }).catch(error=>{
+        debugger
+        console.log(error);
+      }).finally(()=>{
+
+      });
+}
+//tres
   _preguntas_consultarporcabeceraversionCuestionario(_idCabeceraVersionCuestionarioEncriptado){
     console.log("_idCabeceraVersionCuestionarioEncriptado",_idCabeceraVersionCuestionarioEncriptado);
 
     this.versionamientoPreguntaService._consultarporcabeceraversionCuestionario(_idCabeceraVersionCuestionarioEncriptado)
       .then(data=>{
         if (data['http']['codigo']=='200') {
-          console.log("_preguntas",data['respuesta']);
+          console.log("_preguntas: ",data['respuesta']);
           this.listaPreguntas = data['respuesta'];
           console.log("this.listaPreguntas",this.listaPreguntas);
-          if(this.listaPreguntas.length==0){
-            this._ocultar = false;
-          }
-          else{
-            this._ocultar = true;
-          }
-          //console.log('this.listaPreguntas',this.listaPreguntas);
-          // data['respuesta'].map(element=>{
-          //   this.listaPreguntas.push(element);
-          // });
-
 
         } else {
           console.log("codigo",data['http']['codigo']);
@@ -165,38 +180,40 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
         console.log(error);
 
       }).finally(()=>{
-        this.listaPreguntas.map(element=>{
-          // if (element.Pregunta.TipoPregunta.Identificador == 2 || element.Pregunta.TipoPregunta.Identificador == 3) {
-          //   this._pregunta_consultarPreguntasSeleccion(element.Pregunta.IdPreguntaEncriptado);
-          // }else if (element.Pregunta.TipoPregunta.Identificador == 4) {
-          //   this._consultarPreguntaConfigurarMatriz(element.Pregunta.IdPreguntaEncriptado);
-          // }
+        // this.listaPreguntas.map(element=>{
+        //   // if (element.Pregunta.TipoPregunta.Identificador == 2 || element.Pregunta.TipoPregunta.Identificador == 3) {
+        //   //   this._pregunta_consultarPreguntasSeleccion(element.Pregunta.IdPreguntaEncriptado);
+        //   // }else if (element.Pregunta.TipoPregunta.Identificador == 4) {
+        //   //   this._consultarPreguntaConfigurarMatriz(element.Pregunta.IdPreguntaEncriptado);
+        //   // }
 
 
-        });
+        // });
       });
   }
 
   _pregunta_consultarPreguntasSeleccion(_IdPreguntaEncriptado){
+
+    debugger
     this.preguntasService._consultarOpcionPreguntaSeleccion(
       _IdPreguntaEncriptado
     ).then(data=>{
+      debugger
       if (data['http']['codigo']=='200') {
 
        //this._listaOpcionesPreguntaSeleccion.push( data['respuesta']);
        //console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
 
-       data['respuesta'].map(element=>{
-         this._listaOpcionesPreguntaSeleccion.push(element);
-       });
-       console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
+     
+         this._listaOpcionesPreguntaSeleccion=  data['respuesta'];
+        console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
 
 
       }else{
 
       }
     }).catch(error=>{
-
+debugger
     }).finally(()=>{
 
     });
@@ -276,40 +293,7 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
 
   }
 
-  _respuestas_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado){
 
-    this.respuestasService.respuesta_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado)
-        .then(data=>{
-          if (data['http']['codigo']=='200') {
-            console.log('respuestas',data['respuesta']);
-            this.listaRespuestas = data['respuesta'];
-          }else{}
-
-        }).catch(error=>{
-          console.log(error);
-        }).finally(()=>{
-
-        });
-  }
-
-  _comenzarencuesta(){
-    // this.cabeceraRespuestaService.insertarcabecerarespuesta()
-    let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
-    console.log("boton Comenzar encuesta",id);
-
-    this.cabeceraRespuestaService.insertarcabecerarespuesta(id)
-      .then(data=>{
-        console.log(data)
-        if (data['http']['codigo']=='200') {
-          this._asignarencuestado_consultarporidasignarencuestado();
-        } else {
-          console.log(data['http']);
-        }
-
-      }).catch(error=>{
-
-        console.log(error);
-      }).finally(()=>{});
-  }
+ 
 
 }

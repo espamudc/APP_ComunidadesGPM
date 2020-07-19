@@ -17,9 +17,11 @@ export class CabeceraRespuestaService {
     return new Promise((resolve, reject) => {
       this.http.post(url+'cabecerarespuesta_consultarporidasignarencuestado?_idAsignarEncuestadoEncriptado='+_idAsignarEncuestadoEncriptado,_body.toString(),{headers:this._header})
                 .subscribe(res=>{
+                  debugger
                   resolve(res);
                 },(err)=>{
                   reject(err);
+                  debugger
                 });
     });
   }

@@ -103,40 +103,74 @@
            </ion-input>
         </ion-col>
       </ion-row>
-
       <ion-row [hidden]="_ocultar">
         <ion-col size="12">
           <div class="centrar">
             <ion-button fill="outline" color="gpm-success" shape="round" (click)="_comenzarencuesta()">
               <ion-label slot="start">Comenzar Encuesta</ion-label>
-              <!-- <ion-icon slot="end" name="add"></ion-icon> -->
             </ion-button>
           </div>
         </ion-col>
       </ion-row>
-
       <ion-row [hidden]="!_ocultar">
         <ion-col size="12">
           <div class="centrar">
             <ion-button fill="outline" color="gpm-success" shape="round" (click)="_finalizarencuesta()">
               <ion-label slot="start">Finalizar Encuesta</ion-label>
-              <!-- <ion-icon slot="end" name="add"></ion-icon> -->
             </ion-button>
           </div>
         </ion-col>
       </ion-row>
-
     </ion-grid>
   </fieldset>
   </ion-toolbar>
 </ion-header>
+<ion-content> 
+  <!-- <div class="horizontal-scroll">
+    <ion-chip *ngFor="let item of listComponents" color="success">
+      <ion-label>{{item.Descripcion}}</ion-label>
+    </ion-chip>
+  </div> -->
 
-<ion-content>
- 
-  <ion-list>
-    <div *ngFor="let _item_pregunta of listaPreguntas">
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let item of listComponents" style="width: auto; height: 60px; border: 1px solid #f8f8f8">
+      <ion-col (click)="mostarPreguntas(item)">
+        <ion-chip color="success">
+          <ion-label>{{item.Descripcion |uppercase}}</ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-slide>
+  </ion-slides>
 
-      <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+
+    <div *ngFor="let _item_pregunta of listaPreguntas2" style="position: relative; clear: both;">
+     
+      <!-- <ion-item button (click)="_pregunta_consultarPreguntasSeleccion(_item_pregunta.IdPreguntaEncriptado)" *ngIf="_item_pregunta.IdPreguntaEncajonada=='Independiente'">
+       
+        <ion-label>{{_item_pregunta.Descripcion}}</ion-label>
+        <ion-buttons  slot="end">
+          <ion-button color="gpm-success"  type="submit"> 
+            <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        
+    
+      </ion-item>
+      <ion-list [hidden]="_ver" class="animated jello " style="width: 100% !important;">
+        <ion-radio-group #RadioGroupOpciones>
+      
+          <ion-item lines="none" *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
+            <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+            <ion-radio (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-radio>
+          </ion-item>
+          
+        </ion-radio-group>
+      </ion-list> -->
+      <app-seleccion-unica  
+                            [ItemPregunta]="_item_pregunta"
+                            
+                            *ngIf="_item_pregunta.TipoPregunta.Identificador == 2"></app-seleccion-unica>
+      <!-- <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
         [ItemPregunta]="_item_pregunta"
         [ListaRespuestas] = "listaRespuestas"
         *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 1"> </app-abierta>
@@ -154,12 +188,11 @@
       <app-matriz [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
                   [ItemPregunta]="_item_pregunta"
                   [ListaRespuestas] = "listaRespuestas"
-                  *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 4"></app-matriz>
+                  *ngIf="_item_pregunta.Pregunta.TipoPregunta.Identificador == 4"></app-matriz> -->
 
 
     </div>
 
 
-  </ion-list>
 
 </ion-content>

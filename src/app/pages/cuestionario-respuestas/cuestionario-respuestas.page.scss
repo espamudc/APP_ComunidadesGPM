@@ -43,3 +43,8 @@
     margin: 10px;;
     
   }
+  .horizontal-scroll {
+    overflow: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: táctil; 
+}
