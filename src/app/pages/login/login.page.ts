@@ -80,6 +80,7 @@ export class LoginPage implements OnInit, AfterViewInit {
       })
   }
   _escojerRol(_item:any) {
+    debugger
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado', _item.IdAsignarUsuarioTipoUsuarioEncriptado);
     this.router.navigateByUrl("/tabs/home");
   }

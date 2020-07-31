@@ -13,10 +13,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class MatrizComponent implements OnInit {
 
   @Input() ItemPregunta: any={};
-  @Input() IdCabeceraRespuestaEncriptado : any = '';
   @Input() ListaRespuestas : any[] = [];
+  @Input() IdCabeceraRespuestaEncriptado : string;
+  @Input() Identificador : string;
   // _listaPreguntaMatriz:any[]=[];
-
+  leyandaSuperior:string;
+  leyandaLateral:string;
+  totalFilas:number;
+  observacion:boolean;
   _listaPreguntaConfigurarMatriz:any[]=[];
   //_listaOpcionUnoMatriz:any[]=[];
   FilaOpcionUnoMatriz: any[] = [];
@@ -39,14 +43,14 @@ export class MatrizComponent implements OnInit {
   ngOnInit() {
 
     this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
-    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
+    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
     
-    console.log("LISTA DE RESPUESTAS ::::>",this.ListaRespuestas);
-    this.LasRespuestasDeEstaPregunta = this.ListaRespuestas.filter(z=>z.Pregunta.IdPreguntaEncriptado===this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
-    console.log("LISTA DE RESPUETAS DE LA MATRIZ",this.LasRespuestasDeEstaPregunta);
+    //console.log("LISTA DE RESPUESTAS ::::>",this.ListaRespuestas);
+   // this.LasRespuestasDeEstaPregunta = this.ListaRespuestas.filter(z=>z.IdPreguntaEncriptado===this.ItemPregunta.IdPreguntaEncriptado);
+  //  console.log("LISTA DE RESPUETAS DE LA MATRIZ",this.LasRespuestasDeEstaPregunta);
     
 
-    this._consultarPreguntaConfigurarMatriz(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
+    this._consultarPreguntaConfigurarMatriz(this.ItemPregunta.IdPreguntaEncriptado);
     //this._crearTabla();
    
   }
@@ -77,6 +81,7 @@ export class MatrizComponent implements OnInit {
        .then(data=>{
          if (data['http']['codigo']=='200') {
            console.log("matriz-->",data['respuesta']);
+           debugger
            this._listaPreguntaConfigurarMatriz=data['respuesta'];
            this._vistaPreguntaConfigurarMatriz2();
            //this._crearTabla();
@@ -87,10 +92,10 @@ export class MatrizComponent implements OnInit {
  
        }).finally(()=>{
 
-        console.log("_listaPreguntaConfigurarMatriz",this._listaPreguntaConfigurarMatriz);
+       //console.log("_listaPreguntaConfigurarMatriz",this._listaPreguntaConfigurarMatriz);
         
-         this._listaPreguntaConfigurarMatriz;
-        console.log("_listaPreguntaConfigurarMatriz",this._listaPreguntaConfigurarMatriz);
+      //   this._listaPreguntaConfigurarMatriz;
+     //   console.log("_listaPreguntaConfigurarMatriz",this._listaPreguntaConfigurarMatriz);
         
         
         
@@ -189,6 +194,7 @@ export class MatrizComponent implements OnInit {
       }
     });
     
+   
 
     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
 
@@ -238,19 +244,26 @@ export class MatrizComponent implements OnInit {
 
     }
   
-    console.log("_matrizFinal",this._matrizFinal);
-    
-  
+    console.log("_matrizFinal bb",this._matrizFinal);
+     this.leyandaSuperior= this._matrizFinal[0].Fila.Pregunta.leyendaSuperior
+     this.leyandaLateral= this._matrizFinal[0].Fila.Pregunta.leyendaLateral
+     this.totalFilas=this._matrizFinal.length;
+     this.observacion=this._matrizFinal[0].Fila.Pregunta.Observacion
     
  }
 
  _guardarOpcion(_idOpcionEncriptado){
     console.log("seleccionada",_idOpcionEncriptado);
-    this.respuestasService.respuesta_insertarconfigurarmatriz(
-      this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value,
+    let id=  this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
+    debugger
+    this.respuestasService.respuesta_insertar(
+     id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
       _idOpcionEncriptado,
+      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+      this.Identificador,null
     ).then(data=>{
+      debugger
       if (data['http']['codigo']=='200') {
         console.log('======>la respuesta de la opcion',data['respuesta']);
         

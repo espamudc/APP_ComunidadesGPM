@@ -125,7 +125,7 @@
   </fieldset>
   </ion-toolbar>
 </ion-header>
-<ion-content> 
+<ion-content > 
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let item of listComponents" style="width: auto; height: 60px; border: 1px solid #f8f8f8">
       <ion-col (click)="mostarPreguntas(item)">
@@ -162,13 +162,30 @@
       </ion-list> -->
       <app-seleccion-unica  
         [ItemPregunta]="_item_pregunta"
+        [Identificador]="_item_pregunta.TipoPregunta.Identificador"
         [listaPreguntas2]="listaPreguntas2"
+        [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
         *ngIf="_item_pregunta.TipoPregunta.Identificador == 2">
       </app-seleccion-unica>
       <app-abierta  
         [ItemPregunta]="_item_pregunta"
+        [Identificador]="_item_pregunta.TipoPregunta.Identificador"
+        [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
         *ngIf="_item_pregunta.TipoPregunta.Identificador == 1"> 
       </app-abierta>
+
+      <app-seleccion-multiple
+        [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+        [ItemPregunta]="_item_pregunta"
+        [Identificador]="_item_pregunta.TipoPregunta.Identificador"
+         *ngIf="_item_pregunta.TipoPregunta.Identificador == 3"></app-seleccion-multiple>
+      
+      <app-matriz
+         [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+         [ItemPregunta]="_item_pregunta"
+         [Identificador]="_item_pregunta.TipoPregunta.Identificador"
+         *ngIf="_item_pregunta.TipoPregunta.Identificador == 4"></app-matriz>
+
                             <!-- <app-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
         [ItemPregunta]="_item_pregunta"
         [ListaRespuestas] = "listaRespuestas"

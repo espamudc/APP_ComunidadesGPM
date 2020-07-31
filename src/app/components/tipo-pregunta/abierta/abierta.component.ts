@@ -11,8 +11,10 @@ import { ToastController } from '@ionic/angular';
 export class AbiertaComponent implements OnInit {
 
   @Input() ItemPregunta: any={};
-  //@Input() IdCabeceraRespuestaEncriptado : any = '';
-  @Input() ListaRespuestas : any[] = [];
+  @Input() IdCabeceraRespuestaEncriptado : string;
+  @Input() Identificador : string;
+  txtrespuesta:string;
+  //@Input() ListaRespuestas : any[] = [];
 
   constructor( 
     private respuestasService:RespuestasService
@@ -35,7 +37,7 @@ export class AbiertaComponent implements OnInit {
     
     //console.log("fin---------------------------------------------------------------------------------");
     
-    //this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado.toString());
+    this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
     this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
     // this.formRespuesta.get('_descripcion').invalid
     
@@ -71,7 +73,7 @@ export class AbiertaComponent implements OnInit {
     }
   }
 
-  _validarFormRespuesta(){
+ // _validarFormRespuesta(){
     // console.log("submit");
     // this.formRespuesta.get('_idCabeceraRespuestaEncriptado').invalid;
     // this.formRespuesta.get('_idPreguntaEncriptado').invalid;
@@ -79,8 +81,8 @@ export class AbiertaComponent implements OnInit {
     // console.log('in2',this.formRespuesta.get('_idPreguntaEncriptado').value);
     // console.log('in3',this.formRespuesta.get('_descripcion').value);
     
-    this.respuesta_insertarpreguntaabierta();
-  }
+    //this.respuesta_insertarpreguntaabierta();
+ // }
 
   async presentToastWithButtons(_mensaje:string,_duracion:number=2000) {
     const toast = await this.toastController.create({
@@ -116,17 +118,22 @@ export class AbiertaComponent implements OnInit {
   }
 
   respuesta_insertarpreguntaabierta(){
-    // this.respuestasService.respuesta_insertarpreguntaabierta()
-    this.respuestasService.respuesta_insertarpreguntaabierta(
-      this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value,
+    debugger
+    let id=  this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
+    debugger
+    this.respuestasService.respuesta_insertar(
+     id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
-      this.formRespuesta.get('_descripcion').value
+      this.ItemPregunta.PreguntaAbierta.IdPreguntaAbiertaEncriptado,
+      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+      this.Identificador, this.txtrespuesta
     ).then(data=>{
+      debugger
       if (data['http']['codigo']=='200') {
         
       } if(data['http']['codigo']=='500'){
         // this.formRespuesta.get('_descripcion').setValue('');
-        this.presentToastWithButtons('La respuesta no fue ingresada');
+       // this.presentToastWithButtons('La respuesta no fue ingresada');
         
       } else {
         // this.formRespuesta.get('_descripcion').setValue('');

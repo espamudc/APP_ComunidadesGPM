@@ -7,20 +7,27 @@
   </ion-buttons>
 </ion-item>
 <ion-list [hidden]="_ver" class="animated jello " style="width: 100% !important;">
-  <ion-radio-group #RadioGroupOpciones>
+  <ion-radio-group>
     <ion-item lines="none" *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
-      <ion-label>{{_item_opcion.Descripcion}}</ion-label>
-      <ion-radio color="success" (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado,_item_opcion.Encajonamiento)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-radio>
-      <ion-grid>
-        <ion-row [hidden]="isHidden" *ngIf="_item_opcion.Encajonamiento==1" class="align-vertical" >
-          <ion-col size="2" style="text-align: center;" class="ion-text-wrap">
-            <ion-label color="danger">{{preguntaEncajonada}}</ion-label>
-          </ion-col>
-          <ion-col size="10">
-            <ion-input class="styletxt"></ion-input>
+   <span>
+      <ion-label class="ion-float-right">{{_item_opcion.Descripcion}}  </ion-label>
+     <span *ngFor="let items of listRespuestas"  class="ion-float-left" style="margin-right: 10px;">
+        <input type="radio" name="s" *ngIf="items.IdRespuestaLogica == _item_opcion.IdOpcionPreguntaSeleccionEncriptado"   (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado,_item_opcion.Encajonamient, $evento)" checked>
+        <input type="radio" name="s" *ngIf="items.IdRespuestaLogica != _item_opcion.IdOpcionPreguntaSeleccionEncriptado"   (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado,_item_opcion.Encajonamiento, $event)">
+        <!-- <input *ngIf="_item_opcion.Encajonamiento==1" type="text" #d value="{{items.DescripcionRespuestaAbierta}}"> -->
+      </span>
+    </span>
+    <!-- <ion-radio color="success"  (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado,_item_opcion.Encajonamiento)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-radio> -->
+      <ion-grid *ngIf="_item_opcion.Encajonamiento==1" class="align-vertical">
+        <ion-row >
+          <ion-col size="12" style="text-align: center;" class="ion-text-wrap">
+            <ion-label color="danger" >{{_item_opcion.Descripcion}}</ion-label>
+            <ion-input class="styletxt"  (ionBlur)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado,_item_opcion.Encajonamiento, $event)"></ion-input>
           </ion-col>
         </ion-row>
       </ion-grid>
+  
     </ion-item>
   </ion-radio-group>
+ 
 </ion-list>

@@ -9,17 +9,13 @@ table{
     border-collapse: collapse;
 }
 
-// table td{
-//     text-align: center !important;
-// }
-
 th, td{
     border: solid 1px black;
     padding: 10px;
 }
 thead{
-    background-color: #246355;
-    border-bottom: solid 5px #0F362d;
+    background-color: #2dd36f;
+    border-bottom: solid 2px #0F362d;
     color: white;
 }
 // tbody tr :nth-child(even) {
@@ -27,8 +23,8 @@ thead{
 // }
 td:hover{
     // background: var(--ion-color-primary);
-    background-color: #369681;
-    color: white;
+    background-color: #ebebeb;
+    color: black;
 }
 
 /////////////////
@@ -46,20 +42,38 @@ td:hover{
 //     margin-left: -1.75em;
 //   }
   
-//   .form-check-input {
-//     width: 1.25em;
-//     height: 1.25em;
-//     margin-top: 0.125em;
-//     vertical-align: top;
-//     background-color: #fff;
-//     border: 1px solid rgba(0, 0, 0, 0.25);
-//     -webkit-appearance: none;
-//     -moz-appearance: none;
-//     appearance: none;
-//     -webkit-print-color-adjust: exact;
-//     color-adjust: exact;
-//   }
+input[type="radio"] {
+    /* remove standard background appearance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* create custom radiobutton appearance */
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    padding: 6px;
+    /* background-color only for content */
+
+    border: 2px solid #bbbbbb;
+    background-color:white;
+    border-radius: 50%;
+    outline:none;
+  }
   
+  /* appearance for checked radiobutton */
+  input[type="radio"]:checked {
+    background-color: #2dd36f;
+    border: 2px solid #2dd36f;
+    background-clip: content-box;
+    outline:none;
+  }
+  
+  /* optional styles, I'm using this for centering radiobuttons */
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+
 //   .form-check-input[type="checkbox"] {
 //     border-radius: 0.25em;
 //   }
@@ -148,4 +162,3 @@ td:hover{
 //     display: inline-block;
 //     margin-right: 1rem;
 //   }
-  

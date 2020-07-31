@@ -13,8 +13,8 @@ export class SeleccionMultipleComponent implements OnInit {
 
   @Input() ItemPregunta: any={}; //en realidad es un objeto con dos objetos dentro de el uno de preguntas y otro de cabeceraVersionCustionario
   @Input() IdCabeceraRespuestaEncriptado : any = '';
-  @Input() ListaRespuestas : any[] = [];
-
+  //@Input() ListaRespuestas : any[] = [];
+  @Input() Identificador : string;
   LasRespuestasDeEstaPregunta: any[] = [];
   ListaCheckBox: any[] = [];
 
@@ -35,10 +35,12 @@ export class SeleccionMultipleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
-    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
 
-    this._pregunta_consultarPreguntasSeleccion(this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
+debugger    
+   this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
+   this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
+    console.log("Pregunta Multiple:", this.ItemPregunta)
+    this._pregunta_consultarPreguntasSeleccion(this.ItemPregunta.IdPreguntaEncriptado);
   }
 
   formRespuesta: FormGroup;
@@ -69,7 +71,7 @@ export class SeleccionMultipleComponent implements OnInit {
         this._listaOpcionesPreguntaSeleccion = [];
         this._listaOpcionesPreguntaSeleccion = data['respuesta'];
        
-        //console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
+        console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
 
 
       }else{
@@ -83,23 +85,23 @@ export class SeleccionMultipleComponent implements OnInit {
       
      
       // console.log("FILTRO",this.ListaRespuestas.filter(z=>z.Pregunta.IdPreguntaEncriptado===this.ItemPregunta.Pregunta.IdPreguntaEncriptado));
-      this.LasRespuestasDeEstaPregunta = this.ListaRespuestas.filter(z=>z.Pregunta.IdPreguntaEncriptado===this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
+      // this.LasRespuestasDeEstaPregunta = this.ListaRespuestas.filter(z=>z.Pregunta.IdPreguntaEncriptado===this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
     
-      for (let index = 0; index < this._listaOpcionesPreguntaSeleccion.length; index++) {
-        const _opcion = this._listaOpcionesPreguntaSeleccion[index];
-        var opcion = {
-          opcion: _opcion,
-          check: false
-        };
-        for (let index = 0; index < this.LasRespuestasDeEstaPregunta.length; index++) {
-          const _respuesta = this.LasRespuestasDeEstaPregunta[index];
-          if (_opcion.IdOpcionPreguntaSeleccionEncriptado===_respuesta.IdRespuestaLogicaEncriptado) {
-            opcion.check = true;
-            break;
-          } 
-        }
-        this.ListaCheckBox.push(opcion);
-      }
+      // for (let index = 0; index < this._listaOpcionesPreguntaSeleccion.length; index++) {
+      //   const _opcion = this._listaOpcionesPreguntaSeleccion[index];
+      //   var opcion = {
+      //     opcion: _opcion,
+      //     check: false
+      //   };
+      //   for (let index = 0; index < this.LasRespuestasDeEstaPregunta.length; index++) {
+      //     const _respuesta = this.LasRespuestasDeEstaPregunta[index];
+      //     if (_opcion.IdOpcionPreguntaSeleccionEncriptado===_respuesta.IdRespuestaLogicaEncriptado) {
+      //       opcion.check = true;
+      //       break;
+      //     } 
+      //   }
+      //   this.ListaCheckBox.push(opcion);
+      // }
 
       // for (let index = 0; index < this.ListaRespuestas.length; index++) {
       //   const element = this.ListaRespuestas[index];
@@ -120,23 +122,29 @@ export class SeleccionMultipleComponent implements OnInit {
     
   }
   _guardarOpcion(_idOpcionEncriptado){
+    debugger
     // console.log("seleccionada",_idOpcionEncriptado);
-    this.respuestasService.respuesta_insertaropcionseleccionmultiple(
-      this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value,
+    let id=  this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
+    debugger
+    this.respuestasService.respuesta_insertar(
+     id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
       _idOpcionEncriptado,
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
+      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+      this.Identificador, null
+    ).then(data => {
+      debugger
+      if (data['http']['codigo'] == '200') {
         // console.log('======>la respuesta de la opcion',data['respuesta']);
-        
+
       } else {
         // console.log('error 1',data['http']);
-        
-      }
-    }).catch(error=>{
-      // console.log('error 2');
 
-    }).finally(()=>{});
+      }
+    }).catch(error => {
+      console.log('error 2');
+
+    }).finally(() => { });
   }
 
 }

@@ -10,13 +10,17 @@ import { Router } from '@angular/router';
 })
 export class CuestionariosAsignadosPage implements OnInit {
   cuestionario:any=[];
+  isChecked:boolean=false;
   constructor(
               private cuestionarioPublicadoService:CuestionarioPublicadoService,
               private asignarEncuestadoService:AsignarEncuestadoService,
               private modalController : ModalController,
               private router :Router,
               private toastController: ToastController,
-              ) { }
+              ) { 
+
+    
+              }
 
   ngOnInit() {
     this._consultarCuestionariosPublicados();
@@ -25,7 +29,8 @@ export class CuestionariosAsignadosPage implements OnInit {
   _listaCuestionariosPublicadosAsignarEncuestado : any[]=[];
   
   _consultarCuestionariosPublicados(){
-
+let dd =localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+debugger
     this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
     .then(data=>{
       this.cuestionario=data["respuesta"];

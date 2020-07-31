@@ -51,8 +51,8 @@ export class PreguntasService {
                 });
     });
   }
-  PreguntasPorcomponentes(idComponente:string) {
-    const urlApi = url + `/pregunta/componente?idcomponente=${idComponente}`;
+  PreguntasPorcomponentes(idComponente:string, usuarioTecnico:string) {
+    const urlApi = url + `/pregunta/componente?idcomponente=${idComponente}&idusuariotecnico=${usuarioTecnico}`;
     return new Promise((resolve, reject) => {
       this.http.get(urlApi)
         .subscribe(res => {

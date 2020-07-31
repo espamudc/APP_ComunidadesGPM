@@ -20,6 +20,8 @@ numeroCuestionarioCanceladas:number=0;
     this._consultarCuestionariosNuevos();
   }
   _consultarCuestionariosNuevos(){
+    let dd =localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    debugger
     this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
       .then(data=>{
         this.numeroCuestionarioNuevos=data["respuesta"].length;

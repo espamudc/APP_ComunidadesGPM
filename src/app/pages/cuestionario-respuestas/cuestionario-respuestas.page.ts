@@ -66,6 +66,7 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
   }
   components(idCuestionario:string){
     this.componentesService.componentesPorEncuesta(idCuestionario).then(data=>{
+      debugger
     this.listComponents=data["respuesta"];
     }).catch(error=>{
       debugger
@@ -108,12 +109,12 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
     this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
   }
 
-  
  
 //una
   _cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta(){
     debugger
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
+    debugger
     this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
       .then(data=>{
         if (data['http']['codigo']=='200') {
@@ -137,7 +138,9 @@ _listaOpcionesPreguntaSeleccion:any[]=[];
       })
   }
   mostarPreguntas(item:any){
-    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado).then(data=>{
+    debugger
+    let usuarioTecnico= localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado,usuarioTecnico ).then(data=>{
       this.listaPreguntas2=data["respuesta"];
       console.log("RESPUESTAss: ", this.listaPreguntas2);
     }).catch(error=>{
@@ -150,7 +153,7 @@ _respuestas_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado){
       .then(data=>{
         debugger
         if (data['http']['codigo']=='200') {
-          console.log('respuestas:',data['respuesta']);
+          console.log('respuestasdd:',data['respuesta']);
           this.listaRespuestas = data['respuesta'];
         }else{}
 

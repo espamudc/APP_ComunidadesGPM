@@ -1,6 +1,7 @@
-<form [formGroup]="formRespuesta" (ngSubmit)="_validarFormRespuesta()" *ngIf="ItemPregunta.IdPreguntaEncajonada=='Independiente'">
+<!-- <form [formGroup]="formRespuesta" (ngSubmit)="_validarFormRespuesta()" > -->
+  <ion-list *ngIf="ItemPregunta.IdPreguntaEncajonada=='Independiente'" class="ion-no-padding">
   <ion-item button (click)="_ocultar()">
-    <ion-label><strong>{{ItemPregunta.Descripcion}}</strong></ion-label>
+    <ion-label>{{ItemPregunta.Descripcion}}</ion-label>
     <ion-buttons  slot="end">
       <ion-button color="gpm-success" >
         <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
@@ -8,11 +9,12 @@
     </ion-buttons>
   </ion-item>
   <ion-item lines="none" [hidden]="_ver" class="animated jello ">
-    <ion-input formControlName="_descripcion" class="styletxt"  >  </ion-input>
-    <ion-buttons  slot="end">
+    <ion-input class="styletxt" [(ngModel)]="txtrespuesta" (ionBlur)="respuesta_insertarpreguntaabierta()" >  </ion-input>
+    <!-- <ion-buttons  slot="end">
       <ion-button color="gpm-success" [disabled]="formRespuesta.invalid" type="submit">
         <ion-icon shape="round" slot="icon-only" name="send"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-item>
-</form>
+</ion-list>
+<!-- </form> -->
