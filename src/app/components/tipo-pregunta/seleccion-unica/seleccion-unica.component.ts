@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { PreguntasService } from 'src/app/services/preguntas.service';
 import { ToastController, IonRadioGroup } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RespuestasService } from 'src/app/services/respuestas.service';
@@ -22,7 +21,6 @@ export class SeleccionUnicaComponent implements OnInit {
   _ver = true;
   _icon = "add";
   constructor(
-    private preguntasService: PreguntasService,
     private respuestasService: RespuestasService,
     private toastController: ToastController,
   ) {

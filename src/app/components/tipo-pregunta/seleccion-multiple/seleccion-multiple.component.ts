@@ -1,150 +1,146 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { PreguntasService } from 'src/app/services/preguntas.service';
-import { IonList, IonRadioGroup } from '@ionic/angular';
 import { RespuestasService } from 'src/app/services/respuestas.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { ToastController } from '@ionic/angular';
+interface Codigo {
+  codigo: string,
+  descripcion: string,
+  estado: string
+}
 @Component({
   selector: 'app-seleccion-multiple',
   templateUrl: './seleccion-multiple.component.html',
   styleUrls: ['./seleccion-multiple.component.scss'],
 })
 export class SeleccionMultipleComponent implements OnInit {
-
-  @Input() ItemPregunta: any={}; //en realidad es un objeto con dos objetos dentro de el uno de preguntas y otro de cabeceraVersionCustionario
-  @Input() IdCabeceraRespuestaEncriptado : any = '';
-  //@Input() ListaRespuestas : any[] = [];
-  @Input() Identificador : string;
+  @Input() ItemPregunta: any;
+  @Input() IdCabeceraRespuestaEncriptado: any = '';
+  @Input() Identificador: string;
   LasRespuestasDeEstaPregunta: any[] = [];
   ListaCheckBox: any[] = [];
-
-  @ViewChild('CheckGroupOpciones',{static:false}) CheckGroupOpciones : IonRadioGroup;
-
-  _listaOpcionesPreguntaSeleccion :any[]=[];
-  constructor(private preguntasService:PreguntasService
-              ,private respuestasService:RespuestasService) 
-  { 
-
+  almacenRespuestas: Array<Codigo> = [];
+  _listaOpcionesPreguntaSeleccion: any[] = [];
+  _listaOpcionesPreguntaSeleccion1: any[] = [];
+  constructor(private preguntasService: PreguntasService,
+    private respuestasService: RespuestasService,
+    private toastController: ToastController) {
     this.formRespuesta = new FormGroup({
-      _idCabeceraRespuestaEncriptado  : new FormControl('',[Validators.required]),
-      _idPreguntaEncriptado           : new FormControl('',[Validators.required]),
-      _idRespuestaLogicaEncriptado    : new FormControl('',[Validators.required]),
-      _descripcion                    : new FormControl('',[Validators.required])
+      _idCabeceraRespuestaEncriptado: new FormControl('', [Validators.required]),
+      _idPreguntaEncriptado: new FormControl('', [Validators.required]),
+      _idRespuestaLogicaEncriptado: new FormControl('', [Validators.required]),
+      _descripcion: new FormControl('', [Validators.required])
     });
 
   }
-
   ngOnInit() {
-
-debugger    
-   this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
-   this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
-    console.log("Pregunta Multiple:", this.ItemPregunta)
-    this._pregunta_consultarPreguntasSeleccion(this.ItemPregunta.IdPreguntaEncriptado);
+    this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
+    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
   }
-
   formRespuesta: FormGroup;
-
   _ver = true;
   _icon = "add";
-  _ocultar(){
-    console.log(this._ver);
-    
-    if(this._ver==true){
+  _ocultar() {
+    if (this._ver == true) {
       this._ver = false;
       this._icon = "remove";
-    }else{
+      this._pregunta_consultarPreguntasSeleccion();
+    } else {
       this._ver = true;
       this._icon = "add";
-
     }
   }
-
-  _pregunta_consultarPreguntasSeleccion(_IdPreguntaEncriptado){
-    // console.log("Pregunta de Seleccion _IdPreguntaEncriptado :" ,_IdPreguntaEncriptado);
-    
-    this.preguntasService._consultarOpcionPreguntaSeleccion(
-      _IdPreguntaEncriptado
-    ).then(data=>{
-      if (data['http']['codigo']=='200') {
-       
-        this._listaOpcionesPreguntaSeleccion = [];
-        this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-       
-        console.log("_listaOpcionesPreguntaSeleccion",this._listaOpcionesPreguntaSeleccion);
-
-
-      }else{
-
+  guadarRespuestas() {
+    let bandera = this._listaOpcionesPreguntaSeleccion.length - 1;
+    let almacen: Array<Codigo> = [];
+    this._listaOpcionesPreguntaSeleccion.forEach(function callback(currentValue, index, array) {
+      if (bandera != index) {
+        if (currentValue.IdOpcionPreguntaSeleccion == currentValue.IdRespuestaLogica) {
+          almacen.push({
+            codigo: currentValue.IdRespuestaLogica,
+            descripcion: currentValue.DescripcionOpcionPreguntaSeleccion,
+            estado: 'chequeado'
+          });
+        }
       }
-    }).catch(error=>{
-
-    }).finally(()=>{
-
-      // console.log("-------------------------------------------------------------------");
-      
-     
-      // console.log("FILTRO",this.ListaRespuestas.filter(z=>z.Pregunta.IdPreguntaEncriptado===this.ItemPregunta.Pregunta.IdPreguntaEncriptado));
-      // this.LasRespuestasDeEstaPregunta = this.ListaRespuestas.filter(z=>z.Pregunta.IdPreguntaEncriptado===this.ItemPregunta.Pregunta.IdPreguntaEncriptado);
-    
-      // for (let index = 0; index < this._listaOpcionesPreguntaSeleccion.length; index++) {
-      //   const _opcion = this._listaOpcionesPreguntaSeleccion[index];
-      //   var opcion = {
-      //     opcion: _opcion,
-      //     check: false
-      //   };
-      //   for (let index = 0; index < this.LasRespuestasDeEstaPregunta.length; index++) {
-      //     const _respuesta = this.LasRespuestasDeEstaPregunta[index];
-      //     if (_opcion.IdOpcionPreguntaSeleccionEncriptado===_respuesta.IdRespuestaLogicaEncriptado) {
-      //       opcion.check = true;
-      //       break;
-      //     } 
-      //   }
-      //   this.ListaCheckBox.push(opcion);
-      // }
-
-      // for (let index = 0; index < this.ListaRespuestas.length; index++) {
-      //   const element = this.ListaRespuestas[index];
-      //   console.log("element",element);
-      //   console.log("ItemPregunta",this.ItemPregunta);
-      //   if (element.Pregunta.IdPreguntaEncriptado==this.ItemPregunta.Pregunta.IdPreguntaEncriptado) {
-      //     // this.formRespuesta.get('_descripcion').setValue(element.DescripcionRespuestaAbierta); 
-      //     // this.CheckGroupOpciones.value = element.IdRespuestaLogicaEncriptado;       
-      //   }
-      // }
-      // console.log("-------------------------------------------------------------------");
-
     });
+    return almacen;
   }
-
-  hola(id){
-    // console.log("hola");
-    
+  _pregunta_consultarPreguntasSeleccion() {
+    this.respuestasService.consultarRespuestaPorPreguntaSeleccion(
+      this.ItemPregunta.IdPreguntaEncriptado,
+      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+    ).then(data => {
+      this._listaOpcionesPreguntaSeleccion = data['respuesta'];
+      this.almacenRespuestas = this.guadarRespuestas();
+      let eliminar = this._listaOpcionesPreguntaSeleccion[0].TotalOpciones;
+      if (this._listaOpcionesPreguntaSeleccion.length == eliminar) {
+        this._listaOpcionesPreguntaSeleccion1 = this._listaOpcionesPreguntaSeleccion;
+      } else {
+        this._listaOpcionesPreguntaSeleccion1 = this._listaOpcionesPreguntaSeleccion.splice(eliminar, eliminar);
+      }
+      let aux = false;
+      for (let index = 0; index < this._listaOpcionesPreguntaSeleccion1.length; index++) {
+        aux = false
+        for (let index1 = 0; index1 < this.almacenRespuestas.length; index1++) {
+          if (this._listaOpcionesPreguntaSeleccion1[index].IdOpcionPreguntaSeleccion == this.almacenRespuestas[index1].codigo) {
+            aux = true;
+          }
+        }
+        if (aux == false) {
+          this.almacenRespuestas.push({
+            codigo: this._listaOpcionesPreguntaSeleccion1[index].IdOpcionPreguntaSeleccion,
+            descripcion: this._listaOpcionesPreguntaSeleccion1[index].DescripcionOpcionPreguntaSeleccion,
+            estado: 'no'
+          });
+        }
+      }
+      this.almacenRespuestas.sort(this.OrdenarArray);
+    }).catch(error => {
+      this.Toast("Error la cargar datos")
+    })
   }
-  _guardarOpcion(_idOpcionEncriptado){
-    debugger
-    // console.log("seleccionada",_idOpcionEncriptado);
-    let id=  this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
-    debugger
+  OrdenarArray(a, b) {
+    if (a.codigo > b.codigo) {
+      return 1;
+    }
+    if (a.codigo < b.codigo) {
+      return -1;
+    }
+    return 0;
+  }
+  async Toast(_mensaje: string, _duracion: number = 2000) {
+    const toast = await this.toastController.create({
+      message: _mensaje,
+      position: 'bottom',
+      animated: true,
+      duration: _duracion,
+      color: 'dark',
+      cssClass: 'toastFormato',
+      buttons: [
+        {
+          side: 'end',
+          icon: 'close-circle-outline',
+          role: 'cancel',
+        }
+      ]
+    });
+    toast.present();
+  }
+  _guardarOpcion(_idOpcionEncriptado) {
+    let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
-     id,
+      id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
       _idOpcionEncriptado,
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
       this.Identificador, null
     ).then(data => {
-      debugger
       if (data['http']['codigo'] == '200') {
-        // console.log('======>la respuesta de la opcion',data['respuesta']);
-
-      } else {
-        // console.log('error 1',data['http']);
-
+        //this.Toast("Datos Guardado")
       }
     }).catch(error => {
-      console.log('error 2');
-
-    }).finally(() => { });
+      this.Toast("Error la cargar datos")
+    })
   }
-
 }
