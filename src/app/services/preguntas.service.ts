@@ -37,20 +37,36 @@ export class PreguntasService {
                 });
     });
   }
-  _consultarPreguntaConfigurarMatriz(
-    _IdPreguntaEncriptado,
-  ){
-    const _body = new HttpParams()
-    ;
+  // _consultarPreguntaConfigurarMatriz(
+  //   _IdPreguntaEncriptado,
+  //   _IdAsignadoEncuestado,
+  // ){
+  //   const _body = new HttpParams()
+  //   ;
+  //   return new Promise((resolve, reject) => {
+  //     this.http.post(url+'configurarmatriz_consultarporidpregunta?_idPreguntaEncriptado='+_IdPreguntaEncriptado,_body.toString(),{headers:this._header})
+  //               .subscribe(res=>{
+  //                 resolve(res);
+  //               },(err)=>{
+  //                 reject(err);
+  //               });
+  //   });
+  // }
+
+  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado:string, _IdAsignadoEncuestado:string) {
+    const urlApi = url + `configurarmatriz_consultarporidpregunta?_idPreguntaEncriptado=${_IdPreguntaEncriptado}&_IdAsignarEncuestado=${_IdAsignadoEncuestado}`;
     return new Promise((resolve, reject) => {
-      this.http.post(url+'configurarmatriz_consultarporidpregunta?_idPreguntaEncriptado='+_IdPreguntaEncriptado,_body.toString(),{headers:this._header})
-                .subscribe(res=>{
-                  resolve(res);
-                },(err)=>{
-                  reject(err);
-                });
+      this.http.get(urlApi)
+        .subscribe(res => {
+          debugger
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
     });
   }
+
+
   PreguntasPorcomponentes(idComponente:string, usuarioTecnico:string) {
     const urlApi = url + `/pregunta/componente?idcomponente=${idComponente}&idusuariotecnico=${usuarioTecnico}`;
     return new Promise((resolve, reject) => {
