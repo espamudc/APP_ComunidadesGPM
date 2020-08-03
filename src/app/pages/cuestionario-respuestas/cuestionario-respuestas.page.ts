@@ -222,38 +222,38 @@ debugger
     });
   }
 
-  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
-  {
-   // console.log(this.item.IdPreguntaEncriptado);
+  // _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
+  // {
+  //  // console.log(this.item.IdPreguntaEncriptado);
 
-    this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
-      .then(data=>{
-        if (data['http']['codigo']=='200') {
-          console.log("matriz-->",data['respuesta']);
-          this._listaPreguntaConfigurarMatriz=data['respuesta'];
-          this._vistaPreguntaConfigurarMatriz();
+  //   this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
+  //     .then(data=>{
+  //       if (data['http']['codigo']=='200') {
+  //         console.log("matriz-->",data['respuesta']);
+  //         this._listaPreguntaConfigurarMatriz=data['respuesta'];
+  //         this._vistaPreguntaConfigurarMatriz();
 
-        } else {
+  //       } else {
 
-        }
-      }).catch(error=>{
+  //       }
+  //     }).catch(error=>{
 
-      }).finally(()=>{
-        this._vistaPreguntaConfigurarMatriz();
+  //     }).finally(()=>{
+  //       this._vistaPreguntaConfigurarMatriz();
 
-        var matriz = {
-            IdPreguntaEncriptado : _IdPreguntaEncriptado,
-            filas: this.FilaOpcionUnoMatriz,
-            columnas : this.ColumnsOpcionDosMatriz
-        }
+  //       var matriz = {
+  //           IdPreguntaEncriptado : _IdPreguntaEncriptado,
+  //           filas: this.FilaOpcionUnoMatriz,
+  //           columnas : this.ColumnsOpcionDosMatriz
+  //       }
 
-          this._listaPreguntaMatriz.push(matriz);
+  //         this._listaPreguntaMatriz.push(matriz);
 
-        console.log("_listaPreguntaMatriz",this._listaPreguntaMatriz);
+  //       console.log("_listaPreguntaMatriz",this._listaPreguntaMatriz);
 
 
-      });
-  }
+  //     });
+  // }
 
   _vistaPreguntaConfigurarMatriz(){
     this._listaPreguntaConfigurarMatriz.map((element,index)=>{

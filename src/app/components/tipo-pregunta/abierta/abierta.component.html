@@ -1,20 +1,15 @@
-<!-- <form [formGroup]="formRespuesta" (ngSubmit)="_validarFormRespuesta()" > -->
-  <ion-list *ngIf="ItemPregunta.IdPreguntaEncajonada=='Independiente'" class="ion-no-padding">
+<ion-list *ngIf="ItemPregunta.IdPreguntaEncajonada=='Independiente'" class="ion-no-padding">
   <ion-item button (click)="_ocultar()">
     <ion-label>{{ItemPregunta.Descripcion}}</ion-label>
-    <ion-buttons  slot="end">
-      <ion-button color="gpm-success" >
+    <ion-buttons slot="end">
+      <ion-button color="gpm-success">
         <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-item>
-  <ion-item lines="none" [hidden]="_ver" class="animated jello ">
-    <ion-input class="styletxt" [(ngModel)]="txtrespuesta" (ionBlur)="respuesta_insertarpreguntaabierta()" >  </ion-input>
-    <!-- <ion-buttons  slot="end">
-      <ion-button color="gpm-success" [disabled]="formRespuesta.invalid" type="submit">
-        <ion-icon shape="round" slot="icon-only" name="send"></ion-icon>
-      </ion-button>
-    </ion-buttons> -->
+  <ion-item lines="none" [hidden]="_ver" class="animated jello" *ngFor="let line of respuetaPreguntaAbierta">
+    <ion-input value="{{line.DescripcionRespuestaAbierta}}" type="ItemPregunta.PreguntaAbierta.TipoDato.TipoHTML"
+      class="styletxt" #q (ionBlur)="respuesta_insertarpreguntaabierta($event)">
+    </ion-input>
   </ion-item>
 </ion-list>
-<!-- </form> -->
