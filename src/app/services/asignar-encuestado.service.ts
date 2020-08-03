@@ -6,10 +6,7 @@ import { url } from "../../environments/environment";
 })
 export class AsignarEncuestadoService {
   constructor(private http: HttpClient) { }
-
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
-
-
   _consultarporidasignarencuestado(_idAsignarEncuestadoEncriptado) {
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {
@@ -21,7 +18,6 @@ export class AsignarEncuestadoService {
         });
     });
   }
-
   _consultarporidasignarusuariotipousuariotecnico(_idAsignarUsuarioTipoUsuarioTecnicoEncriptado) {
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {

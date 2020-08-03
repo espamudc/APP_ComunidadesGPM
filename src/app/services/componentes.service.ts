@@ -6,12 +6,11 @@ import { url } from "../../environments/environment";
 })
 export class ComponentesService {
   constructor(private http: HttpClient) { }
-  componentesPorEncuesta(_idCuestionarioGenerioEncriptado:string) {
+  componentesPorEncuesta(_idCuestionarioGenerioEncriptado: string) {
     const urlApi = url + `/componente/cuestionario?_idCuestionarioGenerioEncriptado=${_idCuestionarioGenerioEncriptado}`;
     return new Promise((resolve, reject) => {
       this.http.get(urlApi)
         .subscribe(res => {
-          debugger
           resolve(res);
         }, (err) => {
           reject(err);

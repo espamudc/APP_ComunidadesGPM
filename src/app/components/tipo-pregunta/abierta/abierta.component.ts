@@ -63,7 +63,6 @@ export class AbiertaComponent implements OnInit {
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
     ).then(data => {
       this.respuetaPreguntaAbierta = data['respuesta'];
-      console.log("ssssssssss", data['respuesta'])
     }).catch(error => {
       this.Toast("Error la cargar datos")
     })

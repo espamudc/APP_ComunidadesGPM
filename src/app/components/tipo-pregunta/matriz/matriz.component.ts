@@ -176,7 +176,6 @@ export class MatrizComponent implements OnInit {
     this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado, localStorage.getItem("IdAsignarEncuestadoEncriptado"),)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          console.log("matriz-->", data['respuesta']);
           this.matrizDesing.length = 0;
           this._listaPreguntaConfigurarMatriz = data['respuesta'];
           let respuesta: Array<Respuesta> = [];
@@ -210,7 +209,6 @@ export class MatrizComponent implements OnInit {
       this.Identificador, null
     ).then(data => {
       if (data['http']['codigo'] == '200') {
-
       }
     }).catch(error => {
       this.Toast("Error la cargar datos")
