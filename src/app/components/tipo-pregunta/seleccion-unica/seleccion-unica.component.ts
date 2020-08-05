@@ -42,7 +42,7 @@ export class SeleccionUnicaComponent implements OnInit {
     ).then(data => {
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
     }).catch(error => {
-      this.Toast("Error la cargar datos")
+      this.Toast("Error al cargar datos")
     })
   }
   async Toast(_mensaje: string, _duracion: number = 2000) {

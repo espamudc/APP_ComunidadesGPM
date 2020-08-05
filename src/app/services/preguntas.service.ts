@@ -38,7 +38,6 @@ export class PreguntasService {
     return new Promise((resolve, reject) => {
       this.http.get(urlApi)
         .subscribe(res => {
-          debugger
           resolve(res);
         }, (err) => {
           reject(err);

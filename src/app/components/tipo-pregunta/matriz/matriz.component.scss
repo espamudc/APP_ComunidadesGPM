@@ -68,6 +68,10 @@ input[type="radio"] {
     outline:none;
   }
   
+ion-item  {
+  font-size: 12px !important;
+}
+  
   /* optional styles, I'm using this for centering radiobuttons */
   .flex {
     display: flex;
