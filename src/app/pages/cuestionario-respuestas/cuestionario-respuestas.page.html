@@ -89,7 +89,7 @@
     </fieldset>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+<ion-content class="testclass">
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
     <ion-slide *ngFor="let item of listComponents" style="width: auto; height: 60px; border: 1px solid #f8f8f8">
       <ion-col (click)="mostarPreguntas(item)">

@@ -1,20 +1,23 @@
-<ion-content class="ion-no-padding">
-  <div class="container ion-no-padding">
-    <img src="../../../assets/img/logo.png" alt="">
+<ion-header class="ion-no-border" >
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="_validarUsuario()" [disabled]="esValido" class="ion-no-border">
+         <span style="color:white !important; font-size: 14px;;">Siguiente</span> 
+      </ion-button> 
+   </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content  [fullscreen]="true">
+  <div class="container">
     <br><br><br><br>
-    <ion-grid class="ion-no-padding">
-      <ion-row>
+    <ion-grid >
+      <ion-row class="ion-no-padding">
         <ion-col >
-          <form [formGroup]="formValidarCorreo" (ngSubmit)="_validarformValidarCorreo()">
-            <ion-item class="ion-padding-end">
-              <ion-icon slot="start" name="person"></ion-icon>
-              <ion-input value="ewdin@gmail.com"required formControlName="_usuario" type="email" placeholder="correo"></ion-input>
+            <ion-item class="closed">
+              <ion-label position="floating" color="danger">INTRODUCE TU CORREO ELECTRÓNICO</ion-label>
+              <ion-input  clearInput="true" (ionChange)="esEmailValido($event)" [(ngModel)]="correo" type="email"></ion-input>
             </ion-item>
             <br><br><br>
-             <ion-button expand="full"  color="success" type="submit" [disabled]="formValidarCorreo.invalid">
-              Siguiente <ion-icon name="arrow-forward-circle" slot="end"></ion-icon>
-            </ion-button>
-          </form>
         </ion-col>
       </ion-row>
     </ion-grid>

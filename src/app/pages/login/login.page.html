@@ -1,35 +1,35 @@
-<ion-content  class="ion-no-padding">
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start" fill="solid">
+      <ion-button routerLink="../validar-usuario" class="ion-no-border">
+        <ion-icon slot="icon-only" style="color: white !important;" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-no-padding">
   <div class="container">
     <ion-grid class="ion-no-padding">
-      <ion-row>
-        <ion-col>
-          <img src="../../../assets/img/logo.png" alt="">
-          <br><br><br><br>
-          <form *ngIf="_ocultar==true" [formGroup]="formLogin" (ngSubmit)="_validarCredenciales()" >
-            <ion-item hidden>
-              <ion-label position="floating">E-Mail <ion-text color="danger">*</ion-text></ion-label>
-              <ion-input required formControlName="_usuario" type="email"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="stacked">{{formLogin.get('_usuario').value}} <ion-text color="danger">*</ion-text></ion-label>
-              <ion-input required formControlName="_clave" type="password" autocomplete="off"></ion-input>
-            </ion-item>
-            <br><br><br>
-            <ion-button expand="full" color="success" type="submit" [disabled]="formLogin.invalid">
-              Login <ion-icon name="arrow-forward-circle" slot="end"></ion-icon>
+      <ion-row style="margin-top: 50px;">
+        <ion-col class="ion-align-self-center">
+          <ion-row style="margin-left: 16px;">
+            <ion-label style="font-size: 16px !important; color: white" position="stacked">{{correo}}</ion-label>
+          </ion-row>
+          <ion-item class="closed">
+            <ion-input (ionChange)="valido($event)" [(ngModel)]="password" clearInput="true" placeholder="contraseña"
+              type="password" focus="true" autocomplete="off"></ion-input>
+          </ion-item>
+          <ion-item class="ion-text-right">
+            <ion-label style="margin-top:0px !important;margin-bottom:0px !important; height:auto !important">¿Has
+              olvidado la contraseña?</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-button [disabled]="esValido" (click)="_validarCredenciales()" size="default" expand="full"
+              style="width: 100%;" class="ion-no-padding">
+              Iniciar sesión
             </ion-button>
-          </form>
-          <br>
-          <ion-list *ngIf="_ocultar==false">
-            <ion-list-header>
-              <ion-label><h2> <strong> SELECCIONE UN ROL </strong> </h2></ion-label>
-              <hr>
-            </ion-list-header>
-            <div  class="catalogo" button *ngFor="let item of _misTiposUsuarios" (click)="_escojerRol(item)">
-              <ion-icon style="font-size:30px;" [name]="item.TipoUsuario.Descripcion=='ADMINISTRADOR' ? 'key-outline' : 'build-outline'"></ion-icon>
-              <div style="margin-top:15px;"> {{item.TipoUsuario.Descripcion}} </div>
-            </div>
-          </ion-list>
+          </ion-item>
+
         </ion-col>
       </ion-row>
     </ion-grid>

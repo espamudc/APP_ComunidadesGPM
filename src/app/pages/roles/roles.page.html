@@ -1,0 +1,19 @@
+<ion-content>
+  <div class="container">
+    <ion-grid class="ion-no-padding">
+      <ion-list  style="margin-right: 20px;">
+        <ion-list-header>
+          <ion-label color="success">
+            <h2> <strong> SELECCIONE UN ROL </strong> </h2>
+          </ion-label>
+          <hr>
+        </ion-list-header>
+        <div class="catalogo" button (click)="_escojerRol(item)" *ngFor="let item of tipoRol">
+          <ion-icon style="font-size:30px;" [name]="item.TipoUsuario=='ADMINISTRADOR' ? 'key-outline' : 'build-outline'">
+          </ion-icon>
+          <div style="margin-top:15px;"> {{item.TipoUsuario}} </div>
+        </div>
+      </ion-list>
+    </ion-grid>
+  </div>
+</ion-content>

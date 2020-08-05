@@ -1,13 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { TabsPage } from './tabs.page';
-// import { CuestionariosAsignadosPage } from '../cuestionarios-asignados/cuestionarios-asignados.page';
-
 const routes: Routes = [
   {
     path: '',
-    // redirectTo : 'home',
     component: TabsPage,
     children:[
       {
@@ -25,6 +21,16 @@ const routes: Routes = [
           {
             path:'',
             loadChildren: () => import('../menu/menu.module').then( m => m.MenuPageModule)
+          }
+        ]
+        
+      },
+      {
+        path: 'roles',
+        children:[
+          {
+            path:'',
+            loadChildren: () => import('../roles/roles.module').then( m => m.RolesPageModule)
           }
         ]
         

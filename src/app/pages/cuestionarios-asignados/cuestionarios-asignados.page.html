@@ -1,19 +1,14 @@
 <ion-header>
   <ion-toolbar color="gpm-success">
     <ion-buttons slot="end">
-
+      <ion-button  fill="solid" routerLink="/tabs/home">
+        <ion-icon slot="start" slot="icon-only" name="home" ></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title style="text-align: center;">Nuevas</ion-title>
+    <ion-title style="text-align: center;">Encuestas Asignadas</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <ion-list>
-  
-  <ion-label>Sardine</ion-label>
-  <input type="radio" name="s"    checked="true">
-  <ion-label>Sardine</ion-label>
-  <input type="radio" name="s"  [value]="isChecked">
-</ion-list>
     <ion-item  lines="none" class="ion-no-padding" (click)="prepararCuestionario(item)" [detail]="false" *ngFor="let item of cuestionario; let i = index">
       <ion-label >
         <ion-label color="success">{{item.detalleCuestionario}}</ion-label> 
@@ -28,5 +23,4 @@
         <h3 style="font-size: 12px; color: gray;"><ion-icon name="calendar-outline"></ion-icon> Fecha de fin : {{item.FechaFinCuestionario | date: 'yyyy-MM-dd'}}</h3>
       </ion-label>
       </ion-item>
-
 </ion-content>

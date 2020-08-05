@@ -28,7 +28,7 @@
   --ion-color-tertiary-tint: #6370ff;
 
   /** success **/
-  --ion-color-success: #2dd36f;
+  --ion-color-success: #239450;
   --ion-color-success-rgb: 45, 211, 111;
   --ion-color-success-contrast: #ffffff;
   --ion-color-success-contrast-rgb: 255, 255, 255;
@@ -76,12 +76,19 @@
   --ion-color-light-tint: #f5f6f9;
 
   /** gpm success **/
-  --ion-color-gpm-success: #2dd36f;
+  --ion-color-gpm-success: #239450;
   --ion-color-gpm-success-rgb: 45, 211, 111;
   --ion-color-gpm-success-contrast: #ffffff;
   --ion-color-gpm-success-contrast-rgb: 255, 255, 255;
   --ion-color-gpm-success-shade: #28ba62;
   --ion-color-gpm-success-tint: #42d77d; 
+
+    /** font **/
+  --ion-font-family: 'NotoSans';
+  --ion-font-size:12px;
+
+
+ 
 
 }
 
@@ -243,5 +250,37 @@
 
   ion-title.title-large {
     --color: white;
+  }
+}
+@font-face {
+  font-family: 'NotoSans';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../assets/fonts/NotoSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  font-style: normal;
+  font-weight: bold;
+  src: url('../assets/fonts/NotoSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  font-style: italic;
+  font-weight: normal;
+  src: url('../assets/fonts/NotoSans-Italic.ttf');
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  font-style: italic;
+  font-weight: bold;
+  src: url('../assets/fonts/NotoSans-BoldItalic.ttf');
+}
+:root {
+  ion-content {
+    font-size: 11px;
   }
 }

@@ -46,3 +46,7 @@
     display: flex;
     align-items: center;
 }
+.closed {
+    color:#666;
+    --highlight-background: transparent;
+  }
