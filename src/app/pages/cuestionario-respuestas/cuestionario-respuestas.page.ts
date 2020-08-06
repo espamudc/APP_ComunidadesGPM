@@ -7,6 +7,8 @@ import { PreguntasService } from 'src/app/services/preguntas.service';
 import { RespuestasService } from 'src/app/services/respuestas.service';
 import { ComponentesService } from 'src/app/services/componentes.service';
 import { ToastController } from '@ionic/angular';
+import { CuestionarioPublicadoService } from 'src/app/services/cuestionario-publicado.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cuestionario-respuestas',
   templateUrl: './cuestionario-respuestas.page.html',
@@ -37,6 +39,8 @@ export class CuestionarioRespuestasPage implements OnInit {
     , private preguntasService: PreguntasService
     , private respuestasService: RespuestasService,
     private toastController: ToastController,
+    private cuestionarioPublicadoService:CuestionarioPublicadoService,
+    private router:Router
   ) {
     this.formAsignarEncuestado = new FormGroup({
       _idAsignarEncuestadoEncriptado: new FormControl(''),
@@ -138,9 +142,7 @@ export class CuestionarioRespuestasPage implements OnInit {
   _respuestas_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado) {
     this.respuestasService.respuesta_consultarporidcabecerarespuesta(_IdCabeceraRespuestaEncriptado)
       .then(data => {
-        debugger
         if (data['http']['codigo'] == '200') {
-          console.log('respuestasdd:', data['respuesta']);
           this.listaRespuestas = data['respuesta'];
         } else {
           this.Toast(data['http']['mensaje'])
@@ -171,6 +173,21 @@ export class CuestionarioRespuestasPage implements OnInit {
       } else {
         this.Toast(data['http']['mensaje'])
       }
+    }).catch(error => {
+      this.Toast("Error al cargar datos");
+    })
+  }
+  finalizarCuestionario() {
+    let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
+    this.cuestionarioPublicadoService.finalizarCuestionario(
+      id
+    ).then(data => {
+     if(data["respuesta"]=="0"){
+      this.Toast("Cuestionario Finalizado");
+      this.router.navigate(['tabs/home'])
+     }else{
+      this.Toast("Aún faltan preguntas por responder");
+     }
     }).catch(error => {
       this.Toast("Error al cargar datos");
     })

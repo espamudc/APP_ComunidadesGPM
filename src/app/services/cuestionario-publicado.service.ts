@@ -18,4 +18,17 @@ export class CuestionarioPublicadoService {
         });
     });
   }
+  finalizarCuestionario(_IdAsignarEncuestado) {
+    const urlApi = url + `/cuestionario/finalizar?_IdAsignarEncuestado=${_IdAsignarEncuestado}`;
+    return new Promise((resolve, reject) => {
+      this.http.get(urlApi)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
+
+
 }

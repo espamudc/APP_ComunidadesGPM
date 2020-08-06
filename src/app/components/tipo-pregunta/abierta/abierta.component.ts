@@ -51,7 +51,7 @@ export class AbiertaComponent implements OnInit {
       this.Identificador, event.target.value
     ).then(data => {
       if (data['http']['codigo'] == '200') {
-        this.Toast("Petición correcta")
+      //  this.Toast("Petición correcta")
       }
     }).catch(error => {
       this.Toast("Error la cargar datos")
