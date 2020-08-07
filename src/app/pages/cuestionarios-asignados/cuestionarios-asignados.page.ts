@@ -33,6 +33,7 @@ let dd =localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
 debugger
     this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
     .then(data=>{
+      localStorage.removeItem('IdAsignarEncuestadoEncriptado');
       this.cuestionario=data["respuesta"];
     }).catch(error=>{
       this.Toast("Error al cargar los datos");

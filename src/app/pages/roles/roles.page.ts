@@ -5,15 +5,18 @@ import { Router } from '@angular/router';
   templateUrl: './roles.page.html',
   styleUrls: ['./roles.page.scss'],
 })
+
 export class RolesPage implements OnInit {
 tipoRol:any;
   constructor(private router: Router) { }
   ngOnInit() {
    this.tipoRol= JSON.parse(localStorage.getItem("TipoUsuario"));
    localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+   localStorage.removeItem('IdAsignarEncuestadoEncriptado');
   }
   onDestroy() {
     localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+    localStorage.removeItem('IdAsignarEncuestadoEncriptado');
   }
   _escojerRol(_item:any) {
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado', _item.IdAsignarUsuarioTipoUsuarioEncriptado);

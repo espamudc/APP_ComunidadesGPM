@@ -44,6 +44,7 @@ export class RespuestasService {
     });
   }
   consultarRespuestaPorPreguntaSeleccion(_IdPregunta: string, _IdAsignarEncuestado: string,) {
+    debugger
     const urlApi = url + `/respuestas/pregunta/seleccion?_IdPregunta=${_IdPregunta}&_IdAsignarEncuestado=${_IdAsignarEncuestado}`;
     return new Promise((resolve, reject) => {
       this.http.get(urlApi)

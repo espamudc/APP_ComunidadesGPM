@@ -1,13 +1,9 @@
 <ion-header>
   <ion-toolbar color="gpm-success">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="roles"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Encuestas</ion-title>
+    <ion-title style="text-align: center;">Encuestas</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-no-padding">
-    <ion-searchbar  placeholder="Buscar" class="ion-no-padding" animated></ion-searchbar>
   <button button [attr.disabled]="!estadoEncuestas ? null : true" class="catalogoDerecha" routerLink="/tabs/cuestionarios-asignados">
     <ion-icon style="font-size:30px;" name="document-outline"></ion-icon>
     <div style="margin-top:15px;"> Nuevas </div>

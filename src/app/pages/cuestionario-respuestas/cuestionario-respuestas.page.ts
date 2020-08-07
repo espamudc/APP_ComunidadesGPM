@@ -132,8 +132,8 @@ export class CuestionarioRespuestasPage implements OnInit {
       })
   }
   mostarPreguntas(item: any) {
-    let usuarioTecnico = localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
-    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado, usuarioTecnico).then(data => {
+    let usuarioTecnico = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
+   this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado, usuarioTecnico).then(data => {
       this.listaPreguntas2 = data["respuesta"];
     }).catch(error => {
       this.Toast("Error al cargar datos")

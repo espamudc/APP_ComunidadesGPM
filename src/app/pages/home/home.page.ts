@@ -26,16 +26,15 @@ estadoEncuestas:boolean = true;
     this._consultarCuestionariosNuevos();
   }
   _consultarCuestionariosNuevos(){
-    this.numeroCuestionarioNuevos=0;
-    this.numeroCuestionarioCanceladas=0;
-    this.numeroCuestionarioFinalizados=0;
-    this. estadoEncuestas=true;
+
    // let dd =localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
     debugger
     this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
       .then(data=>{
-        debugger
-       // cuestionario=data["respuesta"].length;
+        this.numeroCuestionarioNuevos=0;
+        this.numeroCuestionarioCanceladas=0;
+        this.numeroCuestionarioFinalizados=0;
+        this. estadoEncuestas=true;
         data["respuesta"].forEach(element => {
           if(element.Estado==0){
             this.numeroCuestionarioCanceladas++
@@ -48,7 +47,6 @@ estadoEncuestas:boolean = true;
             this.numeroCuestionarioFinalizados++;
           }
        });
-       
       }).catch(error=>{
         this.Toast("Error la cargar datos")
       })
