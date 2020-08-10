@@ -4,17 +4,15 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class LoginGuard implements CanActivate {
+export class LogoutGuard implements CanActivate {
   constructor(private router: Router) { }
-
   canActivate() {
-   let authLogin =localStorage.getItem("authService");
-    if (!authLogin) {
-        this.router.navigate(['/validar-usuario']);
-        return false;
-    }
-    return true;
-}
-
-
+    let authLogin =localStorage.getItem("authService");
+     if (authLogin) {
+         this.router.navigate(['/tabs/roles']);
+         return true;
+     }
+     return false;
+ }
+  
 }

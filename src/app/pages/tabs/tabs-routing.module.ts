@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { LoginGuard } from '../../guards/login.guard';
+
+
 const routes: Routes = [
   {
     path: '',
@@ -8,6 +11,7 @@ const routes: Routes = [
     children:[
       {
         path: 'home',
+        canActivate: [LoginGuard],
         children: [
           {
             path:'',
@@ -17,6 +21,7 @@ const routes: Routes = [
       },
       {
         path: 'menu',
+        canActivate: [LoginGuard],
         children:[
           {
             path:'',
@@ -27,6 +32,7 @@ const routes: Routes = [
       },
       {
         path: 'roles',
+        canActivate: [LoginGuard],
         children:[
           {
             path:'',
@@ -37,6 +43,7 @@ const routes: Routes = [
       },
       {
         path: 'cuestionarios-asignados',
+        canActivate: [LoginGuard],
         children:[
           {
             path:'',
@@ -44,6 +51,7 @@ const routes: Routes = [
           },
           {
             path:'cuestionario-respuestas',
+            canActivate: [LoginGuard],
             loadChildren: () => import('../cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
           },
           { 
@@ -53,17 +61,9 @@ const routes: Routes = [
           }
         ],
       },
-      // {
-      //   path: 'cuestionario-respuestas',
-      //   children: [
-      //     {
-      //       path:'',
-      //       loadChildren: () => import('../cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
-      //     }
-      //   ]
-      // },
       {
         path: 'usuario',
+        canActivate: [LoginGuard],
         children:[
           {
             path:'',
@@ -73,6 +73,7 @@ const routes: Routes = [
       },
       {
         path: '',
+        canActivate: [LoginGuard],
         redirectTo: '/tabs/home',
         pathMatch: 'full'
       }
@@ -81,6 +82,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/tabs/home',
+    canActivate: [LoginGuard],
     pathMatch: 'full'
   },
   { 
@@ -89,46 +91,6 @@ const routes: Routes = [
     pathMatch: 'full' 
   }
 ];
-
-// const routes: Routes = [
-//   {
-//     path: '',
-//     // redirectTo : 'home',
-//     component: TabsPage,
-//     children:[
-//       {
-//         path: 'home',
-//         loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
-//       },
-//       {
-//         path: 'menu',
-//         loadChildren: () => import('../menu/menu.module').then( m => m.MenuPageModule)
-//       },
-//       {
-//         path: 'cuestionarios-asignados',
-//         loadChildren: () => import('../cuestionarios-asignados/cuestionarios-asignados.module').then( m => m.CuestionariosAsignadosPageModule)
-//       },
-//       // {
-//       //   path: 'cuestionario-respuestas',
-//       //   loadChildren: () => import('../cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
-//       // },
-//       {
-//         path: 'usuario',
-//         loadChildren: () => import('../usuario/usuario.module').then( m => m.UsuarioPageModule)
-//       },
-//       {
-//         path: '',
-//         redirectTo: '/tabs/home',
-//         pathMatch: 'full'
-//       }
-//     ]
-//   },
-//   {
-//     path: '',
-//     redirectTo: '/tabs/home',
-//     pathMatch: 'full'
-//   }
-// ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

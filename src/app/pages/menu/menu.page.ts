@@ -31,7 +31,12 @@ export class MenuPage implements OnInit {
           text: 'Ok',
           handler: () => {
             console.log('Confirm Okay');
-            localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado',null);
+            localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+            localStorage.removeItem('IdAsignarEncuestadoEncriptado');
+            localStorage.removeItem('authService');
+            localStorage.removeItem('validarUser');
+            localStorage.removeItem('TipoUsuario');
+            localStorage.removeItem("_correo");
             this.router.navigateByUrl('/validar-usuario');
           }
         }
