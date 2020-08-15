@@ -11,14 +11,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { Network } from '@ionic-native/network/ngx';
-// import { EscojerRolPipe } from './pages/escojer-rol.pipe';
-// import { CuestionarioRespuestasPageModule } from './pages/cuestionario-respuestas/cuestionario-respuestas.module';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -26,11 +25,12 @@ import { Network } from '@ionic-native/network/ngx';
     FormsModule,
     ReactiveFormsModule,
     TipoPreguntaModule,
+    IonicStorageModule.forRoot()
     
   ],
   exports:[],
   providers: [
-    
+    Geolocation,
     StatusBar,
     SplashScreen,
     Network,

@@ -1,27 +1,47 @@
 <ion-header>
   <ion-toolbar color="gpm-success">
-    <ion-title style="text-align: center;">Encuestas</ion-title>
+    <ion-title style="text-align: center;">Cuestionarios</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-no-padding">
-  <button button [attr.disabled]="!estadoEncuestas ? null : true" class="catalogoDerecha" routerLink="/tabs/cuestionarios-asignados">
+  <button 
+    [ngClass]="{'colordark':numeroCuestionarioNuevos==0}" 
+    [attr.disabled]="!estadoEncuestas ? null : true" 
+    class="catalogoDerecha" 
+    (click)="encuestasNuevas()"
+  >
     <ion-icon style="font-size:30px;" name="document-outline"></ion-icon>
     <div style="margin-top:15px;"> Nuevas </div>
     <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">{{numeroCuestionarioNuevos}}</ion-badge>
   </button>
-  <div  class="catalogoIzquierda">
+  <button 
+    [ngClass]="{'colordark':numeroCuestionarioEnProceso==0}" 
+    [disabled]="numeroCuestionarioEnProceso == '0'" 
+    class="catalogoIzquierda" 
+    (click)="encuestasEnProceso()"
+  >
     <ion-icon style="font-size:30px;" name="trending-down-outline"></ion-icon>
     <div style="margin-top:15px;"> En proceso </div>
-    <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">12</ion-badge>
-  </div>
-  <div  class="catalogoDerecha">
+    <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">{{numeroCuestionarioEnProceso}}</ion-badge>
+  </button>
+  <button 
+    [ngClass]="{'colordark':!numeroCuestionarioCanceladas}" 
+    [disabled]="!numeroCuestionarioCanceladas" 
+    class="catalogoDerecha" 
+    (click)="encuestasEnProceso()"
+  >
     <ion-icon style="font-size:30px;" name="close-circle-outline"></ion-icon>
     <div style="margin-top:15px;"> Canceladas </div>
     <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">{{numeroCuestionarioCanceladas}}</ion-badge>
-  </div>
-  <div  class="catalogoIzquierda">
+</button>
+  <button button 
+    [ngClass]="{'colordark':numeroCuestionarioFinalizados==0}" 
+    [disabled]="numeroCuestionarioFinalizados == '0'" 
+    class="catalogoIzquierda" 
+    (click)="encuestasFinalizadas()"
+  >
     <ion-icon style="font-size:30px;" name="apps-outline"></ion-icon>
     <div style="margin-top:15px;"> Terminadas </div>
     <ion-badge color="danger" style="margin-top: 7px; font-size:16px;">{{numeroCuestionarioFinalizados}}</ion-badge>
-  </div>
+  </button>
 </ion-content>

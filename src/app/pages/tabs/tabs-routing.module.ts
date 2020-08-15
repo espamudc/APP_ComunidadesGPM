@@ -31,6 +31,17 @@ const routes: Routes = [
         
       },
       {
+        path: 'mapa',
+        canActivate: [LoginGuard],
+        children:[
+          {
+            path:'',
+            loadChildren: () => import('../mapa/mapa.module').then( m => m.MapaPageModule)
+          }
+        ]
+        
+      },
+      {
         path: 'roles',
         canActivate: [LoginGuard],
         children:[

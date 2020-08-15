@@ -1,0 +1,20 @@
+<ion-item   button
+   class="ion-no-padding" 
+   (click)="prepararCuestionario(item)" 
+   [detail]="false" 
+   *ngFor="let item of cuestionario; let i = index"
+   [disabled]="item.CuestionarioFinalizado == '1'"
+>
+  <ion-label>
+    <ion-label color="success">{{item.detalleCuestionario}}</ion-label> 
+    <h3 style="font-size: 10px; color: brown;"> 
+      <ion-icon name="calendar-outline"></ion-icon>
+      Fecha de publicación : {{item.FechaPublicacionCuestionario | date: 'yyyy-MM-dd'}}
+    </h3>
+    <h3 style="font-size: 12px; ">Cantón: {{item.nombreCanton}}  </h3>
+    <h3 style="font-size: 12px; ">Parroquia : {{item.nombreParroquia}}</h3>
+    <h3 style="font-size: 12px; ">Comunidad : {{item.nombreComunidad}}</h3>
+    <h3 style="font-size: 10px; color: gray;"><ion-icon name="calendar-outline"></ion-icon> Fecha de inicio : {{item.FechaInicioCuestionario | date: 'yyyy-MM-dd'}}</h3>
+    <h3 style="font-size: 10px; color: gray;"><ion-icon name="calendar-outline"></ion-icon> Fecha de fin : {{item.FechaFinCuestionario | date: 'yyyy-MM-dd'}}</h3>
+  </ion-label>
+  </ion-item>

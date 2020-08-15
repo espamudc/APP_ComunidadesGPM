@@ -6,13 +6,13 @@ import { Router } from '@angular/router';
 })
 export class LogoutGuard implements CanActivate {
   constructor(private router: Router) { }
-  canActivate() {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    debugger
     let authLogin =localStorage.getItem("authService");
      if (authLogin) {
-         this.router.navigate(['/tabs/roles']);
          return true;
      }
+   //  this.router.navigate(['/validar-usuario']);
      return false;
- }
-  
+  }
 }

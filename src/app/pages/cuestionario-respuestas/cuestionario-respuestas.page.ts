@@ -79,8 +79,6 @@ export class CuestionarioRespuestasPage implements OnInit {
     this.asignarEncuestadoService._consultarporidasignarencuestado(id)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          debugger
-          console.log("asignarEncuestadoService.data", data['respuesta']);
           let _item = data['respuesta'];
           this.responsableTelefono = _item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.Telefono;
           this.responsableCuestionario = _item.AsignarUsuarioTipoUsuarioTecnico.Usuario.Persona.PrimerNombre + " " +
@@ -105,11 +103,11 @@ export class CuestionarioRespuestasPage implements OnInit {
       })
   }
   _comenzarencuesta() {
+    debugger
     this._ocultar = true;
     this.components(localStorage.getItem("IdVersionCuestionario"));
     this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
   }
-
   _cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta() {
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
     this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
@@ -124,9 +122,7 @@ export class CuestionarioRespuestasPage implements OnInit {
           this.formCabeceraRespuesta.get("_estado").setValue(_item.Estado);
           this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
           this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
-        } else {
-          this.Toast(data['http']['mensaje'])
-        }
+        } 
       }).catch(error => {
         this.Toast("Error al cargar datos")
       })

@@ -7,12 +7,20 @@ import { RouterModule } from '@angular/router';
 import { MatrizComponent } from './matriz/matriz.component';
 import { SeleccionUnicaComponent } from './seleccion-unica/seleccion-unica.component';
 import { SeleccionMultipleComponent } from './seleccion-multiple/seleccion-multiple.component';
-
+import { ListCuestionarioComponent } from './list-cuestionario/list-cuestionario.component';
 
 
 @NgModule({
-  declarations: [AbiertaComponent,MatrizComponent,SeleccionUnicaComponent,SeleccionMultipleComponent],
+  declarations: [
+    AbiertaComponent,
+    MatrizComponent,
+    SeleccionUnicaComponent,SeleccionMultipleComponent,
+    ListCuestionarioComponent],
   imports: [ CommonModule, FormsModule, IonicModule, RouterModule,ReactiveFormsModule]
-  ,exports:[AbiertaComponent,MatrizComponent,SeleccionUnicaComponent,SeleccionMultipleComponent]
+  ,exports:[AbiertaComponent,
+    MatrizComponent,
+    SeleccionUnicaComponent,
+    SeleccionMultipleComponent,
+    ListCuestionarioComponent]
 })
 export class TipoPreguntaModule { }
