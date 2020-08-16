@@ -178,6 +178,7 @@ export class MatrizComponent implements OnInit {
         if (data['http']['codigo'] == '200') {
           this.matrizDesing.length = 0;
           this._listaPreguntaConfigurarMatriz = data['respuesta'];
+          debugger
           let respuesta: Array<Respuesta> = [];
           let opciones: Array<Opciones> = [];
           this.totalFilas = opciones.length + 1;
@@ -199,6 +200,7 @@ export class MatrizComponent implements OnInit {
   }
 
   _guardarOpcion(_idOpcionEncriptado) {
+    debugger
     console.log("seleccionada", _idOpcionEncriptado);
     let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
@@ -214,6 +216,22 @@ export class MatrizComponent implements OnInit {
       this.Toast("Error la cargar datos")
     })
   }
+
+  insertarpreguntaabierta(event, opcion: string) {
+    this.respuestasService.insertar_DatosRespuesta(
+      event.target.value,
+      opcion,
+      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+      this.formRespuesta.get('_idPreguntaEncriptado').value)
+      .then(data => {
+        if (data['respuesta'] == 'Error al guardar') {
+          this.Toast("Error, seleccione primero una opción")
+        }
+      }).catch(error => {
+        this.Toast("Error la cargar datos")
+      })
+  }
+
   async Toast(_mensaje: string, _duracion: number = 2000) {
     const toast = await this.toastController.create({
       message: _mensaje,

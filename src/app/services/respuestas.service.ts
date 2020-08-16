@@ -31,6 +31,26 @@ export class RespuestasService {
         });
     });
   }
+  insertar_DatosRespuesta(
+    _datos,
+    _DescripcionRespuestaAbierta,
+    _IdAsignarEncuestado,
+    _IdPregunta
+  ) {
+    const _body = new HttpParams()
+      .set('datos', _datos)
+      .set('DescripcionRespuestaAbierta', _DescripcionRespuestaAbierta)
+      .set('IdAsignarEncuestado', _IdAsignarEncuestado)
+      .set('IdPregunta', _IdPregunta);
+    return new Promise((resolve, reject) => {
+      this.http.post(url + 'datosrespuesta', _body.toString(), { headers: this._header })
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
   consultarRespuestaPorPreguna(_IdAsignarEncuestado: string, _IdPregunta: string) {
     const urlApi = url + `/respuestas/pregunta?_IdAsignarEncuestado=${_IdAsignarEncuestado}&_IdPregunta=${_IdPregunta}`;
     return new Promise((resolve, reject) => {
