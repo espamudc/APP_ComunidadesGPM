@@ -6,7 +6,7 @@
    [disabled]="item.CuestionarioFinalizado == '1'"
 >
   <ion-label>
-    <ion-label color="success">{{item.detalleCuestionario}}</ion-label> 
+    <ion-label color="success">{{item.detalleCuestionario | uppercase}} </ion-label> 
     <h3 style="font-size: 10px; color: brown;"> 
       <ion-icon name="calendar-outline"></ion-icon>
       Fecha de publicación : {{item.FechaPublicacionCuestionario | date: 'yyyy-MM-dd'}}
@@ -16,5 +16,9 @@
     <h3 style="font-size: 12px; ">Comunidad : {{item.nombreComunidad}}</h3>
     <h3 style="font-size: 10px; color: gray;"><ion-icon name="calendar-outline"></ion-icon> Fecha de inicio : {{item.FechaInicioCuestionario | date: 'yyyy-MM-dd'}}</h3>
     <h3 style="font-size: 10px; color: gray;"><ion-icon name="calendar-outline"></ion-icon> Fecha de fin : {{item.FechaFinCuestionario | date: 'yyyy-MM-dd'}}</h3>
+    <h3 style="font-size: 10px; color: brown;" *ngIf="item.CuestionarioFinalizado == '1'"> 
+      <ion-icon name="calendar-outline"></ion-icon>
+      FINALIZADO
+    </h3>
   </ion-label>
   </ion-item>

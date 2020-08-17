@@ -9,6 +9,7 @@ import { ComponentesService } from 'src/app/services/componentes.service';
 import { ToastController } from '@ionic/angular';
 import { CuestionarioPublicadoService } from 'src/app/services/cuestionario-publicado.service';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-cuestionario-respuestas',
   templateUrl: './cuestionario-respuestas.page.html',
@@ -33,14 +34,15 @@ export class CuestionarioRespuestasPage implements OnInit {
   _listaOpcionesPreguntaSeleccion: any[] = [];
   constructor(
     private componentesService: ComponentesService,
-    private cabeceraRespuestaService: CabeceraRespuestaService
-    , private asignarEncuestadoService: AsignarEncuestadoService
-    , private versionamientoPreguntaService: VersionamientoPreguntaService
-    , private preguntasService: PreguntasService
-    , private respuestasService: RespuestasService,
+    private cabeceraRespuestaService: CabeceraRespuestaService,
+    private asignarEncuestadoService: AsignarEncuestadoService,
+    private versionamientoPreguntaService: VersionamientoPreguntaService,
+    private preguntasService: PreguntasService,
+    private respuestasService: RespuestasService,
     private toastController: ToastController,
     private cuestionarioPublicadoService:CuestionarioPublicadoService,
-    private router:Router
+    private router:Router,
+    public alertController: AlertController
   ) {
     this.formAsignarEncuestado = new FormGroup({
       _idAsignarEncuestadoEncriptado: new FormControl(''),
@@ -173,7 +175,34 @@ export class CuestionarioRespuestasPage implements OnInit {
       this.Toast("Error al cargar datos");
     })
   }
-  finalizarCuestionario() {
+
+  async finalizarCuestionario() {
+    const alert = await this.alertController.create({
+      cssClass: 'alertCancel',
+      header: 'Confirmar',
+      message: 'El finalizar el cuestionario <strong>no podrá modificarlo</strong>!!!',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'alertButton',
+          handler: (blah) => {
+            console.log('Proceso cancelado');
+          }
+        }, {
+          text: 'Finalizar',
+          cssClass: 'alertButton',
+          handler: () => {
+           this. procesofinalizarCuestionario();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+
+   procesofinalizarCuestionario() {
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
     this.cuestionarioPublicadoService.finalizarCuestionario(
       id

@@ -38,7 +38,6 @@ export class ValidarUsuarioPage {
       this.usuarioService._validarCorreo(this.correo)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          debugger
           localStorage.setItem("_correo", data['respuesta']);
           localStorage.setItem("validarUser", "true");
           this.router.navigateByUrl("login");
