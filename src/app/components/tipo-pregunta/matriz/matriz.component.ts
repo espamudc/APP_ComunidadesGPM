@@ -13,10 +13,12 @@ interface Opciones {
   idOpciones: string
   opciones: string
   nivel: Array<Nivel>
+  dataRespuesta: string
 }
 interface Respuesta {
   idRespuestaLogica: string
   descripcion: string
+  dataRespuesta: string
 }
 interface MatrizDesing {
   leyendaLateral: string,
@@ -42,6 +44,7 @@ export class MatrizComponent implements OnInit {
   observacion: boolean;
   _listaPreguntaConfigurarMatriz: any[] = [];
   matrizDesing: Array<MatrizDesing> = [];
+  respuesta: Array<Respuesta> = [];
   constructor(private preguntasService: PreguntasService,
     private respuestasService: RespuestasService,
     private toastController: ToastController) {
@@ -76,15 +79,22 @@ export class MatrizComponent implements OnInit {
       aux = false
       for (let index1 = 0; index1 < opciones.length; index1++) {
         if (this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado == opciones[index1].idOpciones && this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion == opciones[index1].opciones) {
-          aux = true;
+         aux = true;
         }
       }
       if (aux == false) {
+        let data:string
+        var resp = this.respuesta.find(cues =>cues.descripcion === this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion);
+        if((resp == null) || (resp == undefined)){
+          data=null;
+       }else{
+        data=resp.dataRespuesta;
+       }
         opciones.push({
           idOpciones: this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado,
           opciones: this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion,
-          nivel: this._listaPreguntaConfigurarMatriz[index].IdConfigurarMatrizEncriptado
-
+          nivel: this._listaPreguntaConfigurarMatriz[index].IdConfigurarMatrizEncriptado,
+          dataRespuesta: data
         })
       }
     }
@@ -111,7 +121,8 @@ export class MatrizComponent implements OnInit {
       opciones[j] = {
         idOpciones: opciones[j].idOpciones,
         opciones: opciones[j].opciones,
-        nivel: niveles
+        nivel: niveles,
+        dataRespuesta: opciones[j].dataRespuesta
       }
     }
     let respuesta: Array<Respuesta> = [];
@@ -147,7 +158,8 @@ export class MatrizComponent implements OnInit {
       opciones[bandera] = {
         idOpciones: opciones[bandera].idOpciones,
         opciones: opciones[bandera].opciones,
-        nivel: niveles
+        nivel: niveles,
+        dataRespuesta: opciones[bandera].dataRespuesta,
       }
       bandera++;
     }
@@ -166,7 +178,8 @@ export class MatrizComponent implements OnInit {
       if (aux == false) {
         respuesta.push({
           idRespuestaLogica: this._listaPreguntaConfigurarMatriz[index].IdRespuestaLogica,
-          descripcion: this._listaPreguntaConfigurarMatriz[index].DescripcionRespuestaAbierta
+          descripcion: this._listaPreguntaConfigurarMatriz[index].DescripcionRespuestaAbierta,
+          dataRespuesta: this._listaPreguntaConfigurarMatriz[index].datoRespuestaMatriz
         })
       }
     }
@@ -178,21 +191,20 @@ export class MatrizComponent implements OnInit {
         if (data['http']['codigo'] == '200') {
           this.matrizDesing.length = 0;
           this._listaPreguntaConfigurarMatriz = data['respuesta'];
-          debugger
-          let respuesta: Array<Respuesta> = [];
           let opciones: Array<Opciones> = [];
           this.totalFilas = opciones.length + 1;
-          respuesta = this.getRespuesta();
+          this.respuesta = this.getRespuesta();
           opciones = this.getNiveles();
           this.observacion = this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Observacion;
           this.matrizDesing.push({
             leyendaLateral: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.leyendaLateral,
             leyendaSuperior: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.leyendaSuperior,
             opciones: opciones,
-            respuesta: respuesta,
+            respuesta: this.respuesta,
             idPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.IdPreguntaEncriptado,
             descripcionPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Descripcion,
           })
+          console.log('this.matrizDesing', this.matrizDesing);
         }
       }).catch(error => {
         this.Toast("Error la cargar datos")
@@ -200,8 +212,6 @@ export class MatrizComponent implements OnInit {
   }
 
   _guardarOpcion(_idOpcionEncriptado) {
-    debugger
-    console.log("seleccionada", _idOpcionEncriptado);
     let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
       id,

@@ -29,8 +29,8 @@
           <input *ngIf="nive.estado=='no'" type="radio" [name]="op.idOpciones"
             (click)="_guardarOpcion(nive.idConfiguracionMatriz)" [value]="nive.idConfiguracionMatriz">
         </td>
-        <td *ngIf="observacion">
-          <ion-input (ionBlur)="insertarpreguntaabierta($event,op.opciones)"style="border: 1px solid gray; width:auto; color:red"></ion-input>
+        <td *ngIf="observacion" >
+          <ion-input value="{{op.dataRespuesta}}" (ionBlur)="insertarpreguntaabierta($event,op.opciones)"style="border: 1px solid gray; width:auto; color:red"></ion-input>
         </td>
       </tr>
     </tbody>
