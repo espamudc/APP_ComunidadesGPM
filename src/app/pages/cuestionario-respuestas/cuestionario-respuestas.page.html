@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="gpm-success">
-    <ion-title>{{ this.formAsignarEncuestado.get('_nombreCuestionario').value | uppercase}} : </ion-title>
+    <ion-title style="font-size: 14px !important;">{{ this.formAsignarEncuestado.get('_nombreCuestionario').value | uppercase}} : </ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/cuestionarios-asignados"></ion-back-button>
     </ion-buttons>
@@ -10,9 +10,9 @@
   <ion-toolbar>
     <fieldset>
       <legend>
-        <ion-label color="success"> A. DATOS GENERALES</ion-label>
+        <ion-label color="success" style="font-size: 12px !important;"> A. DATOS GENERALES</ion-label>
       </legend>
-      <ion-grid>
+      <ion-grid style="font-size: 14px !important;">
         <ion-row>
           <ion-col size="3"><strong> Provincia: </strong>{{ formAsignarEncuestado.get('_provincia').value }} </ion-col>
           <ion-col size="3"><strong> Cantón: </strong>{{ formAsignarEncuestado.get('_canton').value }} </ion-col>
@@ -80,7 +80,7 @@
           <ion-col size="12">
             <div class="centrar">
               <ion-button fill="outline" color="gpm-success" shape="round" (click)="finalizarCuestionario()">
-                <ion-label slot="start">Finalizar Encuesta</ion-label>
+                <ion-label slot="start" style="font-size: 14px !important;">Finalizar Encuesta</ion-label>
               </ion-button>
             </div>
           </ion-col>

@@ -105,7 +105,6 @@ export class CuestionarioRespuestasPage implements OnInit {
       })
   }
   _comenzarencuesta() {
-    debugger
     this._ocultar = true;
     this.components(localStorage.getItem("IdVersionCuestionario"));
     this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
