@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PreguntasService } from 'src/app/services/preguntas.service';
 import { RespuestasService } from 'src/app/services/respuestas.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -38,6 +38,7 @@ export class MatrizComponent implements OnInit {
   @Input() ListaRespuestas: any[] = [];
   @Input() IdCabeceraRespuestaEncriptado: string;
   @Input() Identificador: string;
+  @Output() preguntaBorrada = new EventEmitter<string>();
   leyandaSuperior: string;
   leyandaLateral: string;
   totalFilas: number;
@@ -210,7 +211,6 @@ export class MatrizComponent implements OnInit {
         this.Toast("Error la cargar datos")
       })
   }
-
   _guardarOpcion(_idOpcionEncriptado) {
     let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
@@ -221,25 +221,32 @@ export class MatrizComponent implements OnInit {
       this.Identificador, null
     ).then(data => {
       if (data['http']['codigo'] == '200') {
+        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
       }
     }).catch(error => {
       this.Toast("Error la cargar datos")
     })
   }
-
   insertarpreguntaabierta(event, opcion: string) {
-    this.respuestasService.insertar_DatosRespuesta(
-      event.target.value,
-      opcion,
-      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-      this.formRespuesta.get('_idPreguntaEncriptado').value)
-      .then(data => {
-        if (data['respuesta'] == 'Error al guardar') {
-          this.Toast("Error, seleccione primero una opción")
-        }
-      }).catch(error => {
-        this.Toast("Error la cargar datos")
-      })
+    if(event.target.value){
+      this.respuestasService.insertar_DatosRespuesta(
+        event.target.value,
+        opcion,
+        localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+        this.formRespuesta.get('_idPreguntaEncriptado').value)
+        .then(data => {
+          if (data['respuesta'] == 'Error al guardar') {
+            this.Toast("Error, seleccione primero una opción")
+          }else{
+            this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
+          }
+        }).catch(error => {
+          this.Toast("Error la cargar datos")
+        })
+    }
+  }
+  totalPreguntasRestantes(idpregunta:string){
+    this.preguntaBorrada.emit(idpregunta)
   }
 
   async Toast(_mensaje: string, _duracion: number = 2000) {

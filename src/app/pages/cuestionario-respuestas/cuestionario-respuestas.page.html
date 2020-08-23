@@ -10,68 +10,33 @@
   <ion-toolbar>
     <fieldset>
       <legend>
-        <ion-label color="success" style="font-size: 12px !important;"> A. DATOS GENERALES</ion-label>
+        <ion-label color="success" style="font-size: 12px !important;">Información</ion-label>
       </legend>
-      <ion-grid style="font-size: 14px !important;">
+      <ion-grid style="font-size: 12px !important;">
         <ion-row>
-          <ion-col size="3"><strong> Provincia: </strong>{{ formAsignarEncuestado.get('_provincia').value }} </ion-col>
-          <ion-col size="3"><strong> Cantón: </strong>{{ formAsignarEncuestado.get('_canton').value }} </ion-col>
-          <ion-col size="3"><strong> Parroquia: </strong>{{ formAsignarEncuestado.get('_parroquia').value }} </ion-col>
-          <ion-col size="3"><strong> Comunidad: </strong>{{ formAsignarEncuestado.get('_comunidad').value }} </ion-col>
-        </ion-row>
-        <ion-row class="align-vertical">
-          <ion-col size="2"><strong> Coordenadas UTM </strong></ion-col>
-          <ion-col size="3" class="align-vertical">
-            <b style="float: left;">X</b>
-            <ion-input type="number" class="styletxt" color="primary" autofocus="true" autocomplete="off" min="6">
-            </ion-input>
-          </ion-col>
-          <ion-col size="3" class="align-vertical">
-            <b style="float: left;">Y</b>
-            <ion-input type="number" class="styletxt" color="primary" autofocus="true" autocomplete="off" min="7">
-            </ion-input>
-          </ion-col>
-          <ion-col size="4">
-            <b style="float: right; background-color:#F5F2F2  ; margin: 5px;">Fecha: Día: {{fecha|date:'dd'}} Mes:
-              {{fecha|date:'MM'}} Año: {{fecha|date:'yyyy'}}</b>
-          </ion-col>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="6"><strong> Provincia: </strong>{{ formAsignarEncuestado.get('_provincia').value }} </ion-col>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="6"><strong> Cantón: </strong>{{ formAsignarEncuestado.get('_canton').value }} </ion-col>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="12"><strong> Parroquia: </strong>{{ formAsignarEncuestado.get('_parroquia').value }} </ion-col>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="12"><strong> Comunidad: </strong>{{ formAsignarEncuestado.get('_comunidad').value }} </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col size="8" class="align-vertical">
-            <strong> Nombre del habitante: </strong>
-            <ion-input type="text" class="styletxt" color="primary" autofocus="true" autocomplete="off">
-            </ion-input>
+          <ion-col sizeLg="4" sizeMd="6" sizeXs="12" class="align-vertical">
+            <strong> Responsable: &nbsp;</strong>{{ responsableCuestionario}}
           </ion-col>
-          <ion-col size="4" class="align-vertical">
-            <strong> Teléfono: </strong>
-            <ion-input type="number" class="styletxt" color="primary" autofocus="true" autocomplete="off">
-            </ion-input>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="12" class="align-vertical">
+            <strong> Área: &nbsp;</strong> Desarrollo Humano</ion-col>
+          <ion-col sizeLg="2" sizeMd="6" sizeXs="6" class="align-vertical">
+            <strong> Teléfono: &nbsp;</strong> {{ responsableTelefono}} 
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6" class="align-vertical">
-            <strong> Responsable: </strong>
-            <ion-input type="text" class="styletxt" color="primary" autofocus="true" autocomplete="off"
-              value="{{responsableCuestionario}}" disabled="disabled">
-            </ion-input>
-          </ion-col>
-          <ion-col size="3" class="align-vertical">
-            <strong> Área: </strong>
-            <ion-input type="text" class="styletxt" color="primary" autofocus="true" autocomplete="off">
-            </ion-input>
-          </ion-col>
-          <ion-col size="3" class="align-vertical">
-            <strong> Teléfono: </strong>
-            <ion-input type="number" class="styletxt" color="primary" autofocus="true" autocomplete="off"
-              value="{{responsableTelefono}}" disabled="disabled">
-            </ion-input>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="6" class="align-vertical">
+            <b style="float: left">Fecha: &nbsp;</b>{{ fecha|date:'dd'}}/{{fecha|date:'MM'}}/{{fecha|date:'yyyy'}}
           </ion-col>
         </ion-row>
         <ion-row [hidden]="_ocultar">
           <ion-col size="12">
             <div class="centrar">
-              <ion-button fill="outline" color="gpm-success" shape="round" (click)="_comenzarencuesta()">
-                <ion-label slot="start">Comenzar Encuesta</ion-label>
+              <ion-button size="small" fill="outline" color="gpm-success" shape="round" (click)="_comenzarencuesta()">
+                <ion-label slot="start" style="font-size: 12px;">Comenzar Encuesta</ion-label>
               </ion-button>
             </div>
           </ion-col>
@@ -79,7 +44,7 @@
         <ion-row [hidden]="!_ocultar">
           <ion-col size="12">
             <div class="centrar">
-              <ion-button fill="outline" color="gpm-success" shape="round" (click)="finalizarCuestionario()">
+              <ion-button size="small" fill="outline" color="gpm-success" shape="round" (click)="finalizarCuestionario()">
                 <ion-label slot="start" style="font-size: 14px !important;">Finalizar Encuesta</ion-label>
               </ion-button>
             </div>
@@ -94,7 +59,7 @@
     <ion-slide *ngFor="let item of listComponents" style="width: auto; height: 60px; border: 1px solid #f8f8f8">
       <ion-col (click)="mostarPreguntas(item)">
         <ion-chip color="success">
-          <ion-label>{{item.Descripcion |uppercase}}</ion-label>
+          <ion-label style="font-size: 12px !important;">{{item.Descripcion |uppercase}}</ion-label>
         </ion-chip>
       </ion-col>
     </ion-slide>
@@ -102,18 +67,36 @@
   <div *ngFor="let _item_pregunta of listaPreguntas2" style="position: relative; clear: both;">
     <app-seleccion-unica [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
       [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
-      *ngIf="_item_pregunta.TipoPregunta.Identificador == 2">
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 2"  (preguntaBorrada)="preguntasRestantes($event)">
     </app-seleccion-unica>
     <app-abierta [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
       [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
-      *ngIf="_item_pregunta.TipoPregunta.Identificador == 1">
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 1" (preguntaBorrada)="preguntasRestantes($event)">
     </app-abierta>
     <app-seleccion-multiple
       [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
       [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
-      *ngIf="_item_pregunta.TipoPregunta.Identificador == 3"></app-seleccion-multiple>
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 3" (preguntaBorrada)="preguntasRestantes($event)"></app-seleccion-multiple>
     <app-matriz [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
       [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
-      *ngIf="_item_pregunta.TipoPregunta.Identificador == 4"></app-matriz>
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 4" (preguntaBorrada)="preguntasRestantes($event)"></app-matriz>
   </div>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="schedule">
+          <ion-icon name="help-circle-outline"></ion-icon>
+          <ion-label color="success">Obligatorias</ion-label>
+          <ion-badge color="danger" [ngClass]="{'colorsuccess':totalPreguntasObligaotiras==0}">{{totalPreguntasObligaotiras}}</ion-badge>
+        </ion-tab-button>
+        <ion-tab-button tab="speakers">
+          <ion-icon name="help-circle-outline"></ion-icon>
+          <ion-label color="success">Opcionales</ion-label>
+          <ion-badge color="danger" [ngClass]="{'colorsuccess':totalPreguntasOpcionales==0}" >{{totalPreguntasOpcionales}}</ion-badge>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

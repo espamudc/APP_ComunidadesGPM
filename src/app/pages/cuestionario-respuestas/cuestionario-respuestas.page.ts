@@ -22,6 +22,9 @@ export class CuestionarioRespuestasPage implements OnInit {
   responsableTelefono: string;
   formAsignarEncuestado: FormGroup;
   formCabeceraRespuesta: FormGroup;
+  listaPreguntasRestantes:any;
+  totalPreguntasObligaotiras:number=0;
+  totalPreguntasOpcionales:number=0;
   listaPreguntas: any[] = [];
   listaPreguntas2: any[] = [];
   listComponents: any[] = [];
@@ -65,6 +68,12 @@ export class CuestionarioRespuestasPage implements OnInit {
       _estado: new FormControl('')
     });
   }
+  preguntasRestantes(idPregunta:string){
+   this.listaPreguntasRestantes = this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.IdPregunta !==idPregunta})
+    this.totalPreguntasOpcionales= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==false}).length
+    this.totalPreguntasObligaotiras= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==true}).length
+  }
+
   ngOnInit() {
     this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').setValue(localStorage.getItem("IdAsignarEncuestadoEncriptado"));
     this._asignarencuestado_consultarporidasignarencuestado();
@@ -107,27 +116,31 @@ export class CuestionarioRespuestasPage implements OnInit {
   _comenzarencuesta() {
     this._ocultar = true;
     this.components(localStorage.getItem("IdVersionCuestionario"));
-    this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
+    this.totalPreguntasRestantes();
+   // this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
   }
-  _cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta() {
-    let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
-    this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
-      .then(data => {
-        if (data['http']['codigo'] == '200') {
-          let _item = data['respuesta'];
-          this.formCabeceraRespuesta.get("_idCabeceraRespuestaEncriptado").setValue(_item.IdCabeceraRespuestaEncriptado);
-          this.formCabeceraRespuesta.get("_idAsignarEncuestadoEncriptado").setValue(_item.AsignarEncuestado.IdAsignarEncuestadoEncriptado);
-          this.formCabeceraRespuesta.get("_fechaRegistro").setValue(_item.FechaRegistro);
-          this.formCabeceraRespuesta.get("_fechaFinalizado").setValue(_item.FechaFinalizado);
-          this.formCabeceraRespuesta.get("_finalizado").setValue(_item.Finalizado);
-          this.formCabeceraRespuesta.get("_estado").setValue(_item.Estado);
-          this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
-          this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
-        } 
-      }).catch(error => {
-        this.Toast("Error al cargar datos")
-      })
-  }
+  // _cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta() {
+  //   debugger
+  //   let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
+  //   this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
+  //     .then(data => {
+  //       debugger
+  //       if (data['http']['codigo'] == '200') {
+  //         debugger
+  //         let _item = data['respuesta'];
+  //         this.formCabeceraRespuesta.get("_idCabeceraRespuestaEncriptado").setValue(_item.IdCabeceraRespuestaEncriptado);
+  //         this.formCabeceraRespuesta.get("_idAsignarEncuestadoEncriptado").setValue(_item.AsignarEncuestado.IdAsignarEncuestadoEncriptado);
+  //         this.formCabeceraRespuesta.get("_fechaRegistro").setValue(_item.FechaRegistro);
+  //         this.formCabeceraRespuesta.get("_fechaFinalizado").setValue(_item.FechaFinalizado);
+  //         this.formCabeceraRespuesta.get("_finalizado").setValue(_item.Finalizado);
+  //         this.formCabeceraRespuesta.get("_estado").setValue(_item.Estado);
+  //         this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
+  //         this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
+  //       } 
+  //     }).catch(error => {
+  //       this.Toast("Error al cargar datos")
+  //     })
+  // }
   mostarPreguntas(item: any) {
     let usuarioTecnico = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado, usuarioTecnico).then(data => {
@@ -199,7 +212,26 @@ export class CuestionarioRespuestasPage implements OnInit {
     });
     await alert.present();
   }
-
+  totalPreguntasRestantes(){
+    this.totalPreguntasObligaotiras=0;
+    this.totalPreguntasOpcionales=0;
+    this.preguntasService.preguntasRestantes(this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value).then(data => {
+      if (data['http']['codigo'] == '200') {
+        this.listaPreguntasRestantes= data['respuesta']
+        data['respuesta'].forEach(element => {
+          if(element.Obligatorio==true){
+            this.totalPreguntasObligaotiras++;
+          }else{
+            this.totalPreguntasOpcionales++;
+          }
+        });
+      } else {
+        this.Toast(data['http']['mensaje'])
+      }
+    }).catch(error => {
+      this.Toast("Error al cargar datos");
+    })
+  }
 
    procesofinalizarCuestionario() {
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;

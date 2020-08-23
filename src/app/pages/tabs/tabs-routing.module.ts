@@ -60,11 +60,6 @@ const routes: Routes = [
             path:'',
             loadChildren: () => import('../cuestionarios-asignados/cuestionarios-asignados.module').then( m => m.CuestionariosAsignadosPageModule)
           },
-          {
-            path:'cuestionario-respuestas',
-            canActivate: [LoginGuard],
-            loadChildren: () => import('../cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
-          },
           { 
             path: '**', 
             redirectTo: '',

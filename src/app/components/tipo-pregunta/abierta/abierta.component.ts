@@ -1,7 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { RespuestasService } from 'src/app/services/respuestas.service';
+import { RespuestasService } from '../../../services/respuestas.service';
 import { ToastController } from '@ionic/angular';
+import { PreguntasService } from '../../../services/preguntas.service';
+
 @Component({
   selector: 'app-abierta',
   templateUrl: './abierta.component.html',
@@ -11,10 +13,12 @@ export class AbiertaComponent implements OnInit {
   @Input() ItemPregunta: any = {};
   @Input() IdCabeceraRespuestaEncriptado: string;
   @Input() Identificador: string;
+  @Output() preguntaBorrada = new EventEmitter<string>();
   respuetaPreguntaAbierta: any[] = [];
   constructor(
     private respuestasService: RespuestasService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private preguntasService: PreguntasService,
   ) {
     this.formRespuesta = new FormGroup({
       _idCabeceraRespuestaEncriptado: new FormControl('', [Validators.required]),
@@ -40,22 +44,23 @@ export class AbiertaComponent implements OnInit {
     }
   }
   respuesta_insertarpreguntaabierta(event) {
-    debugger
-    let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
-    debugger
-    this.respuestasService.respuesta_insertar(
-      id,
-      this.formRespuesta.get('_idPreguntaEncriptado').value,
-      this.ItemPregunta.PreguntaAbierta.IdPreguntaAbiertaEncriptado,
-      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-      this.Identificador, event.target.value
-    ).then(data => {
-      if (data['http']['codigo'] == '200') {
-      //  this.Toast("Petición correcta")
-      }
-    }).catch(error => {
-      this.Toast("Error la cargar datos")
-    })
+     if(event.target.value){
+      let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
+      this.respuestasService.respuesta_insertar(
+        id,
+        this.formRespuesta.get('_idPreguntaEncriptado').value,
+        this.ItemPregunta.PreguntaAbierta.IdPreguntaAbiertaEncriptado,
+        localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+        this.Identificador, event.target.value
+      ).then(data => {
+        if (data['http']['codigo'] == '200') {
+        //  this.Toast("Petición correcta")
+        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
+        }
+      }).catch(error => {
+        this.Toast("Error la cargar datos")
+      })
+     }
   }
   _pregunta_consultarPreguntasAbierta() {
     this.respuestasService.consultarRespuestaPorPreguntaAbierta(
@@ -66,6 +71,9 @@ export class AbiertaComponent implements OnInit {
     }).catch(error => {
       this.Toast("Error la cargar datos")
     })
+  }
+  totalPreguntasRestantes(idpregunta:string){
+    this.preguntaBorrada.emit(idpregunta)
   }
   async Toast(_mensaje: string, _duracion: number = 2000) {
     const toast = await this.toastController.create({

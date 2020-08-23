@@ -44,6 +44,11 @@ const routes: Routes = [
     path: 'mapa',
     loadChildren: () => import('./pages/mapa/mapa.module').then( m => m.MapaPageModule)
   },
+  {
+    path:'cuestionario-respuestas',
+    canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
+  },
 
 ];
 

@@ -18,6 +18,6 @@ export class ListCuestionarioComponent implements OnInit {
   async prepararCuestionario(_item: any) {
     localStorage.setItem("IdVersionCuestionario", _item.IdVersionCuestionario)
     localStorage.setItem("IdAsignarEncuestadoEncriptado", _item.IdAsignarEncuestado);
-    this.router.navigateByUrl("tabs/cuestionarios-asignados/cuestionario-respuestas");
+    this.router.navigateByUrl("cuestionario-respuestas");
   }
 }

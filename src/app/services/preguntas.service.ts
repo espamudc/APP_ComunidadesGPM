@@ -55,4 +55,15 @@ export class PreguntasService {
         });
     });
   }
+  preguntasRestantes(_IdAsignarEncuestado) {
+    const urlApi = url + `/preguntas/restantes?_IdAsignarEncuestado=${_IdAsignarEncuestado}`;
+    return new Promise((resolve, reject) => {
+      this.http.get(urlApi)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
 }

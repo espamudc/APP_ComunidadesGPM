@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
 import { PreguntasService } from 'src/app/services/preguntas.service';
 import { RespuestasService } from 'src/app/services/respuestas.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -17,6 +17,7 @@ export class SeleccionMultipleComponent implements OnInit {
   @Input() ItemPregunta: any;
   @Input() IdCabeceraRespuestaEncriptado: any = '';
   @Input() Identificador: string;
+  @Output() preguntaBorrada = new EventEmitter<string>();
   LasRespuestasDeEstaPregunta: any[] = [];
   ListaCheckBox: any[] = [];
   almacenRespuestas: Array<Codigo> = [];
@@ -137,10 +138,15 @@ export class SeleccionMultipleComponent implements OnInit {
       this.Identificador, null
     ).then(data => {
       if (data['http']['codigo'] == '200') {
+        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
         //this.Toast("Datos Guardado")
       }
     }).catch(error => {
       this.Toast("Error la cargar datos")
     })
   }
+  totalPreguntasRestantes(idpregunta:string){
+    this.preguntaBorrada.emit(idpregunta)
+  }
+
 }

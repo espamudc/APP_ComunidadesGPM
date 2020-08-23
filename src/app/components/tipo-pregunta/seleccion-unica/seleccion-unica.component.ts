@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ToastController, IonRadioGroup } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RespuestasService } from 'src/app/services/respuestas.service';
@@ -11,6 +11,7 @@ export class SeleccionUnicaComponent implements OnInit {
   @Input() ItemPregunta: any;
   @Input() IdCabeceraRespuestaEncriptado: any = '';
   @Input() Identificador: string;
+  @Output() preguntaBorrada = new EventEmitter<string>();
   _listaOpcionesPreguntaSeleccion: any[] = [];
   listRespuestas: any = [];
   isHidden: boolean = true;
@@ -34,6 +35,9 @@ export class SeleccionUnicaComponent implements OnInit {
   ngOnInit() {
     this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
     this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
+  }
+  totalPreguntasRestantes(idpregunta:string){
+    this.preguntaBorrada.emit(idpregunta)
   }
   _pregunta_consultarPreguntasSeleccion() {
     this.respuestasService.consultarRespuestaPorPreguntaSeleccion(
@@ -100,6 +104,7 @@ export class SeleccionUnicaComponent implements OnInit {
     ).then(data => {
       if (data['http']['codigo'] == '200') {
         //this.Toast("Datos Guardado")
+        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
       }
     }).catch(error => {
       this.Toast("Error la cargar datos")
