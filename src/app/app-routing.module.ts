@@ -48,7 +48,11 @@ const routes: Routes = [
     path:'cuestionario-respuestas',
     canActivate: [LoginGuard],
     loadChildren: () => import('./pages/cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
+  },  {
+    path: 'preguntas-restantes',
+    loadChildren: () => import('./pages/preguntas-restantes/preguntas-restantes.module').then( m => m.PreguntasRestantesPageModule)
   },
+
 
 ];
 

@@ -6,6 +6,7 @@ import { CuestionarioRespuestasPageRoutingModule } from './cuestionario-respuest
 import { CuestionarioRespuestasPage } from './cuestionario-respuestas.page';
 import { TipoPreguntaModule } from 'src/app/components/tipo-pregunta/tipo-pregunta.module';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +16,7 @@ import { TipoPreguntaModule } from 'src/app/components/tipo-pregunta/tipo-pregun
     ,ReactiveFormsModule
     ,TipoPreguntaModule
   ],
-  declarations: [CuestionarioRespuestasPage]
+  declarations: [CuestionarioRespuestasPage],
+
 })
 export class CuestionarioRespuestasPageModule {}

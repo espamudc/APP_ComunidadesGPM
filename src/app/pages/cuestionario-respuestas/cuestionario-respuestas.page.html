@@ -45,7 +45,7 @@
           <ion-col size="12">
             <div class="centrar">
               <ion-button size="small" fill="outline" color="gpm-success" shape="round" (click)="finalizarCuestionario()">
-                <ion-label slot="start" style="font-size: 14px !important;">Finalizar Encuesta</ion-label>
+                <ion-label slot="start" style="font-size: 12px !important;">Finalizar Encuesta</ion-label>
               </ion-button>
             </div>
           </ion-col>
@@ -86,12 +86,12 @@
   <ion-toolbar>
     <ion-tabs>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="schedule">
+        <ion-tab-button tab="schedule" (click)="presentModal(true);"> 
           <ion-icon name="help-circle-outline"></ion-icon>
           <ion-label color="success">Obligatorias</ion-label>
           <ion-badge color="danger" [ngClass]="{'colorsuccess':totalPreguntasObligaotiras==0}">{{totalPreguntasObligaotiras}}</ion-badge>
         </ion-tab-button>
-        <ion-tab-button tab="speakers">
+        <ion-tab-button tab="speakers" (click)="presentModal(false);" >
           <ion-icon name="help-circle-outline"></ion-icon>
           <ion-label color="success">Opcionales</ion-label>
           <ion-badge color="danger" [ngClass]="{'colorsuccess':totalPreguntasOpcionales==0}" >{{totalPreguntasOpcionales}}</ion-badge>

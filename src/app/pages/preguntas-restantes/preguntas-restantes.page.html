@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar color="gpm-success">
+    <ion-title style="text-align: center;">Preguntas restantes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal();">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-slides [options]="slideOpts" *ngIf="data.length===0">
+    <ion-slide>
+      <ion-label>No hay preguntas</ion-label>
+    </ion-slide>
+  </ion-slides>
+  <ion-grid>
+    <ion-item *ngFor="let item of data">
+      <ion-label class="ion-no-padding">
+        <h5 style="font-size: 12px !important; color:#239450 ;">{{item.Componente}}</h5>
+        <p class="ion-text-wrap ion-text-justify ion-no-padding" style="font-size: 12px !important; color:black">
+          {{item.Descripcion}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-grid>
+</ion-content>

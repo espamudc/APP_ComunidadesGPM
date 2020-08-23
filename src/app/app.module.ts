@@ -13,7 +13,7 @@ import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { Network } from '@ionic-native/network/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/preguntas-restantes.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -25,6 +25,7 @@ import { IonicStorageModule } from '@ionic/storage';
     FormsModule,
     ReactiveFormsModule,
     TipoPreguntaModule,
+    PreguntasRestantesPageModule,
     IonicStorageModule.forRoot()
     
   ],

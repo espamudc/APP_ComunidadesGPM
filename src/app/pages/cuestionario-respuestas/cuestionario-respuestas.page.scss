@@ -44,4 +44,12 @@
 .colorsuccess{
   background-color: #239450;
  }
- 
+ /* DOES NOT WORK - not specific enough */
+.modal-wrapper {
+  background: #222;
+}
+
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.my-custom-class .modal-wrapper {
+  background: #222;
+}

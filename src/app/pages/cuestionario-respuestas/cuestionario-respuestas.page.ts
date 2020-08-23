@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { CabeceraRespuestaService } from 'src/app/services/cabecera-respuesta.service';
+import { CabeceraRespuestaService } from '../../services/cabecera-respuesta.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
-import { VersionamientoPreguntaService } from 'src/app/services/versionamiento-pregunta.service';
-import { PreguntasService } from 'src/app/services/preguntas.service';
-import { RespuestasService } from 'src/app/services/respuestas.service';
-import { ComponentesService } from 'src/app/services/componentes.service';
+import { AsignarEncuestadoService } from '../../services/asignar-encuestado.service';
+import { VersionamientoPreguntaService } from '../../services/versionamiento-pregunta.service';
+import { PreguntasService } from '../../services/preguntas.service';
+import { RespuestasService } from '../../services/respuestas.service';
+import { ComponentesService } from '../../services/componentes.service';
 import { ToastController } from '@ionic/angular';
-import { CuestionarioPublicadoService } from 'src/app/services/cuestionario-publicado.service';
+import { CuestionarioPublicadoService } from '../../services/cuestionario-publicado.service';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { PreguntasRestantesPage } from '../../pages/preguntas-restantes/preguntas-restantes.page';
+
 @Component({
   selector: 'app-cuestionario-respuestas',
   templateUrl: './cuestionario-respuestas.page.html',
@@ -45,7 +48,9 @@ export class CuestionarioRespuestasPage implements OnInit {
     private toastController: ToastController,
     private cuestionarioPublicadoService:CuestionarioPublicadoService,
     private router:Router,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public modalController: ModalController
+    
   ) {
     this.formAsignarEncuestado = new FormGroup({
       _idAsignarEncuestadoEncriptado: new FormControl(''),
@@ -68,8 +73,19 @@ export class CuestionarioRespuestasPage implements OnInit {
       _estado: new FormControl('')
     });
   }
+  async presentModal(valor:boolean) {
+    var preguntas;
+    preguntas= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==valor})
+    const modal = await this.modalController.create({
+      component: PreguntasRestantesPage,
+      cssClass: 'my-custom-class',
+      swipeToClose: true,
+      componentProps:{data:preguntas}
+    });
+    return await modal.present();
+  }
   preguntasRestantes(idPregunta:string){
-   this.listaPreguntasRestantes = this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.IdPregunta !==idPregunta})
+    this.listaPreguntasRestantes = this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.IdPregunta !==idPregunta})
     this.totalPreguntasOpcionales= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==false}).length
     this.totalPreguntasObligaotiras= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==true}).length
   }
@@ -117,30 +133,7 @@ export class CuestionarioRespuestasPage implements OnInit {
     this._ocultar = true;
     this.components(localStorage.getItem("IdVersionCuestionario"));
     this.totalPreguntasRestantes();
-   // this._cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta();
   }
-  // _cabecerarespuesta_consultarporidasignarencuestadoDesdeCabeceraRespuesta() {
-  //   debugger
-  //   let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
-  //   this.cabeceraRespuestaService._consultarporidasignarencuestado(id)
-  //     .then(data => {
-  //       debugger
-  //       if (data['http']['codigo'] == '200') {
-  //         debugger
-  //         let _item = data['respuesta'];
-  //         this.formCabeceraRespuesta.get("_idCabeceraRespuestaEncriptado").setValue(_item.IdCabeceraRespuestaEncriptado);
-  //         this.formCabeceraRespuesta.get("_idAsignarEncuestadoEncriptado").setValue(_item.AsignarEncuestado.IdAsignarEncuestadoEncriptado);
-  //         this.formCabeceraRespuesta.get("_fechaRegistro").setValue(_item.FechaRegistro);
-  //         this.formCabeceraRespuesta.get("_fechaFinalizado").setValue(_item.FechaFinalizado);
-  //         this.formCabeceraRespuesta.get("_finalizado").setValue(_item.Finalizado);
-  //         this.formCabeceraRespuesta.get("_estado").setValue(_item.Estado);
-  //         this._respuestas_consultarporidcabecerarespuesta(_item.IdCabeceraRespuestaEncriptado);
-  //         this._preguntas_consultarporcabeceraversionCuestionario(_item.AsignarEncuestado.CuestionarioPublicado.CabeceraVersionCuestionario.IdCabeceraVersionCuestionarioEncriptado);
-  //       } 
-  //     }).catch(error => {
-  //       this.Toast("Error al cargar datos")
-  //     })
-  // }
   mostarPreguntas(item: any) {
     let usuarioTecnico = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado, usuarioTecnico).then(data => {
