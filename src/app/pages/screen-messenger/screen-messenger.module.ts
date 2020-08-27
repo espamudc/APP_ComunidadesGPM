@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { LottieModule } from 'ngx-lottie';
 import { IonicModule } from '@ionic/angular';
 
-import { InicioPageRoutingModule } from './inicio-routing.module';
+import { ScreenMessengerPageRoutingModule } from './screen-messenger-routing.module';
 
-import { InicioPage } from './inicio.page';
+import { ScreenMessengerPage } from './screen-messenger.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { InicioPage } from './inicio.page';
     FormsModule,
     IonicModule,
     LottieModule,
-    InicioPageRoutingModule
+    ScreenMessengerPageRoutingModule
   ],
-  declarations: [InicioPage]
+  declarations: [ScreenMessengerPage]
 })
-export class InicioPageModule {}
+export class ScreenMessengerPageModule {}

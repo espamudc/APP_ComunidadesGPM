@@ -1,20 +1,9 @@
-.container{
-    text-align: center;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+
   ion-input[required]{
     color :rgb(255, 255, 255) ;
   }
-  ion-content{
-    --background: none;
-    background-image: url('../../../assets/img/fondo1.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+  ion-tabs{
+    display: none;
   }
   ion-item {
     --border-color: transparent!important;

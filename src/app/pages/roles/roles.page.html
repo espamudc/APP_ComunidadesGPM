@@ -1,9 +1,15 @@
 <ion-content>
+
   <div class="container">
+    <ng-lottie 
+       class="ion-no-padding" 
+        [options]="options" 
+        (animationCreated)="animationCreated($event)"
+        ></ng-lottie>
     <ion-grid class="ion-no-padding">
       <ion-list  style="margin-right: 20px;">
         <ion-list-header>
-          <ion-label color="success">
+          <ion-label color="success" style="text-align: center;">
             <h2> <strong> SELECCIONE UN ROL </strong> </h2>
           </ion-label>
           <hr>

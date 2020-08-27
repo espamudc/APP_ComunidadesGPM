@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { LottieSplashScreen } from '@ionic-native/lottie-splash-screen/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -14,6 +14,12 @@ import { Network } from '@ionic-native/network/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/preguntas-restantes.module';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import { ScreenMessengerPageModule } from './pages/screen-messenger/screen-messenger.module';
+export function playerFactory() {
+  return player;
+}
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -26,7 +32,8 @@ import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/pregun
     ReactiveFormsModule,
     TipoPreguntaModule,
     PreguntasRestantesPageModule,
-    IonicStorageModule.forRoot()
+    ScreenMessengerPageModule,
+    IonicStorageModule.forRoot(),LottieModule.forRoot({ player: playerFactory })
     
   ],
   exports:[],
@@ -34,6 +41,7 @@ import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/pregun
     Geolocation,
     StatusBar,
     SplashScreen,
+    LottieSplashScreen,
     Network,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 

@@ -42,17 +42,6 @@ const routes: Routes = [
         
       },
       {
-        path: 'roles',
-        canActivate: [LoginGuard],
-        children:[
-          {
-            path:'',
-            loadChildren: () => import('../roles/roles.module').then( m => m.RolesPageModule)
-          }
-        ]
-        
-      },
-      {
         path: 'cuestionarios-asignados',
         canActivate: [LoginGuard],
         children:[

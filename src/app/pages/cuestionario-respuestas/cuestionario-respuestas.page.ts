@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { PreguntasRestantesPage } from '../../pages/preguntas-restantes/preguntas-restantes.page';
+import { ScreenMessengerPage } from '../../pages/screen-messenger/screen-messenger.page';
 
 @Component({
   selector: 'app-cuestionario-respuestas',
@@ -49,8 +50,8 @@ export class CuestionarioRespuestasPage implements OnInit {
     private cuestionarioPublicadoService:CuestionarioPublicadoService,
     private router:Router,
     public alertController: AlertController,
-    public modalController: ModalController
-    
+    public modalController: ModalController,
+  
   ) {
     this.formAsignarEncuestado = new FormGroup({
       _idAsignarEncuestadoEncriptado: new FormControl(''),
@@ -81,6 +82,14 @@ export class CuestionarioRespuestasPage implements OnInit {
       cssClass: 'my-custom-class',
       swipeToClose: true,
       componentProps:{data:preguntas}
+    });
+    return await modal.present();
+  }
+  async presentModalMensaje() {
+    const modal = await this.modalController.create({
+      component: ScreenMessengerPage,
+      cssClass: 'my-custom-modal-css',
+      swipeToClose: true,
     });
     return await modal.present();
   }
@@ -180,7 +189,6 @@ export class CuestionarioRespuestasPage implements OnInit {
       this.Toast("Error al cargar datos");
     })
   }
-
   async finalizarCuestionario() {
     const alert = await this.alertController.create({
       cssClass: 'alertCancel',
@@ -225,15 +233,13 @@ export class CuestionarioRespuestasPage implements OnInit {
       this.Toast("Error al cargar datos");
     })
   }
-
    procesofinalizarCuestionario() {
     let id = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
     this.cuestionarioPublicadoService.finalizarCuestionario(
       id
     ).then(data => {
      if(data["respuesta"]=="0"){
-      this.Toast("Cuestionario Finalizado");
-      this.router.navigate(['tabs/home'])
+      this.presentModalMensaje();
      }else{
       this.Toast("Aún faltan preguntas por responder");
      }

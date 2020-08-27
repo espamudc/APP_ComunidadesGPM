@@ -17,7 +17,7 @@ export class MapaPage implements OnInit {
   ngOnInit() {
     this.getCoordenadas();
   }
-
+//0°50'34.3"S 80°09'52.7"W
   cargarMapa(){
     debugger
        mapboxgl.accessToken = 'pk.eyJ1IjoidGhvbWFza2x6IiwiYSI6ImNrZHA4c3JoZDBzemIyeW1oOGc1ZzNsYTQifQ.ZIiy2hPUuqh6Yb2wj5hnMA';
@@ -25,7 +25,7 @@ export class MapaPage implements OnInit {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
          zoom: 16,
-         center: [-80.204266,-0.929941]
+         center: [-80.164639,-0.842861]
        });
        var geojson = {
         type: 'FeatureCollection',
@@ -33,7 +33,7 @@ export class MapaPage implements OnInit {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [-80.206413, -0.92864]
+            coordinates: [-80.163303, -0.847151]
           },
           properties: {
             title: 'Mapbox',
@@ -44,7 +44,7 @@ export class MapaPage implements OnInit {
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: [-80.207282, -0.931386]
+            coordinates: [-80.161608, -0.848621]
           },
           properties: {
             title: 'Mapbox',
@@ -52,6 +52,20 @@ export class MapaPage implements OnInit {
           }
         }]
       };
+   
+    map.addControl(new mapboxgl.NavigationControl());
+    map.addControl(new mapboxgl.FullscreenControl());
+    // map.addControl(new mapboxgl.GeolocateControl({
+    //     positionOptions: {
+    //         enableHighAccuracy: true
+    //     },
+    //     trackUserLocation: true
+    // }));
+    // map.on('mousemove', function (e) {
+    //     document.getElementById('coordenadas').innerHTML =
+    //         JSON.stringify(e.lngLat);
+    // })
+
       // add markers to map
       geojson.features.forEach(function(marker) {
 debugger

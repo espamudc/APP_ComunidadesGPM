@@ -42,16 +42,22 @@ const routes: Routes = [
   },
   {
     path: 'mapa',
+    canActivate: [LoginGuard],
     loadChildren: () => import('./pages/mapa/mapa.module').then( m => m.MapaPageModule)
   },
   {
     path:'cuestionario-respuestas',
     canActivate: [LoginGuard],
     loadChildren: () => import('./pages/cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
-  },  {
+  },
+  {
     path: 'preguntas-restantes',
     loadChildren: () => import('./pages/preguntas-restantes/preguntas-restantes.module').then( m => m.PreguntasRestantesPageModule)
+  },  {
+    path: 'screen-messenger',
+    loadChildren: () => import('./pages/screen-messenger/screen-messenger.module').then( m => m.ScreenMessengerPageModule)
   },
+
 
 
 ];
