@@ -55,7 +55,7 @@ export class SeleccionMultipleComponent implements OnInit {
     let bandera = this._listaOpcionesPreguntaSeleccion.length - 1;
     let almacen: Array<Codigo> = [];
     this._listaOpcionesPreguntaSeleccion.forEach(function callback(currentValue, index, array) {
-      if (bandera != index) {
+      if (bandera >= index) {
         if (currentValue.IdOpcionPreguntaSeleccion == currentValue.IdRespuestaLogica) {
           almacen.push({
             codigo: currentValue.IdRespuestaLogica,

@@ -25,7 +25,8 @@ export class MapaPage implements OnInit {
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
          zoom: 16,
-         center: [-80.164639,-0.842861]
+         center: [-79.9274669,-0.8461339999999999]
+         ,
        });
        var geojson = {
         type: 'FeatureCollection',
