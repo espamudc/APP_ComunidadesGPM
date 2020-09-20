@@ -7,6 +7,21 @@ import { url } from "../../environments/environment";
 export class CabeceraRespuestaService {
   constructor(private http: HttpClient) { }
   private _header = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
+  
+  _updateCoordendas(id, latitud, longitud) {
+    const _body = new HttpParams()
+    .set('id', id)
+    .set('latitud', latitud)
+    .set('longitud', longitud)
+    return new Promise((resolve, reject) => {
+      this.http.post(url + '/update/coordenadas', _body.toString(), { headers: this._header })
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
   _consultarporidasignarencuestado(_idAsignarEncuestadoEncriptado) {
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {

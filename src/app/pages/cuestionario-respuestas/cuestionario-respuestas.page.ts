@@ -32,7 +32,12 @@ export class CuestionarioRespuestasPage implements OnInit {
   listaPreguntas: any[] = [];
   listaPreguntas2: any[] = [];
   listComponents: any[] = [];
+  txtCoordenadas1:boolean=true;
+  idComunidad:number;
+  txtCoordenadas2:boolean=true;
   _ocultar = false;
+  longitud:string;
+  latitud:string;
   listaRespuestas: any[] = [];
   _listaPreguntaMatriz: any[] = [];
   _listaPreguntaConfigurarMatriz: any[] = [];
@@ -60,6 +65,8 @@ export class CuestionarioRespuestasPage implements OnInit {
       _canton: new FormControl(''),
       _parroquia: new FormControl(''),
       _comunidad: new FormControl(''),
+      _lalitud: new FormControl(''),
+      _longitud: new FormControl(''),
       _fechaInicio: new FormControl(''),
       _fechaFin: new FormControl(''),
       _representante: new FormControl(''),
@@ -73,6 +80,17 @@ export class CuestionarioRespuestasPage implements OnInit {
       _finalizado: new FormControl(''),
       _estado: new FormControl('')
     });
+  }
+  coordenadasUpdate(event: Event){
+ this.cabeceraRespuestaService._updateCoordendas(this.idComunidad,this.latitud, this.longitud)
+     .then(data => { 
+      this.txtCoordenadas1=true;
+      this.txtCoordenadas2=true;
+      this.Toast("Coordenadas actualizadas");
+     })
+     .catch(error=> { 
+      this.Toast("Error al cargar datos");
+     })
   }
   async presentModal(valor:boolean) {
     var preguntas;
@@ -98,7 +116,12 @@ export class CuestionarioRespuestasPage implements OnInit {
     this.totalPreguntasOpcionales= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==false}).length
     this.totalPreguntasObligaotiras= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==true}).length
   }
-
+  activartxtCoordenada1(){
+    this.txtCoordenadas1 =! this.txtCoordenadas1;
+  }
+  activartxtCoordenada2(){
+    this.txtCoordenadas2 =!  this.txtCoordenadas2;
+  }
   ngOnInit() {
     this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').setValue(localStorage.getItem("IdAsignarEncuestadoEncriptado"));
     this._asignarencuestado_consultarporidasignarencuestado();
@@ -127,9 +150,14 @@ export class CuestionarioRespuestasPage implements OnInit {
           this.formAsignarEncuestado.get('_canton').setValue(_item.Comunidad.Parroquia.Canton.NombreCanton);
           this.formAsignarEncuestado.get('_parroquia').setValue(_item.Comunidad.Parroquia.NombreParroquia);
           this.formAsignarEncuestado.get('_comunidad').setValue(_item.Comunidad.NombreComunidad);
+          this.idComunidad=_item.Comunidad.IdComunidadEncriptado;
+          this.formAsignarEncuestado.get('_lalitud').setValue(_item.Comunidad.latitud);
+          this.formAsignarEncuestado.get('_longitud').setValue(_item.Comunidad.longitud);
           this.formAsignarEncuestado.get('_fechaInicio').setValue(_item.FechaInicio);
           this.formAsignarEncuestado.get('_fechaFin').setValue(_item.FechaFin);
           this.formAsignarEncuestado.get('_representante').setValue('');
+          this.latitud = _item.Comunidad.latitud;
+          this.longitud = _item.Comunidad.longitud;
           this.formAsignarEncuestado.get('_nombreCuestionario').setValue(_item.CuestionarioPublicado.CabeceraVersionCuestionario.AsignarResponsable.CuestionarioGenerico.Nombre);
         } else {
           this.Toast(data['http']['mensaje'])

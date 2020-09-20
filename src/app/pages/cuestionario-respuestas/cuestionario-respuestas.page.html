@@ -18,6 +18,14 @@
           <ion-col sizeLg="3" sizeMd="6" sizeXs="6"><strong> Cantón: </strong>{{ formAsignarEncuestado.get('_canton').value }} </ion-col>
           <ion-col sizeLg="3" sizeMd="6" sizeXs="12"><strong> Parroquia: </strong>{{ formAsignarEncuestado.get('_parroquia').value }} </ion-col>
           <ion-col sizeLg="3" sizeMd="6" sizeXs="12"><strong> Comunidad: </strong>{{ formAsignarEncuestado.get('_comunidad').value }} </ion-col>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="12" class="align-vertical"><strong style="float: left;"> Latitud: </strong>
+            <ion-input [(ngModel)]="latitud" (ionBlur)="coordenadasUpdate($event)" [disabled]="txtCoordenadas2"
+            class="styletxt1"> </ion-input><ion-icon (click)="activartxtCoordenada2();" style="color: #239450; font-size: 16px; margin-top: 5px; margin-left: 7px;" name="create-outline"></ion-icon>
+          </ion-col>
+          <ion-col sizeLg="3" sizeMd="6" sizeXs="12" class="align-vertical"><strong style="float: left;"> Latitud: </strong>
+            <ion-input [(ngModel)]="longitud"  (ionBlur)="coordenadasUpdate($event)" [disabled]="txtCoordenadas1" value="{{ formAsignarEncuestado.get('_longitud').value }}"
+            class="styletxt1"> </ion-input><ion-icon (click)="activartxtCoordenada1();" style="color: #239450; font-size: 16px; margin-top: 5px; margin-left: 7px;" name="create-outline"></ion-icon>
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col sizeLg="4" sizeMd="6" sizeXs="12" class="align-vertical">
