@@ -22,6 +22,19 @@ export class CabeceraRespuestaService {
         });
     });
   }
+
+
+  _comunidadesPorCoordendasDeParroquia(parroquia:string) {
+    return new Promise((resolve, reject) => {
+      this.http.get(url + 'comunidades/coordenadas?parroquia=' + parroquia, { headers: this._header })
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
+
   _consultarporidasignarencuestado(_idAsignarEncuestadoEncriptado) {
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {
