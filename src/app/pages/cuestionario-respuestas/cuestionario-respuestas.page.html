@@ -84,10 +84,16 @@
     <app-seleccion-multiple
       [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
       [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
-      *ngIf="_item_pregunta.TipoPregunta.Identificador == 3" (preguntaBorrada)="preguntasRestantes($event)"></app-seleccion-multiple>
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 3" (preguntaBorrada)="preguntasRestantes($event)">
+    </app-seleccion-multiple>
     <app-matriz [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
       [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
-      *ngIf="_item_pregunta.TipoPregunta.Identificador == 4" (preguntaBorrada)="preguntasRestantes($event)"></app-matriz>
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 4" (preguntaBorrada)="preguntasRestantes($event)">
+    </app-matriz>
+    <app-matriz-abierta  [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"
+      [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
+      *ngIf="_item_pregunta.TipoPregunta.Identificador == 6" (preguntaBorrada)="preguntasRestantes($event)">
+    </app-matriz-abierta >
   </div>
   
 </ion-content>

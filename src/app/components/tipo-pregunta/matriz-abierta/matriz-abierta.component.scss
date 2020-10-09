@@ -1,0 +1,25 @@
+ion-item  {
+    font-size: 12px !important;
+  }
+  table{
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td{
+    border: solid 1px black;
+    padding: 10px;
+}
+thead{
+    background-color: #2dd36f;
+    border-bottom: solid 2px #0F362d;
+    color: white;
+}
+
+td:hover{
+    // background: var(--ion-color-primary);
+    background-color: #ebebeb;
+    color: black;
+}

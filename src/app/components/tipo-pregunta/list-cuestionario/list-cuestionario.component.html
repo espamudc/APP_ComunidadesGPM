@@ -6,7 +6,7 @@
    [disabled]="item.CuestionarioFinalizado == '1'"
 >
   <ion-label>
-    <ion-label color="success">{{item.detalleCuestionario | uppercase}} </ion-label> 
+    <ion-label color="success">{{item.nombreCuestionario | uppercase}} </ion-label> 
     <h3 style="font-size: 10px; color: brown;"> 
       <ion-icon name="calendar-outline"></ion-icon>
       Fecha de publicación : {{item.FechaPublicacionCuestionario | date: 'yyyy-MM-dd'}}

@@ -81,6 +81,7 @@ export class CuestionarioRespuestasPage implements OnInit {
       _estado: new FormControl('')
     });
   }
+  
   coordenadasUpdate(event: Event){
  this.cabeceraRespuestaService._updateCoordendas(this.idComunidad,this.latitud, this.longitud)
      .then(data => { 
@@ -192,7 +193,6 @@ export class CuestionarioRespuestasPage implements OnInit {
       })
   }
   _preguntas_consultarporcabeceraversionCuestionario(_idCabeceraVersionCuestionarioEncriptado) {
-    console.log("_idCabeceraVersionCuestionarioEncriptado", _idCabeceraVersionCuestionarioEncriptado);
     this.versionamientoPreguntaService._consultarporcabeceraversionCuestionario(_idCabeceraVersionCuestionarioEncriptado)
       .then(data => {
         if (data['http']['codigo'] == '200') {
