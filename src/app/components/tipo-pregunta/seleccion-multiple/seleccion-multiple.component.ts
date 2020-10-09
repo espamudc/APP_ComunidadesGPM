@@ -128,14 +128,14 @@ export class SeleccionMultipleComponent implements OnInit {
     });
     toast.present();
   }
-  _guardarOpcion(_idOpcionEncriptado) {
+  _guardarOpcion(_idOpcionEncriptado, respuesta:string) {
     let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
       id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
       _idOpcionEncriptado,
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-      this.Identificador, null
+      this.Identificador, respuesta
     ).then(data => {
       if (data['http']['codigo'] == '200') {
         this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);

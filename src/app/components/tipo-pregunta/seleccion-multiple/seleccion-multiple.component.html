@@ -12,13 +12,13 @@
       <ion-item lines="none" *ngFor="let _item_opcion of almacenRespuestas">
         <ion-checkbox 
         *ngIf="_item_opcion.estado == 'chequeado'"
-        (click)="_guardarOpcion(_item_opcion.codigo)" 
+        (click)="_guardarOpcion(_item_opcion.codigo,_item_opcion.descripcion)" 
         slot="start" 
         checked
         ></ion-checkbox> 
         <ion-checkbox 
         *ngIf="_item_opcion.estado == 'no'"
-        (click)="_guardarOpcion(_item_opcion.codigo)" 
+        (click)="_guardarOpcion(_item_opcion.codigo,_item_opcion.descripcion)" 
         slot="start" 
         ></ion-checkbox> 
         <ion-label>{{_item_opcion.descripcion}}</ion-label>

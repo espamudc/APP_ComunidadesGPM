@@ -50,9 +50,11 @@ export class MapaPage implements OnInit {
   cargarParroquiaMapa(){
     this.mapaService._obtenerParroquia(this.latitud,this.longitud).then(data => {
         let parroquia= data['results'][0].address_components[1].short_name;
+        debugger
         this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(parroquia)
         .then(data => {
           this.addMarketArray(data['respuesta']);
+          debugger
         })
         .catch(error => {
           this.Toast("No se pueden cargar las comunidades");
@@ -63,7 +65,7 @@ export class MapaPage implements OnInit {
   }
 
   cargarMapa(){
-    this.cargarParroquiaMapa();
+   // this.cargarParroquiaMapa();
        mapboxgl.accessToken = 'pk.eyJ1IjoidGhvbWFza2x6IiwiYSI6ImNrZHA4c3JoZDBzemIyeW1oOGc1ZzNsYTQifQ.ZIiy2hPUuqh6Yb2wj5hnMA';
         map = new mapboxgl.Map({
         container: 'map',
@@ -74,6 +76,12 @@ export class MapaPage implements OnInit {
        this.addMarket();
        map.addControl(new mapboxgl.NavigationControl());
        map.addControl(new mapboxgl.FullscreenControl());
+       map.addControl(new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        }));
   }
   getCoordenadas(){
     this.geolocation.getCurrentPosition().then((resp) => {

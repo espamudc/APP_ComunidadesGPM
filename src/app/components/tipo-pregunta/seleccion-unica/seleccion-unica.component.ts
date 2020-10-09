@@ -14,6 +14,7 @@ export class SeleccionUnicaComponent implements OnInit {
   @Output() preguntaBorrada = new EventEmitter<string>();
   _listaOpcionesPreguntaSeleccion: any[] = [];
   listRespuestas: any = [];
+  respuestaEncajonada: string;
   isHidden: boolean = true;
   isHidden2: boolean = false;
   txtrespuestaUnica: string;
@@ -36,7 +37,7 @@ export class SeleccionUnicaComponent implements OnInit {
     this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
     this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
   }
-  totalPreguntasRestantes(idpregunta:string){
+  totalPreguntasRestantes(idpregunta: string) {
     this.preguntaBorrada.emit(idpregunta)
   }
   _pregunta_consultarPreguntasSeleccion() {
@@ -45,6 +46,10 @@ export class SeleccionUnicaComponent implements OnInit {
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
     ).then(data => {
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
+      if (this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta != null) {
+        var d = this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta.split(",");
+        this.respuestaEncajonada = d[0];
+      }
     }).catch(error => {
       this.Toast("Error al cargar datos")
     })
@@ -80,12 +85,19 @@ export class SeleccionUnicaComponent implements OnInit {
       }
     }
   }
-  _guardarOpcion(_idOpcionEncriptado: string, encajonado, event: any, i: number) {
+  _guardarOpcion(_idOpcionEncriptado: string, encajonado, event: any, i: number, respuesta: string) {
     this.RespuestaEncajonada = event.target.value;
+    if ((event.target.value == null) || (event.target.value == " ")) {
+      this.RespuestaEncajonada = '0,' + respuesta;
+    }
     if (encajonado == 1) {
       this.isHidden2 = false;
       this.isHidden = false;
-      this.RespuestaEncajonada = this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta
+      this.respuestaEncajonada = "no";
+      var d = this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta.split(",");
+      this.respuestaEncajonada = d[1];
+      this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta = "";
+      this.RespuestaEncajonada = event.target.value;
       if ((this.RespuestaEncajonada == null) || (this.RespuestaEncajonada == "")) {
         this.RespuestaEncajonada = "No especificó";
       }

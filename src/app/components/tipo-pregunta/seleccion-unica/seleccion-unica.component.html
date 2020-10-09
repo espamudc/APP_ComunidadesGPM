@@ -15,11 +15,11 @@
         </ion-label>
         <input type="radio" id="d" name="s" value=" "
           *ngIf="_item_opcion.IdOpcionPreguntaSeleccion == _item_opcion.IdRespuestaLogica"
-          (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i)"
+          (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i,_item_opcion.DescripcionOpcionPreguntaSeleccion)"
           checked>
         <input type="radio" id="d" name="s" value=" "
           *ngIf="_item_opcion.IdOpcionPreguntaSeleccion != _item_opcion.IdRespuestaLogica"
-          (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i)">
+          (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i,_item_opcion.DescripcionOpcionPreguntaSeleccion)">
       </span>
       <ion-grid [hidden]="isHidden"
         *ngIf="_item_opcion.EncajonamientoOpcionPreguntaSeleccion==1 && _item_opcion.DescripcionRespuestaAbierta==null"
@@ -28,20 +28,20 @@
           <ion-col size="12" style="text-align: center;" class="ion-text-wrap">
             <ion-label color="danger">{{_item_opcion.DescripcionPreguntaHIja}} </ion-label>
             <ion-input clearInput="true" autofocus="true" class="styletxt" value=" "
-              (ionBlur)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i)">
+              (ionBlur)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i,_item_opcion.DescripcionOpcionPreguntaSeleccion)">
             </ion-input>
           </ion-col>
         </ion-row>
       </ion-grid>
       <ion-grid [hidden]="isHidden2"
-        *ngIf="_item_opcion.DescripcionRespuestaAbierta != null && _item_opcion.EncajonamientoOpcionPreguntaSeleccion==1"
+        *ngIf="respuestaEncajonada != 0 && _item_opcion.EncajonamientoOpcionPreguntaSeleccion==1"
         class="align-vertical">
         <ion-row>
           <ion-col size="12" style="text-align: center;" class="ion-text-wrap">
             <ion-label color="danger">{{_item_opcion.DescripcionPreguntaHIja}} </ion-label>
             <ion-input clearInput="true" autofocus="true" class="styletxt"
               [(ngModel)]="_item_opcion.DescripcionRespuestaAbierta"
-              (ionBlur)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i)">
+              (ionBlur)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i,_item_opcion.DescripcionOpcionPreguntaSeleccion)">
             </ion-input>
           </ion-col>
         </ion-row>
