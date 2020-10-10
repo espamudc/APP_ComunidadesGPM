@@ -35,6 +35,19 @@ export class CabeceraRespuestaService {
     });
   }
 
+  _obtenerCaracterizacion(idcomunidad:string) {
+    const _body = new HttpParams()
+    .set('IdComunidad', idcomunidad);
+    return new Promise((resolve, reject) => {
+      this.http.post(url + 'ConsultarCaracterizacionComunidad', _body.toString(),{ headers: this._header })
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
+
   _consultarporidasignarencuestado(_idAsignarEncuestadoEncriptado) {
     const _body = new HttpParams();
     return new Promise((resolve, reject) => {
