@@ -3,7 +3,6 @@
     <ion-title style="text-align: center;">Comunidad | {{comunidad}}</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-grid>
     <div  >
@@ -14,5 +13,20 @@
       </ion-label>
     </div>
   </ion-grid>
-
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar >
+        <ion-tab-button  routerLink="/roles" style="opacity: 10 !important;">
+          <ion-icon name="people-outline" ></ion-icon>
+          <ion-label>Rol</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/mapa">
+          <ion-icon name="map"></ion-icon>
+          <ion-label>Map</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

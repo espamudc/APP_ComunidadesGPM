@@ -19,6 +19,7 @@ export class RolesPage implements OnInit {
   constructor(private router: Router,) { }
   ngOnInit() {
    this.tipoRol= JSON.parse(localStorage.getItem("TipoUsuario"));
+   localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
   }
 
   animationCreated(animationItem: AnimationItem): void {
@@ -32,6 +33,11 @@ export class RolesPage implements OnInit {
     localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
     localStorage.removeItem('IdAsignarEncuestadoEncriptado');
     localStorage.setItem('IdAsignarUsuarioTipoUsuarioEncriptado', _item.IdAsignarUsuarioTipoUsuarioEncriptado);
-    this.router.navigateByUrl("/tabs/home");
+    if( _item.TipoUsuario.toUpperCase()=="TÉCNICO"){
+      this.router.navigateByUrl("/tabs/home");
+    }
+    if( _item.TipoUsuario.toUpperCase()=="ADMINISTRADOR"){
+      this.router.navigateByUrl("reporte-ejecutivo");
+    }
   }
 }
