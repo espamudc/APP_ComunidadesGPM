@@ -52,10 +52,18 @@ const routes: Routes = [
   },
   {
     path: 'preguntas-restantes',
+    canActivate: [LoginGuard],
     loadChildren: () => import('./pages/preguntas-restantes/preguntas-restantes.module').then( m => m.PreguntasRestantesPageModule)
-  },  {
+  },
+  {
     path: 'screen-messenger',
+    canActivate: [LoginGuard],
     loadChildren: () => import('./pages/screen-messenger/screen-messenger.module').then( m => m.ScreenMessengerPageModule)
+  },
+  {
+    path: 'reporte-ejecutivo',
+    canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/reporte-ejecutivo/reporte-ejecutivo.module').then( m => m.ReporteEjecutivoPageModule)
   },
 
 

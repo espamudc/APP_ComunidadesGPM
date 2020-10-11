@@ -25,9 +25,9 @@
         <th scope="row"><b>{{op.opciones}}</b></th>
         <td *ngFor="let nive of op.nivel" color="success">
           <input *ngIf="nive.estado=='chequeado'" type="radio" [name]="op.idOpciones"
-            (click)="_guardarOpcion(nive.idConfiguracionMatriz)" [value]="nive.idConfiguracionMatriz" checked>
+            (click)="_guardarOpcion(nive.idConfiguracionMatriz,nive.nivel)" [value]="nive.idConfiguracionMatriz" checked>
           <input *ngIf="nive.estado=='no'" type="radio" [name]="op.idOpciones"
-            (click)="_guardarOpcion(nive.idConfiguracionMatriz)" [value]="nive.idConfiguracionMatriz">
+            (click)="_guardarOpcion(nive.idConfiguracionMatriz,nive.nivel)" [value]="nive.idConfiguracionMatriz">
         </td>
         <td *ngIf="observacion" >
           <ion-input value="{{op.dataRespuesta}}" (ionBlur)="insertarpreguntaabierta($event,op.opciones)"style="border: 1px solid gray; width:auto; color:red"></ion-input>

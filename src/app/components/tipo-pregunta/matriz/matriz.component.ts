@@ -211,14 +211,14 @@ export class MatrizComponent implements OnInit {
         this.Toast("Error la cargar datos")
       })
   }
-  _guardarOpcion(_idOpcionEncriptado) {
+  _guardarOpcion(_idOpcionEncriptado,op) {
     let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
       id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
       _idOpcionEncriptado,
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-      this.Identificador, null
+      this.Identificador, op
     ).then(data => {
       if (data['http']['codigo'] == '200') {
         this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);

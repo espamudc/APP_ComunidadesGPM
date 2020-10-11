@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar color="gpm-success">
+    <ion-title style="text-align: center;">Comunidad | {{comunidad}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <div  >
+      <ion-label class="ion-no-padding" *ngFor="let item of pregunt" style="border-bottom:rgb(216, 216, 216) 1px solid ; display: block;">
+        <p  style="font-size: 12px !important; color:#239450 ;" >{{item.pregunta}}</p>
+        <p *ngFor="let rpt of item.respuestas" class="ion-text-wrap ion-text-justify ion-no-padding" style="font-size: 12px !important; color:black; padding-left: 10px !important;">
+          {{rpt.descripcion}}</p>
+      </ion-label>
+    </div>
+  </ion-grid>
+
+</ion-content>
