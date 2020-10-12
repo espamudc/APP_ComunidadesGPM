@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ReporteService } from '../../services/reporte.service';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { MapaService } from '../../services/mapa.service';
+import { CabeceraRespuestaService } from '../../services/cabecera-respuesta.service';
+import { ToastController } from '@ionic/angular';
 interface Preguntas {
   pregunta: string
   respuestas: Array<Respuestas>
@@ -17,14 +21,39 @@ export class ReporteEjecutivoPage implements OnInit {
   htmlStr: any;
   comunidad: any;
   pregunt: Array<Preguntas> = [];
-
-  constructor(private reporteService: ReporteService) { }
-
+  latitud: number;
+  longitud: number;
+  datos: any;
+  constructor(private reporteService: ReporteService,
+    private geolocation: Geolocation,
+    private mapaService: MapaService,
+    private cabeceraRespuestaService: CabeceraRespuestaService,
+    private toastController: ToastController) { }
   ngOnInit() {
-    this.getReporteEjecutivo();
+    this.getCoordenadas()
+    this.getReporteEjecutivo("MgA=");
   }
-  getReporteEjecutivo() {
-    this.reporteService.reporteEjecutivo("MgA=").then(data => {
+  llamarReporteEjecutivo(idComunidad: string) {
+    this.getReporteEjecutivo(idComunidad);
+  }
+  cargarParroquiaMapa() {
+    this.mapaService._obtenerParroquia(this.latitud, this.longitud).then(data => {
+      let parroquia = data['results'][0].address_components[1].short_name;
+      this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(parroquia)
+        .then(data => {
+          this.datos = data['respuesta']
+        })
+        .catch(error => {
+          this.Toast("No se pueden cargar las comunidades");
+        })
+    }).catch(error => {
+      this.Toast("Error al obetner la parroquia");
+    })
+  }
+  getReporteEjecutivo(idComunidad?: string) {
+    this.reporteService.reporteEjecutivo(idComunidad).then(data => {
+      this.preguntas = [];
+      this.pregunt = [];
       this.preguntas = data["respuesta"]
       data["respuesta"].forEach(element => {
         let aux = this.pregunt.find(el => el.pregunta == element.Descripcion)
@@ -36,9 +65,9 @@ export class ReporteEjecutivoPage implements OnInit {
           resp = this.preguntas = data["respuesta"].filter(elemt => elemt.IdPregunta == id)
           const regex = /,/gi;
           resp.forEach(dat => {
-            let descripcion=dat.DescripcionRespuestaAbierta;
-            if(element.identificadoPregunta==6 || element.identificadoPregunta==2){
-              descripcion=descripcion.substr(2,descripcion.let);
+            let descripcion = dat.DescripcionRespuestaAbierta;
+            if (element.identificadoPregunta == 6 || element.identificadoPregunta == 2) {
+              descripcion = descripcion.substr(2, descripcion.let);
             }
             respuest.push({ descripcion: descripcion.replace(regex, '\u00a0 \u00a0 \u00a0 \u00a0 \u00a0 \u00a0') })
           });
@@ -46,13 +75,39 @@ export class ReporteEjecutivoPage implements OnInit {
         }
       });
     }).catch(error => {
-      debugger
+      this.Toast("Error al mostrar datos");
     })
-    //     0:
-    // Descripcion: "ejemplo"
-    // DescripcionRespuestaAbierta: "1,pipo,dfdfdf"
-    // IdComunidad: "2"
-    // IdPregunta: "276"
-    // NombreComunidad: "Quiroga"
+
+  }
+  getCoordenadas() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      // this.latitud = resp.coords.latitude;
+      //  this.longitud = resp.coords.longitude;
+      this.latitud = -0.848592;
+      this.longitud = -80.161615;;
+      console.log("Latitud", this.latitud);
+      console.log("Longitud", this.longitud);
+      this.cargarParroquiaMapa();
+    }).catch((error) => {
+      this.Toast("Error al obtener las coordenadas");
+    });
+  }
+  async Toast(_mensaje: string, _duracion: number = 2000) {
+    const toast = await this.toastController.create({
+      message: _mensaje,
+      position: 'bottom',
+      animated: true,
+      duration: _duracion,
+      color: 'dark',
+      cssClass: 'toastFormato',
+      buttons: [
+        {
+          side: 'end',
+          icon: 'close-circle-outline',
+          role: 'cancel',
+        }
+      ]
+    });
+    toast.present();
   }
 }

@@ -1,9 +1,18 @@
 <ion-header>
   <ion-toolbar color="gpm-success">
-    <ion-title style="text-align: center;">Comunidad | {{comunidad}}</ion-title>
+    <ion-title style="text-align: center; font-size: 14px;">Comunidad | {{comunidad}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let item of datos" style="width: auto; height: 60px;">
+      <ion-col (click)="llamarReporteEjecutivo(item.idComunidad)">
+        <ion-chip color="success">
+          <ion-label style="font-size: 12px !important;">{{item.NombreComunidad |uppercase}}</ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-slide>
+  </ion-slides>
   <ion-grid>
     <div  >
       <ion-label class="ion-no-padding" *ngFor="let item of pregunt" style="border-bottom:rgb(216, 216, 216) 1px solid ; display: block;">

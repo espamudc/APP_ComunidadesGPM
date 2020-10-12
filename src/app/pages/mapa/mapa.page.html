@@ -1,11 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Mapa</ion-title>
+  <ion-toolbar color="gpm-success">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="reporte-ejecutivo"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="text-align: center; font-size: 14px;">Mapa comunidades</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <pre id='coordenadas'  (click)="getCaracterizacion('MgA=')"></pre>
   <div id='map'></div>
-
 </ion-content>
