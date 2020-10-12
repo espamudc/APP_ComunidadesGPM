@@ -1,6 +1,12 @@
 <ion-header>
-  <ion-toolbar color="gpm-success">
-    <ion-title style="text-align: center; font-size: 14px;">Comunidad | {{comunidad}}</ion-title>
+  <ion-toolbar color="gpm-success" >
+    <!-- <ion-title class="ion-text-center" style="text-align: center; font-size: 14px;">Parroquia </ion-title> -->
+    <ion-searchbar  [(ngModel)]="txtbuscar"  placeholder="buscar comunidad..." color="danger" animated cancelButtonText="Custom Cancel"></ion-searchbar>
+    <ion-buttons slot="end" >
+      <ion-button (click)="cerrarSesion();"> 
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>

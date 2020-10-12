@@ -4,6 +4,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MapaService } from '../../services/mapa.service';
 import { CabeceraRespuestaService } from '../../services/cabecera-respuesta.service';
 import { ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 interface Preguntas {
   pregunta: string
   respuestas: Array<Respuestas>
@@ -24,13 +27,17 @@ export class ReporteEjecutivoPage implements OnInit {
   latitud: number;
   longitud: number;
   datos: any;
+  txtbuscar:any;
   constructor(private reporteService: ReporteService,
     private geolocation: Geolocation,
     private mapaService: MapaService,
     private cabeceraRespuestaService: CabeceraRespuestaService,
-    private toastController: ToastController) { }
+    private toastController: ToastController,
+    private storage:Storage,
+    private router:Router,
+    private alertController: AlertController) { }
   ngOnInit() {
-    this.getCoordenadas()
+   // this.getCoordenadas()
     this.getReporteEjecutivo("MgA=");
   }
   llamarReporteEjecutivo(idComunidad: string) {
@@ -49,6 +56,39 @@ export class ReporteEjecutivoPage implements OnInit {
     }).catch(error => {
       this.Toast("Error al obetner la parroquia");
     })
+  }
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      cssClass: 'alertCancel',
+      message: '<strong>Desea cerrar sesión</strong>!!!',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'alertButton',
+          handler: () => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Si',
+          cssClass: 'alertButton',
+          handler: () => {
+            console.log('Confirm Okay');
+            localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+            localStorage.removeItem('IdAsignarEncuestadoEncriptado');
+            localStorage.removeItem('authService');
+            localStorage.removeItem('validarUser');
+            localStorage.removeItem('TipoUsuario');
+            localStorage.removeItem("_correo");
+            localStorage.clear();
+            this.router.navigateByUrl('/validar-usuario');
+            this.storage.clear();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
   getReporteEjecutivo(idComunidad?: string) {
     this.reporteService.reporteEjecutivo(idComunidad).then(data => {
