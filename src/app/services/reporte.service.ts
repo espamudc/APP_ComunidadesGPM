@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { url } from "../../environments/environment";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,10 @@ export class ReporteService {
           reject(err);
         });
     });
+  }
+
+  getAllComunidades(): Observable<any[]> {
+    const urlApi = url + `listado/comunidad/parroquia`;
+    return this.http.get<any[]>(urlApi);
   }
 }

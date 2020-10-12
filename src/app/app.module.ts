@@ -16,6 +16,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/preguntas-restantes.module';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { ScreenMessengerPageModule } from './pages/screen-messenger/screen-messenger.module';
 export function playerFactory() {
   return player;
@@ -25,6 +26,7 @@ export function playerFactory() {
   entryComponents: [],
   imports: [
     BrowserModule,
+    AutocompleteLibModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,

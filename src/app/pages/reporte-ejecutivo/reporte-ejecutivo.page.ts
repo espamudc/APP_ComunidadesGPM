@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReporteService } from '../../services/reporte.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MapaService } from '../../services/mapa.service';
@@ -20,28 +20,62 @@ interface Respuestas {
   styleUrls: ['./reporte-ejecutivo.page.scss'],
 })
 export class ReporteEjecutivoPage implements OnInit {
-  preguntas: any;
+  public preguntas: any;
   htmlStr: any;
+  prueba: boolean;
   comunidad: any;
   pregunt: Array<Preguntas> = [];
   latitud: number;
   longitud: number;
   datos: any;
-  txtbuscar:any;
+  errorMsg: string = "No encontrada";
+  keyword = 'NombreComunidad';
+  data: any;
+  isLoadingResult: boolean;
+  @ViewChild('auto', { static: true }) auto: any;
+  slideOpts = {
+    allowSlidePrev: false,
+    allowSlideNext: false
+  }
   constructor(private reporteService: ReporteService,
     private geolocation: Geolocation,
     private mapaService: MapaService,
     private cabeceraRespuestaService: CabeceraRespuestaService,
     private toastController: ToastController,
-    private storage:Storage,
-    private router:Router,
-    private alertController: AlertController) { }
-  ngOnInit() {
-   // this.getCoordenadas()
-    this.getReporteEjecutivo("MgA=");
+    private storage: Storage,
+    private router: Router,
+    private alertController: AlertController) {
   }
-  llamarReporteEjecutivo(idComunidad: string) {
-    this.getReporteEjecutivo(idComunidad);
+  onFocused(e) {
+    this.auto.close();
+  }
+  searchCleared() {
+    this.auto.close();
+  }
+  onChangeSearch(e) {
+    if (!this.auto.searchInput.nativeElement.value) {
+      this.auto.close();
+    } else {
+      this.auto.open();
+    }
+  }
+  ngOnInit() {
+    this.getCoordenadas()
+    this.getData();
+  }
+  llamarReporteEjecutivo(item: any) {
+    this.auto.searchInput.nativeElement.value = item.NombreComunidad;
+    this.getReporteEjecutivo(item.idComunidad);
+  }
+  getData(): void {
+    this.isLoadingResult = true;
+    this.reporteService.getAllComunidades().subscribe(data => {
+      this.data = data["respuesta"];
+      this.isLoadingResult = false;
+    });
+  }
+  selectEvent(item) {
+    this.getReporteEjecutivo(item.IdComunidad);
   }
   cargarParroquiaMapa() {
     this.mapaService._obtenerParroquia(this.latitud, this.longitud).then(data => {
@@ -49,6 +83,8 @@ export class ReporteEjecutivoPage implements OnInit {
       this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(parroquia)
         .then(data => {
           this.datos = data['respuesta']
+          this.comunidad = this.datos.filter(el => el.NombreComunidad == parroquia)
+          this.getReporteEjecutivo(this.comunidad[0].idComunidad);
         })
         .catch(error => {
           this.Toast("No se pueden cargar las comunidades");
@@ -114,6 +150,11 @@ export class ReporteEjecutivoPage implements OnInit {
           this.pregunt.push({ pregunta: element.Descripcion, respuestas: respuest })
         }
       });
+      if(this.pregunt.length>0){
+        this.prueba=false;
+      }else{
+      this.prueba=true;
+    }
     }).catch(error => {
       this.Toast("Error al mostrar datos");
     })

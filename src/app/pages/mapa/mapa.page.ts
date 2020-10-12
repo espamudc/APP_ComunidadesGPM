@@ -42,7 +42,7 @@ export class MapaPage implements OnInit {
       var h1 = document.createElement('div');
       h1.innerHTML = `<h5>Calceta, Calceta</h5>
       <p>Comunidad: Quiroga</p>
-      <button type="button">This Button</button>`;
+      <button type="button">Caracterización</button>`;
       el.className = 'marker';
       el.style.backgroundImage = 'url(../../../../../assets/img/location.png)';
       el.style.width = '32px';
