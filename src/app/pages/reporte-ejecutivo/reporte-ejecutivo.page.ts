@@ -78,20 +78,15 @@ export class ReporteEjecutivoPage implements OnInit {
     this.getReporteEjecutivo(item.IdComunidad);
   }
   cargarParroquiaMapa() {
-    this.mapaService._obtenerParroquia(this.latitud, this.longitud).then(data => {
-      let parroquia = data['results'][0].address_components[1].short_name;
-      this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(parroquia)
-        .then(data => {
-          this.datos = data['respuesta']
-          this.comunidad = this.datos.filter(el => el.NombreComunidad == parroquia)
-          this.getReporteEjecutivo(this.comunidad[0].idComunidad);
-        })
-        .catch(error => {
-          this.Toast("No se pueden cargar las comunidades");
-        })
-    }).catch(error => {
-      this.Toast("Error al obetner la parroquia");
-    })
+    this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(this.latitud, this.longitud)
+      .then(data => {
+        this.datos = data['respuesta']
+        this.getReporteEjecutivo(this.datos[0].idComunidad);
+        this.auto.searchInput.nativeElement.value = this.datos[0].NombreComunidad;
+      })
+      .catch(error => {
+        this.Toast("No se pueden cargar las comunidades");
+      })
   }
   async cerrarSesion() {
     const alert = await this.alertController.create({
@@ -150,11 +145,11 @@ export class ReporteEjecutivoPage implements OnInit {
           this.pregunt.push({ pregunta: element.Descripcion, respuestas: respuest })
         }
       });
-      if(this.pregunt.length>0){
-        this.prueba=false;
-      }else{
-      this.prueba=true;
-    }
+      if (this.pregunt.length > 0) {
+        this.prueba = false;
+      } else {
+        this.prueba = true;
+      }
     }).catch(error => {
       this.Toast("Error al mostrar datos");
     })
@@ -163,9 +158,9 @@ export class ReporteEjecutivoPage implements OnInit {
   getCoordenadas() {
     this.geolocation.getCurrentPosition().then((resp) => {
       // this.latitud = resp.coords.latitude;
-      //  this.longitud = resp.coords.longitude;
-      this.latitud = -0.848592;
-      this.longitud = -80.161615;;
+      //  this.longitud = resp.coords.longitude; Quiroga
+      this.latitud = -0.881365;
+      this.longitud = -80.094749;
       console.log("Latitud", this.latitud);
       console.log("Longitud", this.longitud);
       this.cargarParroquiaMapa();

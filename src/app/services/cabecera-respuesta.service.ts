@@ -10,11 +10,11 @@ export class CabeceraRespuestaService {
   
   _updateCoordendas(id, latitud, longitud) {
     const _body = new HttpParams()
-    .set('id', id)
+    .set('idComunidad', id)
     .set('latitud', latitud)
     .set('longitud', longitud)
     return new Promise((resolve, reject) => {
-      this.http.post(url + '/update/coordenadas', _body.toString(), { headers: this._header })
+      this.http.post(url + 'update/coordenadas?idComunidad='+ id +'&latitud='+ latitud+ '&longitud='+longitud, { headers: this._header })
         .subscribe(res => {
           resolve(res);
         }, (err) => {
@@ -24,9 +24,10 @@ export class CabeceraRespuestaService {
   }
 
 
-  _comunidadesPorCoordendasDeParroquia(parroquia:string) {
+  _comunidadesPorCoordendasDeParroquia(latitud:number, longitud:number) {
+    const urlApi = url + `/comunidades/coordenadas?latitud=${latitud}&longitud=${longitud}`;
     return new Promise((resolve, reject) => {
-      this.http.get(url + 'comunidades/coordenadas?parroquia=' + parroquia, { headers: this._header })
+      this.http.get(urlApi)
         .subscribe(res => {
           resolve(res);
         }, (err) => {

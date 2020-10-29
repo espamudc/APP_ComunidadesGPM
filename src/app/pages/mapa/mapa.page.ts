@@ -40,17 +40,16 @@ export class MapaPage implements OnInit {
     for (let i = 0; i < data.length; i++) {
       var el = document.createElement('div');
       var h1 = document.createElement('div');
-      h1.innerHTML = `<h5>Calceta, Calceta</h5>
-      <p>Comunidad: Quiroga</p>
+      h1.innerHTML = `<p>Comunidad: ${data[i].NombreComunidad}</p>
       <button type="button">Caracterización</button>`;
       el.className = 'marker';
       el.style.backgroundImage = 'url(../../../../../assets/img/location.png)';
       el.style.width = '32px';
       el.style.height = '32px';
       h1.addEventListener('click', () => {
-          this.getCaracterizacion(data[i].idComunidad);
-        });
-      let popup = new mapboxgl.Popup({ offset: 25, closeOnClick: true }) // add popups
+        this.getCaracterizacion(data[i].idComunidad);
+      });
+      let popup = new mapboxgl.Popup({ offset: 25, closeOnClick: true }) // add popups 
         .setDOMContent(h1);
       let marcador = new mapboxgl.Marker(el)
         .setLngLat([data[i].longitud, data[i].latitud])
@@ -71,21 +70,15 @@ export class MapaPage implements OnInit {
       this.Toast("Error al general la caracterización");
     })
   }
-
   cargarParroquiaMapa() {
-    this.mapaService._obtenerParroquia(this.latitud, this.longitud).then(data => {
-      let parroquia = data['results'][0].address_components[1].short_name;
-      this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(parroquia)
-        .then(data => {
-          this.datos = data['respuesta']
-          this.addMarketArray(this.datos);
-        })
-        .catch(error => {
-          this.Toast("No se pueden cargar las comunidades");
-        })
-    }).catch(error => {
-      this.Toast("Error al obetner la parroquia");
-    })
+    this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(this.latitud, this.longitud)
+      .then(data => {
+        this.datos = data['respuesta']
+        this.addMarketArray(this.datos);
+      })
+      .catch(error => {
+        this.Toast("No se pueden cargar las comunidades");
+      })
   }
   cargarMapa() {
     mapboxgl.accessToken = 'pk.eyJ1IjoidGhvbWFza2x6IiwiYSI6ImNrZHA4c3JoZDBzemIyeW1oOGc1ZzNsYTQifQ.ZIiy2hPUuqh6Yb2wj5hnMA';
@@ -109,8 +102,8 @@ export class MapaPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       // this.latitud = resp.coords.latitude;
       //  this.longitud = resp.coords.longitude;
-      this.latitud = -0.848592;
-      this.longitud = -80.161615;;
+      this.latitud = -0.881365;
+      this.longitud = -80.094749;
       console.log("Latitud", this.latitud);
       console.log("Longitud", this.longitud);
       this.cargarMapa();

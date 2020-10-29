@@ -3,7 +3,7 @@
     <ng-autocomplete [data]="data" [searchKeyword]="keyword" (selected)='selectEvent($event)'
       [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" (inputFocused)='onFocused($event)'
       (inputChanged)='onChangeSearch($event)' placeHolder="Buscar comunidad..." (inputCleared)="searchCleared()"
-      [minQueryLength]="2" [debounceTime]="600" [isLoading]="isLoadingResult" #auto>
+      [minQueryLength]="2" [debounceTime]="600"  #auto>
     </ng-autocomplete>
     <ng-template #itemTemplate let-item>
       <a href="javascript:void(0)">
@@ -15,7 +15,7 @@
       <div style="color:rgb(114, 114, 114)"> {{errorMsg}}</div>
     </ng-template>
   </div>
-  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" style="height: 60px;width: 100%;  background-color: #F8F8F8;">
     <ion-slide *ngFor="let item of datos" style="width: auto; height: 60px; background-color: #F8F8F8; ">
       <ion-col (click)="llamarReporteEjecutivo(item)">
         <ion-chip color="success">

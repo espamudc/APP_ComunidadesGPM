@@ -46,9 +46,15 @@ export class SeleccionUnicaComponent implements OnInit {
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
     ).then(data => {
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
+      debugger
       if (this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta != null) {
         var d = this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta.split(",");
         this.respuestaEncajonada = d[0];
+
+        if(this.respuestaEncajonada =='0'){
+              this.isHidden2 = true;
+              this.isHidden = true;
+        }
       }
     }).catch(error => {
       this.Toast("Error al cargar datos")
@@ -91,11 +97,14 @@ export class SeleccionUnicaComponent implements OnInit {
       this.RespuestaEncajonada = '0,' + respuesta;
     }
     if (encajonado == 1) {
-      this.isHidden2 = false;
       this.isHidden = false;
+      this.isHidden2 = false;
       this.respuestaEncajonada = "no";
+     if (this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta != null){
       var d = this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta.split(",");
-      this.respuestaEncajonada = d[1];
+      this.respuestaEncajonada = d[0];
+     }
+     
       this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta = "";
       this.RespuestaEncajonada = event.target.value;
       if ((this.RespuestaEncajonada == null) || (this.RespuestaEncajonada == "")) {

@@ -13,11 +13,11 @@
         <ion-label class="ion-float-right" style="margin-left: 15px;">
           {{_item_opcion.DescripcionOpcionPreguntaSeleccion}}
         </ion-label>
-        <input type="radio" id="d" name="s" value=" "
+        <input type="radio"  name="{{_item_opcion.IdPregunta}}" value=" "
           *ngIf="_item_opcion.IdOpcionPreguntaSeleccion == _item_opcion.IdRespuestaLogica"
           (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i,_item_opcion.DescripcionOpcionPreguntaSeleccion)"
           checked>
-        <input type="radio" id="d" name="s" value=" "
+        <input type="radio"   name="{{_item_opcion.IdPregunta}}" value=" "
           *ngIf="_item_opcion.IdOpcionPreguntaSeleccion != _item_opcion.IdRespuestaLogica"
           (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccion,_item_opcion.EncajonamientoOpcionPreguntaSeleccion, $event,i,_item_opcion.DescripcionOpcionPreguntaSeleccion)">
       </span>
@@ -33,8 +33,8 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-grid [hidden]="isHidden2"
-        *ngIf="respuestaEncajonada != 0 && _item_opcion.EncajonamientoOpcionPreguntaSeleccion==1"
+      <ion-grid [hidden]="isHidden2" 
+        *ngIf="_item_opcion.DescripcionRespuestaAbierta !=null && _item_opcion.EncajonamientoOpcionPreguntaSeleccion==1"
         class="align-vertical">
         <ion-row>
           <ion-col size="12" style="text-align: center;" class="ion-text-wrap">
