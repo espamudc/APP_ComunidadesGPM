@@ -46,7 +46,6 @@ export class SeleccionUnicaComponent implements OnInit {
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
     ).then(data => {
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-      debugger
       if (this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta != null) {
         var d = this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta.split(",");
         this.respuestaEncajonada = d[0];

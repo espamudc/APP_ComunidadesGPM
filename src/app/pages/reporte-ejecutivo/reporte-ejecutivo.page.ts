@@ -159,8 +159,12 @@ export class ReporteEjecutivoPage implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       // this.latitud = resp.coords.latitude;
       //  this.longitud = resp.coords.longitude; Quiroga
-      this.latitud = -0.881365;
-      this.longitud = -80.094749;
+      //CALCETA
+      // this.latitud = -0.848615;
+     //  this.longitud = -80.161396;
+        //QUIROGA
+       this.latitud = -0.881365;
+       this.longitud = -80.094749;
       console.log("Latitud", this.latitud);
       console.log("Longitud", this.longitud);
       this.cargarParroquiaMapa();
