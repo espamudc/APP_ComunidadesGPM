@@ -61,12 +61,12 @@ export class MapaPage implements OnInit {
       if (data["http"].codigo == 200) {
         this.idAsignarEncuestado = data["respuesta"].idAsignarEncuestado;
         this.idModeloPublicado = data["respuesta"].idModeloPublicado;
-        window.open("http://localhost:55584/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado);
+        window.open("http://apigpm.manabi.gob.ec:8080/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado);
       } else {
         this.Toast("No existe caracterización para mostrar");
       }
     }).catch(error => {
-      this.Toast("Error al general la caracterización");
+      this.Toast("Error al generar la caracterización");
     })
   }
   cargarParroquiaMapa() {
@@ -99,22 +99,22 @@ export class MapaPage implements OnInit {
   }
   getCoordenadas() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      // this.latitud = resp.coords.latitude;
-      //  this.longitud = resp.coords.longitude;
+       this.latitud = resp.coords.latitude;
+       this.longitud = resp.coords.longitude;
       //CALCETA
      // this.latitud = -0.848615;
      // this.longitud = -80.161396;
         //QUIROGA
-       this.latitud = -0.881365;
-       this.longitud = -80.094749;
-      console.log("Latitud", this.latitud);
-      console.log("Longitud", this.longitud);
+     // this.latitud = -0.881365;
+      // this.longitud = -80.094749;
+      //console.log("Latitud", this.latitud);
+     // console.log("Longitud", this.longitud);
 
    
       this.cargarMapa();
       this.cargarParroquiaMapa();
     }).catch((error) => {
-      console.log('Error getting location', error);
+      this.Toast('No se pudo obtener su localización');
     });
   }
   async Toast(_mensaje: string, _duracion: number = 2000) {

@@ -28,9 +28,9 @@ export class RolesPage implements OnInit {
   }
   async cerrarSesion() {
     const alert = await this.alertController.create({
-      header: 'Confirmar',
+      header: ':: Confirmar ::',
       cssClass: 'alertCancel',
-      message: '<strong>Desea cerrar sesión</strong>!!!',
+      message: '<strong>¿Desea cerrar sesión</strong>?',
       buttons: [
         {
           text: 'No',
@@ -51,7 +51,7 @@ export class RolesPage implements OnInit {
             localStorage.removeItem('TipoUsuario');
             localStorage.removeItem("_correo");
             localStorage.clear();
-            this.router.navigateByUrl('/validar-usuario');
+            this.router.navigateByUrl('/inicio');
             this.storage.clear();
           }
         }

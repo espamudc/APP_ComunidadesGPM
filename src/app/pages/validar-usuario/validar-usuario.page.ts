@@ -42,7 +42,7 @@ export class ValidarUsuarioPage {
           localStorage.setItem("validarUser", "true");
           this.router.navigateByUrl("login");
         } else {
-          this.Toast("Correo no valido", 3000);
+          this.Toast("Correo no válido", 3000);
         }
       }).catch(error => {
         this.Toast("Revise su conexión", 3000);
