@@ -3,7 +3,7 @@ import { MenuController,ToastController } from '@ionic/angular';
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -22,41 +22,9 @@ estadoEncuestas:boolean = true;
     private toastController: ToastController,
     private storage:Storage,
     private router:Router,
-    private alertController: AlertController
+
   ) { }
-  async cerrarSesion() {
-    const alert = await this.alertController.create({
-      header: 'Confirmar',
-      cssClass: 'alertCancel',
-      message: '<strong>Desea cerrar sesión</strong>!!!',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'alertButton',
-          handler: () => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Si',
-          cssClass: 'alertButton',
-          handler: () => {
-            console.log('Confirm Okay');
-            localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
-            localStorage.removeItem('IdAsignarEncuestadoEncriptado');
-            localStorage.removeItem('authService');
-            localStorage.removeItem('validarUser');
-            localStorage.removeItem('TipoUsuario');
-            localStorage.removeItem("_correo");
-            localStorage.clear();
-            this.router.navigateByUrl('/validar-usuario');
-            this.storage.clear();
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
+ 
   ngOnInit() {
     this.menuController.enable(true);
     this._consultarCuestionariosNuevos();

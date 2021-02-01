@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { MapaService } from '../../services/mapa.service';
 import { CabeceraRespuestaService } from '../../services/cabecera-respuesta.service';
 import { ToastController } from '@ionic/angular';
 var map;
+declare var mapboxgl;
 @Component({
   selector: 'app-mapa',
   templateUrl: './mapa.page.html',

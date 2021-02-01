@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
-
+import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.page.html',
@@ -16,12 +18,47 @@ export class RolesPage implements OnInit {
     autoplay: true,
     loop: true
   };
-  constructor(private router: Router,) { }
+  constructor(private router: Router,
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private storage:Storage) { }
   ngOnInit() {
    this.tipoRol= JSON.parse(localStorage.getItem("TipoUsuario"));
    localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
   }
-
+  async cerrarSesion() {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      cssClass: 'alertCancel',
+      message: '<strong>Desea cerrar sesión</strong>!!!',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'alertButton',
+          handler: () => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Si',
+          cssClass: 'alertButton',
+          handler: () => {
+            console.log('Confirm Okay');
+            localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
+            localStorage.removeItem('IdAsignarEncuestadoEncriptado');
+            localStorage.removeItem('authService');
+            localStorage.removeItem('validarUser');
+            localStorage.removeItem('TipoUsuario');
+            localStorage.removeItem("_correo");
+            localStorage.clear();
+            this.router.navigateByUrl('/validar-usuario');
+            this.storage.clear();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
   animationCreated(animationItem: AnimationItem): void {
     //console.log(animationItem);
   }
@@ -39,5 +76,23 @@ export class RolesPage implements OnInit {
     if( _item.TipoUsuario.toUpperCase()=="ADMINISTRADOR"){
       this.router.navigateByUrl("reporte-ejecutivo");
     }
+  }
+  async Toast(_mensaje: string, _duracion: number = 2000) {
+    const toast = await this.toastController.create({
+      message: _mensaje,
+      position: 'bottom',
+      animated: true,
+      duration: _duracion,
+      color: 'dark',
+      cssClass: 'toastFormato',
+      buttons: [
+        {
+          side: 'end',
+          icon: 'close-circle-outline',
+          role: 'cancel',
+        }
+      ]
+    });
+    toast.present();
   }
 }
