@@ -24,6 +24,7 @@ export class ReporteEjecutivoPage implements OnInit {
   htmlStr: any;
   prueba: boolean;
   comunidad: any;
+  cuestionrio:string ="No hay cuestionario";
   pregunt: Array<Preguntas> = [];
   latitud: number;
   longitud: number;
@@ -80,46 +81,20 @@ export class ReporteEjecutivoPage implements OnInit {
   cargarParroquiaMapa() {
     this.cabeceraRespuestaService._comunidadesPorCoordendasDeParroquia(this.latitud, this.longitud)
       .then(data => {
+        if(data['respuesta'].length>0){
         this.datos = data['respuesta']
         this.getReporteEjecutivo(this.datos[0].idComunidad);
         this.auto.searchInput.nativeElement.value = this.datos[0].NombreComunidad;
+             this.cuestionrio =" ";
+             this.prueba = false;
+         }else{
+             this.cuestionrio ="No hay comunidades cercanas";
+             this.prueba = true;
+         }
       })
       .catch(error => {
         this.Toast("No se pueden cargar las comunidades");
       })
-  }
-  async cerrarSesion() {
-    const alert = await this.alertController.create({
-      header: 'Confirmar',
-      cssClass: 'alertCancel',
-      message: '<strong>Desea cerrar sesión</strong>!!!',
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'alertButton',
-          handler: () => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Si',
-          cssClass: 'alertButton',
-          handler: () => {
-            console.log('Confirm Okay');
-            localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
-            localStorage.removeItem('IdAsignarEncuestadoEncriptado');
-            localStorage.removeItem('authService');
-            localStorage.removeItem('validarUser');
-            localStorage.removeItem('TipoUsuario');
-            localStorage.removeItem("_correo");
-            localStorage.clear();
-            this.router.navigateByUrl('/validar-usuario');
-            this.storage.clear();
-          }
-        }
-      ]
-    });
-    await alert.present();
   }
   getReporteEjecutivo(idComunidad?: string) {
     this.reporteService.reporteEjecutivo(idComunidad).then(data => {
@@ -157,16 +132,8 @@ export class ReporteEjecutivoPage implements OnInit {
   }
   getCoordenadas() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      // this.latitud = resp.coords.latitude;
-      //  this.longitud = resp.coords.longitude; Quiroga
-      //CALCETA
-      // this.latitud = -0.848615;
-     //  this.longitud = -80.161396;
-        //QUIROGA
-       this.latitud = -0.881365;
-       this.longitud = -80.094749;
-      console.log("Latitud", this.latitud);
-      console.log("Longitud", this.longitud);
+      this.latitud = resp.coords.latitude;
+      this.longitud = resp.coords.longitude; 
       this.cargarParroquiaMapa();
     }).catch((error) => {
       this.Toast("Error al obtener las coordenadas");

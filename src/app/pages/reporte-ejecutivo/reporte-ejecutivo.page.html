@@ -18,7 +18,7 @@
   <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" style="height: 60px;width: 100%;  background-color: #F8F8F8;">
     <ion-slide *ngFor="let item of datos" style="width: auto; height: 60px; background-color: #F8F8F8; ">
       <ion-col (click)="llamarReporteEjecutivo(item)">
-        <ion-chip color="success">
+        <ion-chip color="gpm-success">
           <ion-label style="font-size: 12px !important;">{{item.NombreComunidad |uppercase}}</ion-label>
         </ion-chip>
       </ion-col>
@@ -28,7 +28,7 @@
 <ion-content>
   <ion-slides [options]="slideOpts" *ngIf="prueba">
     <ion-slide>
-      <ion-label>No hay cuestionario</ion-label>
+      <ion-label>{{cuestionrio}}</ion-label>
     </ion-slide>
   </ion-slides>
   <ion-grid style="margin-top: 10px;;">
@@ -49,11 +49,11 @@
       <ion-tab-bar>
         <ion-tab-button routerLink="/roles" style="opacity: 10 !important;">
           <ion-icon name="people-outline"></ion-icon>
-          <ion-label>Rol</ion-label>
+          <ion-label>Roles</ion-label>
         </ion-tab-button>
         <ion-tab-button routerLink="/mapa">
           <ion-icon name="map"></ion-icon>
-          <ion-label>Map</ion-label>
+          <ion-label>Mapa</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
     </ion-tabs>

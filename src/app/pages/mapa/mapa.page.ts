@@ -109,8 +109,6 @@ export class MapaPage implements OnInit {
       // this.longitud = -80.094749;
       //console.log("Latitud", this.latitud);
      // console.log("Longitud", this.longitud);
-
-   
       this.cargarMapa();
       this.cargarParroquiaMapa();
     }).catch((error) => {
