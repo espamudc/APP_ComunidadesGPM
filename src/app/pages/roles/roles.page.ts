@@ -50,6 +50,7 @@ export class RolesPage implements OnInit {
             localStorage.removeItem('validarUser');
             localStorage.removeItem('TipoUsuario');
             localStorage.removeItem("_correo");
+            localStorage.removeItem('authService');
             localStorage.clear();
             this.router.navigateByUrl('/inicio');
             this.storage.clear();
