@@ -1,0 +1,61 @@
+<ion-header>
+  <div class="ng-autocomplete" color="gpm-success">
+    <ng-autocomplete [data]="data" [searchKeyword]="keyword" (selected)='selectEvent($event)'
+      [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" (inputFocused)='onFocused($event)'
+      (inputChanged)='onChangeSearch($event)' placeHolder="Buscar comunidad..." (inputCleared)="searchCleared()"
+      [minQueryLength]="2" [debounceTime]="600"  #auto>
+    </ng-autocomplete>
+    <ng-template #itemTemplate let-item>
+      <a href="javascript:void(0)">
+        <span [innerHTML]="item.NombreComunidad"></span>,
+        <span [innerHTML]="item.Descripcion"></span>
+      </a>
+    </ng-template>
+    <ng-template #notFoundTemplate let-notFound>
+      <div style="color:rgb(114, 114, 114)"> {{errorMsg}}</div>
+    </ng-template>
+  </div>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }" style="height: 60px;width: 100%;  background-color: #F8F8F8;">
+    <ion-slide *ngFor="let item of datos" style="width: auto; height: 60px; background-color: #F8F8F8; ">
+      <ion-col (click)="llamarReporteEjecutivo(item)">
+        <ion-chip color="gpm-success">
+          <ion-label style="font-size: 12px !important;">{{item.NombreComunidad |uppercase}}</ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-slide>
+  </ion-slides>
+</ion-header>
+<ion-content>
+  <ion-slides [options]="slideOpts" *ngIf="prueba">
+    <ion-slide>
+      <ion-label>{{cuestionrio}}</ion-label>
+    </ion-slide>
+  </ion-slides>
+  <ion-grid style="margin-top: 10px;;">
+    <div>
+      <ion-label class="ion-no-padding" *ngFor="let item of pregunt"
+        style="border-bottom:rgb(216, 216, 216) 1px solid ; display: block;">
+        <p style="font-size: 12px !important; color:#239450 ;">{{item.pregunta}}</p>
+        <p *ngFor="let rpt of item.respuestas" class="ion-text-wrap ion-text-justify ion-no-padding"
+          style="font-size: 12px !important; color:black; padding-left: 10px !important;">
+          {{rpt.descripcion}}</p>
+      </ion-label>
+    </div>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar>
+        <ion-tab-button routerLink="/roles" style="opacity: 10 !important;">
+          <ion-icon name="people-outline"></ion-icon>
+          <ion-label>Roles</ion-label>
+        </ion-tab-button>
+        <ion-tab-button routerLink="/mapa">
+          <ion-icon name="map"></ion-icon>
+          <ion-label>Mapa</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

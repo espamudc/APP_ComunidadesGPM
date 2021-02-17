@@ -1,54 +1,38 @@
 <ion-item button (click)="_ocultar()">
-  <ion-label >{{ItemPregunta.Descripcion}}</ion-label>
-  <ion-buttons  slot="end">
-    <ion-button color="gpm-success"  type="submit"> <!--[disabled]="formRespuesta.invalid"-->
+  <ion-label>{{ItemPregunta.Descripcion}}</ion-label>
+  <ion-buttons slot="end">
+    <ion-button color="gpm-success" type="submit">
       <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
     </ion-button>
   </ion-buttons>
 </ion-item>
-
-<ion-list [hidden]="_ver" class="animated jello" >
-    <table class="table">
-      <thead>
-        <th [attr.rowspan]="totalFilas+2"><b>{{leyandaLateral}}</b></th>
-        <tr >
-          <th colspan="5"> {{leyandaSuperior}}</th>
-        </tr>
-        <tr >
-          <th scope="col" *ngFor="let columna of ColumnsOpcionDosMatriz" style="width:15%">{{columna.Descripcion}}</th>
-          <th *ngIf="observacion">
-            Observación
-           </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let fila of _matrizFinal">
-          <th scope="row"><b>{{fila.Fila.Descripcion}}</b></th>
-        <!--   {{fila.Fila.Descripcion.Pregunta.leyendaLateral}}
-          {{fila.Fila.Descripcion.Pregunta.leyendaSuperior}}
-          {{fila.Fila.Descripcion.Pregunta.observacion}} -->
-          <td *ngFor="let celda of fila.ListaConfigurarMatriz2"  color="success">
-            <!-- <ion-radio [value]="celda.IdConfigurarMatrizEncriptado"></ion-radio> -->
-            <!-- <input [value]="celda.IdConfigurarMatrizEncriptado" type="radio" name="" id=""> -->
-<!--              
-           <input  class="form-check-input" 
-                    type="radio" [checked]="celda.check" [value]="celda.ListaConfigurarMatriz2.IdConfigurarMatrizEncriptado" 
-                    (click)="_guardarOpcion(celda.radioButton.IdConfigurarMatrizEncriptado)"
-                    >  -->
-                    <input   
-                    type="radio" 
-                    [name]="fila.Fila.Descripcion" 
-                    (click)="_guardarOpcion(celda.radioButton.IdConfigurarMatrizEncriptado)"
-                    [value]="celda.radioButton.IdConfigurarMatrizEncriptado"/>
-          </td>
-          <td *ngIf="observacion">
-              <ion-input style="border: 1px solid gray; width:auto; color:red"></ion-input>
-          </td>
-   
-        </tr>
-      </tbody>
-    </table>
-
-
+<ion-list [hidden]="_ver" class="animated jello">
+  <table class="table" *ngFor="let matriz of matrizDesing">
+    <thead>
+      <th [attr.rowspan]="totalFilas+2"><b>{{matriz.leyendaLateral}}</b></th>
+      <tr>
+        <th colspan="5"> {{matriz.leyendaSuperior}}</th>
+      </tr>
+      <tr>
+        <th scope="col" *ngFor="let columna of matriz.opciones[0].nivel" style="width:15%">{{columna.nivel}}</th>
+        <th *ngIf="observacion">
+          Observación
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let op of matriz.opciones; let i = index">
+        <th scope="row"><b>{{op.opciones}}</b></th>
+        <td *ngFor="let nive of op.nivel" color="success">
+          <input *ngIf="nive.estado=='chequeado'" type="radio" [name]="op.idOpciones"
+            (click)="_guardarOpcion(nive.idConfiguracionMatriz,nive.nivel)" [value]="nive.idConfiguracionMatriz" checked>
+          <input *ngIf="nive.estado=='no'" type="radio" [name]="op.idOpciones"
+            (click)="_guardarOpcion(nive.idConfiguracionMatriz,nive.nivel)" [value]="nive.idConfiguracionMatriz">
+        </td>
+        <td *ngIf="observacion" >
+          <ion-input value="{{op.dataRespuesta}}" (ionBlur)="insertarpreguntaabierta($event,op.opciones )"style="border: 1px solid gray; width:auto; color:red"></ion-input>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </ion-list>
-

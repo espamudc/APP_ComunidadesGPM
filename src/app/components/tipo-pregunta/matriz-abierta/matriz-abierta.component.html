@@ -1,0 +1,30 @@
+<ion-item button (click)="_ocultar()">
+  <ion-label>{{ItemPregunta.Descripcion}}</ion-label>
+  <ion-buttons slot="end">
+    <ion-button color="gpm-success" type="submit">
+      <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+<ion-list [hidden]="_ver" class="animated jello " style="width: 100% !important;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th> </th>
+        <th *ngFor="let item of opciones"> {{item.opciones}}</th>
+      </tr>
+    </thead>
+    <tbody #dataContainer>
+      <tr *ngFor="let row of rows ; let ii = index" [attr.data-index]="ii + 1" #prod>
+        <td>
+          <ion-icon name="add-circle-outline" style="font-size: 20px;" (click)="addRowNew()"></ion-icon>
+        </td>
+        <td *ngFor="let item of opciones; let i = index">
+          <ion-input class="styletxt" [(ngModel)]='filasRespuestas["s" + "" + prod.dataset.index+i]'
+            (ionBlur)="respuesta_insertarpreguntaabierta($event, i, prod.dataset.index )">
+          </ion-input>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ion-list>

@@ -2,21 +2,26 @@
 <ion-item button (click)="_ocultar()">
   <ion-label >{{ItemPregunta.Descripcion}}</ion-label>
   <ion-buttons  slot="end">
-    <ion-button color="gpm-success"  type="submit"> <!--[disabled]="formRespuesta.invalid"-->
+    <ion-button color="gpm-success"  type="submit">
       <ion-icon shape="round" slot="icon-only" [name]="_icon"></ion-icon>
     </ion-button>
   </ion-buttons>
 </ion-item>
-<!-- [hidden]="true" -->
 <ion-list  [hidden]="_ver" class="animated jello " style="width: 100% !important;">
- 
     <ion-radio-group CheckGroupOpciones >
-      <ion-item lines="none" *ngFor="let _item_opcion of _listaOpcionesPreguntaSeleccion">
-        <!--  *ngIf="_item_opcion.check===false" <ion-checkbox checked *ngIf="_item_opcion.check===true" (click)="_guardarOpcion(_item_opcion.opcion.IdOpcionPreguntaSeleccionEncriptado)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-checkbox>-->
-        <ion-checkbox  (click)="_guardarOpcion(_item_opcion.IdOpcionPreguntaSeleccionEncriptado)" slot="start" [value]="_item_opcion.IdOpcionPreguntaSeleccionEncriptado"></ion-checkbox> 
-      
-        <ion-label>{{_item_opcion.Descripcion}}</ion-label>
+      <ion-item lines="none" *ngFor="let _item_opcion of almacenRespuestas">
+        <ion-checkbox 
+        *ngIf="_item_opcion.estado == 'chequeado'"
+        (click)="_guardarOpcion(_item_opcion.codigo,_item_opcion.descripcion)" 
+        slot="start" 
+        checked
+        ></ion-checkbox> 
+        <ion-checkbox 
+        *ngIf="_item_opcion.estado == 'no'"
+        (click)="_guardarOpcion(_item_opcion.codigo,_item_opcion.descripcion)" 
+        slot="start" 
+        ></ion-checkbox> 
+        <ion-label>{{_item_opcion.descripcion}}</ion-label>
       </ion-item>
     </ion-radio-group>
-
 </ion-list>

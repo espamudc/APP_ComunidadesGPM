@@ -40,3 +40,30 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: táctil; 
 }
+.testclass{ font-size: 10px !important; }
+.colorsuccess{
+  background-color: #239450;
+ }
+ /* DOES NOT WORK - not specific enough */
+.modal-wrapper {
+  background: #222;
+}
+
+/* Works - pass "my-custom-class" in cssClass to increase specificity */
+.my-custom-class .modal-wrapper {
+  background: #222;
+}
+
+.styletxt1{
+  width: 50%;
+  border-bottom: 1px solid #dee2e6;
+  height: 25px;
+  float: left;
+  margin-left: 7px;
+  text-align: center;
+
+}
+ion-title{
+  text-align: center;
+  font-size: 14px;
+}

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -11,26 +10,36 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { Network } from '@ionic-native/network/ngx';
-// import { EscojerRolPipe } from './pages/escojer-rol.pipe';
-// import { CuestionarioRespuestasPageModule } from './pages/cuestionario-respuestas/cuestionario-respuestas.module';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { IonicStorageModule } from '@ionic/storage';
+import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/preguntas-restantes.module';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
+import { ScreenMessengerPageModule } from './pages/screen-messenger/screen-messenger.module';
+export function playerFactory() {
+  return player;
+}
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    
     BrowserModule,
+    AutocompleteLibModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     TipoPreguntaModule,
+    PreguntasRestantesPageModule,
+    ScreenMessengerPageModule,
+    IonicStorageModule.forRoot(),LottieModule.forRoot({ player: playerFactory })
     
   ],
   exports:[],
   providers: [
-    
+    Geolocation,
     StatusBar,
     SplashScreen,
     Network,

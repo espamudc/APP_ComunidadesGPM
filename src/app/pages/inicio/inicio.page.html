@@ -1,9 +1,21 @@
-<ion-content>
+
   <div class="container"> 
-    <img src="../../../assets/img/logo.png" alt="">
-    <h2 style="text-align: center;">   
-      <img src="../../../assets/img/loading-23.gif" alt="" width="auto" height="250">
-    </h2>
-    <div style="color:#30BB81; font-size: 25px;">Cargando...</div>
+    <img src="../../../assets/img/logo.png"  width="60%" height="60%" alt="" style="margin-bottom: 20px;">
+    <ng-lottie 
+    class="ion-no-padding" 
+     [options]="options" 
+     (animationCreated)="animationCreated($event)"
+     ></ng-lottie>
+     <div style="margin-top: 20px;">
+       <ion-label style="color: gray;">Ficha para el levantamiento de información de comunidades</ion-label>
+     </div>
+     <ion-grid>
+      <ion-item lines="none" style="margin-top: 30px; padding-left: 10px;;" class="ion-no-padding">
+        <ion-button color="gpm-success" (click)="login()" size="default" expand="full"
+          style="width: 100%;" >
+          INGRESAR
+        </ion-button>
+      </ion-item>
+     </ion-grid>
+  
   </div>
-</ion-content>

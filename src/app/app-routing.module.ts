@@ -1,29 +1,25 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { LoginGuard } from './guards/login.guard';
+//import { LoginGuard } from './guards/login.guard';
+//import { ValidarUserGuard } from './guards/validar-user.guard';
+//import { LogoutGuard } from './guards/logout.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'inicio', //validar-usuario
+
+    redirectTo: 'inicio', 
     pathMatch: 'full'
   },
   {
     path: 'folder/:id',
+   // canActivate: [LoginGuard],
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
-  
   {
     path: 'login',
-    // canActivate: [LoginGuard],
-    // component : () => import('./pages/login/login.module').then( m => m.LoginPageModule)
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
-  
-  // {
-  //   path: 'cuestionario-respuestas/:item',
-  //   loadChildren: () => import('./pages/cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
-  // },
   {
     path: 'validar-usuario',
     loadChildren: () => import('./pages/validar-usuario/validar-usuario.module').then( m => m.ValidarUsuarioPageModule)
@@ -31,35 +27,45 @@ const routes: Routes = [
   
   {
     path: 'inicio',
+
     loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
   },
   {
     path: 'tabs',
+  //  canActivate: [LoginGuard],
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
-  // {
-  //   path: 'menu',
-  //   loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
-  // },
+  {
+    path: 'roles',
+   // canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/roles/roles.module').then( m => m.RolesPageModule)
+  },
+  {
+    path: 'mapa',
+  //  canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/mapa/mapa.module').then( m => m.MapaPageModule)
+  },
+  {
+    path:'cuestionario-respuestas',
+   // canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
+  },
+  {
+    path: 'preguntas-restantes',
+  // canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/preguntas-restantes/preguntas-restantes.module').then( m => m.PreguntasRestantesPageModule)
+  },
+  {
+    path: 'screen-messenger',
+  //  canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/screen-messenger/screen-messenger.module').then( m => m.ScreenMessengerPageModule)
+  },
+  {
+    path: 'reporte-ejecutivo',
+  //  canActivate: [LoginGuard],
+    loadChildren: () => import('./pages/reporte-ejecutivo/reporte-ejecutivo.module').then( m => m.ReporteEjecutivoPageModule)
+  },
 
-  // {
-  //   path: 'usuario',
-  //   loadChildren: () => import('./pages/usuario/usuario.module').then( m => m.UsuarioPageModule)
-  // },
-
-  // {
-  //   path: 'home',
-  //   loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  // },
-  // {
-  //   path: 'cuestionarios-asignados',
-  //   loadChildren: () => import('./pages/cuestionarios-asignados/cuestionarios-asignados.module').then( m => m.CuestionariosAsignadosPageModule)
-  // },
-  // {
-  //   path: 'cuestionario-respuestas',
-  //   loadChildren: () => import('./pages/cuestionario-respuestas/cuestionario-respuestas.module').then( m => m.CuestionarioRespuestasPageModule)
-  // },
-  
 
 
 ];

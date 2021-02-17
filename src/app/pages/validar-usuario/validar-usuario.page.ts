@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router } from '@angular/router';
 import { MenuController, ToastController } from '@ionic/angular';
@@ -9,8 +9,9 @@ import { Network } from "@ionic-native/network/ngx";
   templateUrl: './validar-usuario.page.html',
   styleUrls: ['./validar-usuario.page.scss'],
 })
-export class ValidarUsuarioPage implements OnInit, AfterViewInit {
-  formValidarCorreo: FormGroup;
+export class ValidarUsuarioPage {
+  esValido:boolean = true;
+  correo:any;
   constructor(
     private usuarioService: UsuarioService,
     private router: Router,
@@ -18,31 +19,30 @@ export class ValidarUsuarioPage implements OnInit, AfterViewInit {
     private network: Network,
     private toastController: ToastController
   ) {
-    this.formValidarCorreo = new FormGroup({
-      _usuario: new FormControl('', [Validators.required, Validators.email])
-    });
+  
   }
-  ngOnInit() {
-  }
-  ngAfterViewInit() {
 
+  esEmailValido(Event:any):boolean {
+      var EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if (Event.target.value.match(EMAIL_REGEX)){
+        this.esValido = false;
+      }else{
+        this.esValido = true;
+      }
+    return this.esValido;
   }
   ionViewWillEnter() {
     this.menuController.enable(false);
   }
-  _validarformValidarCorreo() {
-    if (this.formValidarCorreo.valid == true) {
-      this._validarUsuario();
-    }
-  }
   _validarUsuario() {
-    this.usuarioService._validarCorreo(this.formValidarCorreo.get('_usuario').value)
+      this.usuarioService._validarCorreo(this.correo)
       .then(data => {
         if (data['http']['codigo'] == '200') {
           localStorage.setItem("_correo", data['respuesta']);
+          localStorage.setItem("validarUser", "true");
           this.router.navigateByUrl("login");
         } else {
-          this.Toast("Correo no valido", 3000);
+          this.Toast("Correo no válido", 3000);
         }
       }).catch(error => {
         this.Toast("Revise su conexión", 3000);

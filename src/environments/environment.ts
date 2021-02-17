@@ -1,9 +1,10 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// The list of file replacements can be found in `angular.json` AIzaSyA-mfSRyF9-qaeFs93VmT1YnPz-i7JNI3M.
 
 export const environment = {
-  production: false
+  production: false,
+  apiKeyMapa: '333333333'
 };
 
 /*
@@ -15,5 +16,5 @@ export const environment = {
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 // export const url = "http://192.168.25.25:90/api/";
-// export const url = "http://localhost:55584/api/";
-export const url = "http://localhost:55584/api/";
+// export const url = "http://localhost:55584/api/"; export const url = "http://apigpm.manabi.gob.ec:8080/api/";
+ export const url = "http://apigpm.manabi.gob.ec:8080/api/";

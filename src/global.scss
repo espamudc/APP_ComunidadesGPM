@@ -27,6 +27,12 @@
 .toastFormato{
     --width:80%;
 }
+.alertCancel{
+    button.alertButton{
+      color: #316144;
+      font-weight: bold;
+    }
+ }
 .styletxt{
     width: 100%;
     border: 1px solid #dee2e6;
@@ -46,3 +52,7 @@
     display: flex;
     align-items: center;
 }
+.closed {
+    color:#666;
+    --highlight-background: transparent;
+  }

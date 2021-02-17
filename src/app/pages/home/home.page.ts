@@ -1,33 +1,78 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController,ToastController } from '@ionic/angular';
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-numeroCuestionarioNuevos:number;
+numeroCuestionarioNuevos:number=0;
 numeroCuestionarioCanceladas:number=0;
+numeroCuestionarioFinalizados:number=0;
+numeroCuestionarioEnProceso:number=0;
+estadoEncuestas:boolean = true;
+ ar:any []=[];
   constructor(
     private menuController:MenuController,
     private asignarEncuestadoService:AsignarEncuestadoService,
     private toastController: ToastController,
-  ) { }
+    private storage:Storage,
+    private router:Router,
 
+  ) { }
+ 
   ngOnInit() {
     this.menuController.enable(true);
     this._consultarCuestionariosNuevos();
   }
+  ionViewDidEnter() {
+    this.menuController.enable(true);
+    this._consultarCuestionariosNuevos();
+  }
+   encuestasNuevas(){ 
+    this.dataStorage(10);
+    this.router.navigate(["/tabs/cuestionarios-asignados"], {state: {setRoot: true}});
+  }
+   encuestasEnProceso(){
+    this.dataStorage(0);
+    this.router.navigate(['/tabs/cuestionarios-asignados'], {state: {setRoot: true}});
+  }
+   encuestasFinalizadas(){
+    this.dataStorage(1);
+    this.router.navigate(['/tabs/cuestionarios-asignados']);
+  }
+  dataStorage(calor:number){
+    this.ar.unshift({'EstadoCuestionarios':calor});
+    this.storage.set('cuestionarios',this.ar );
+  }
   _consultarCuestionariosNuevos(){
-    let dd =localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado');
-    debugger
     this.asignarEncuestadoService.mostrarEncuestasPorTecnico(localStorage.getItem('IdAsignarUsuarioTipoUsuarioEncriptado')) 
-      .then(data=>{
-        this.numeroCuestionarioNuevos=data["respuesta"].length;
+      .then(data =>{
+        this.ar =[];
+        this.ar.unshift({'respuesta':data["respuesta"]});
+        this.storage.set('cuestionarios',this.ar );
+        this.numeroCuestionarioNuevos=0;
+        this.numeroCuestionarioCanceladas=0;
+        this.numeroCuestionarioFinalizados=0;
+        this.numeroCuestionarioEnProceso=0;
+        this. estadoEncuestas=true;
         data["respuesta"].forEach(element => {
           if(element.Estado==0){
             this.numeroCuestionarioCanceladas++
+          }
+          if( element.CuestionarioFinalizado=='10'){
+            this.estadoEncuestas=false;
+            this.numeroCuestionarioNuevos++;
+          }
+          if(element.CuestionarioFinalizado==1){
+            this.numeroCuestionarioFinalizados++;
+          }
+          if(element.CuestionarioFinalizado ==0){
+            this.numeroCuestionarioEnProceso++;
           }
        });
       }).catch(error=>{

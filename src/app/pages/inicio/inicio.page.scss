@@ -10,3 +10,7 @@
 ion-slides {
     height: 100%;
   }
+  ion-toolbar {
+    --background-color: transparent;
+    --ion-color-base: transparent !important;
+  }

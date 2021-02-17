@@ -1,0 +1,53 @@
+
+ .container{
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  
+}
+ion-title{
+  text-align: center;
+  font-size: 14px;
+}
+
+
+
+ion-list{
+  padding-right: 15px;
+  ion-item:hover{
+    --color: white;
+    --background:var(--ion-color-gpm-success);
+  }
+}
+.catalogo{
+border: gray solid 1px;
+  width: 100%; 
+  height: 100px;
+  margin-left: 15px; 
+  margin-right: 15px; 
+  float: left;
+  margin-top: 15px;
+  text-align: center;
+  padding: 7px;
+  font-size: 14px;;
+  color:gray;
+  cursor: pointer;
+}
+.catalogo:hover{
+    border: brown solid 1px;
+    background-color:brown ;
+    width: 100%; 
+    height: 100px;
+    margin-left: 15px; 
+    margin-right: 15px; 
+    float: left;
+    margin-top: 15px;
+    text-align: center;
+    padding: 7px;
+    font-size: 14px;;
+    color:white;
+    cursor: pointer;
+  }

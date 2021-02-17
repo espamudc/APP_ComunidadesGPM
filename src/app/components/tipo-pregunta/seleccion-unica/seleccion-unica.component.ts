@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { PreguntasService } from 'src/app/services/preguntas.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ToastController, IonRadioGroup } from '@ionic/angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RespuestasService } from 'src/app/services/respuestas.service';
@@ -12,8 +11,10 @@ export class SeleccionUnicaComponent implements OnInit {
   @Input() ItemPregunta: any;
   @Input() IdCabeceraRespuestaEncriptado: any = '';
   @Input() Identificador: string;
+  @Output() preguntaBorrada = new EventEmitter<string>();
   _listaOpcionesPreguntaSeleccion: any[] = [];
   listRespuestas: any = [];
+  respuestaEncajonada: string;
   isHidden: boolean = true;
   isHidden2: boolean = false;
   txtrespuestaUnica: string;
@@ -22,7 +23,6 @@ export class SeleccionUnicaComponent implements OnInit {
   _ver = true;
   _icon = "add";
   constructor(
-    private preguntasService: PreguntasService,
     private respuestasService: RespuestasService,
     private toastController: ToastController,
   ) {
@@ -37,14 +37,26 @@ export class SeleccionUnicaComponent implements OnInit {
     this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
     this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
   }
+  totalPreguntasRestantes(idpregunta: string) {
+    this.preguntaBorrada.emit(idpregunta)
+  }
   _pregunta_consultarPreguntasSeleccion() {
     this.respuestasService.consultarRespuestaPorPreguntaSeleccion(
       this.ItemPregunta.IdPreguntaEncriptado,
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
     ).then(data => {
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
+      if (this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta != null) {
+        var d = this._listaOpcionesPreguntaSeleccion[0].DescripcionRespuestaAbierta.split(",");
+        this.respuestaEncajonada = d[0];
+
+        if(this.respuestaEncajonada =='0'){
+              this.isHidden2 = true;
+              this.isHidden = true;
+        }
+      }
     }).catch(error => {
-      this.Toast("Error la cargar datos")
+      this.Toast("Error al cargar datos")
     })
   }
   async Toast(_mensaje: string, _duracion: number = 2000) {
@@ -78,12 +90,22 @@ export class SeleccionUnicaComponent implements OnInit {
       }
     }
   }
-  _guardarOpcion(_idOpcionEncriptado: string, encajonado, event: any, i: number) {
+  _guardarOpcion(_idOpcionEncriptado: string, encajonado, event: any, i: number, respuesta: string) {
     this.RespuestaEncajonada = event.target.value;
+    if ((event.target.value == null) || (event.target.value == " ")) {
+      this.RespuestaEncajonada = '0,' + respuesta;
+    }
     if (encajonado == 1) {
-      this.isHidden2 = false;
       this.isHidden = false;
-      this.RespuestaEncajonada = this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta
+      this.isHidden2 = false;
+      this.respuestaEncajonada = "no";
+     if (this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta != null){
+      var d = this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta.split(",");
+      this.respuestaEncajonada = d[0];
+     }
+     
+      this._listaOpcionesPreguntaSeleccion[i].DescripcionRespuestaAbierta = "";
+      this.RespuestaEncajonada = event.target.value;
       if ((this.RespuestaEncajonada == null) || (this.RespuestaEncajonada == "")) {
         this.RespuestaEncajonada = "No especificó";
       }
@@ -102,6 +124,7 @@ export class SeleccionUnicaComponent implements OnInit {
     ).then(data => {
       if (data['http']['codigo'] == '200') {
         //this.Toast("Datos Guardado")
+        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
       }
     }).catch(error => {
       this.Toast("Error la cargar datos")

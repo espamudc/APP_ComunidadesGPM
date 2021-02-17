@@ -1,283 +1,278 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PreguntasService } from 'src/app/services/preguntas.service';
 import { RespuestasService } from 'src/app/services/respuestas.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { ToastController } from '@ionic/angular';
+interface Nivel {
+  idNivel: string
+  nivel: string
+  idConfiguracionMatriz: string,
+  estado: string
+}
+interface Opciones {
+  idOpciones: string
+  opciones: string
+  nivel: Array<Nivel>
+  dataRespuesta: string
+}
+interface Respuesta {
+  idRespuestaLogica: string
+  descripcion: string
+  dataRespuesta: string
+}
+interface MatrizDesing {
+  leyendaLateral: string,
+  leyendaSuperior: string,
+  opciones: Array<Opciones>,
+  respuesta: Array<Respuesta>,
+  idPregunta: string;
+  descripcionPregunta: string
+}
 @Component({
   selector: 'app-matriz',
   templateUrl: './matriz.component.html',
   styleUrls: ['./matriz.component.scss'],
 })
-
-
 export class MatrizComponent implements OnInit {
-
-  @Input() ItemPregunta: any={};
-  @Input() ListaRespuestas : any[] = [];
-  @Input() IdCabeceraRespuestaEncriptado : string;
-  @Input() Identificador : string;
-  // _listaPreguntaMatriz:any[]=[];
-  leyandaSuperior:string;
-  leyandaLateral:string;
-  totalFilas:number;
-  observacion:boolean;
-  _listaPreguntaConfigurarMatriz:any[]=[];
-  //_listaOpcionUnoMatriz:any[]=[];
-  FilaOpcionUnoMatriz: any[] = [];
-  ColumnsOpcionDosMatriz: any[] = [];
-  _preguntaMatriz : any= {};
-  _matrizFinal : any[]=[];
-  LasRespuestasDeEstaPregunta: any[] = [];
-
-  constructor(private preguntasService:PreguntasService
-    ,private respuestasService:RespuestasService)
-  {
+  @Input() ItemPregunta: any = {};
+  @Input() ListaRespuestas: any[] = [];
+  @Input() IdCabeceraRespuestaEncriptado: string;
+  @Input() Identificador: string;
+  @Output() preguntaBorrada = new EventEmitter<string>();
+  leyandaSuperior: string;
+  leyandaLateral: string;
+  totalFilas: number;
+  observacion: boolean;
+  _listaPreguntaConfigurarMatriz: any[] = [];
+  matrizDesing: Array<MatrizDesing> = [];
+  respuesta: Array<Respuesta> = [];
+  constructor(private preguntasService: PreguntasService,
+    private respuestasService: RespuestasService,
+    private toastController: ToastController) {
     this.formRespuesta = new FormGroup({
-      _idCabeceraRespuestaEncriptado  : new FormControl('',[Validators.required]),
-      _idPreguntaEncriptado           : new FormControl('',[Validators.required]),
-      _idRespuestaLogicaEncriptado    : new FormControl('',[Validators.required]),
-      _descripcion                    : new FormControl('',[Validators.required])
+      _idCabeceraRespuestaEncriptado: new FormControl('', [Validators.required]),
+      _idPreguntaEncriptado: new FormControl('', [Validators.required]),
+      _idRespuestaLogicaEncriptado: new FormControl('', [Validators.required]),
+      _descripcion: new FormControl('', [Validators.required])
     });
   }
-
   ngOnInit() {
-
     this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
     this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
-    
-    //console.log("LISTA DE RESPUESTAS ::::>",this.ListaRespuestas);
-   // this.LasRespuestasDeEstaPregunta = this.ListaRespuestas.filter(z=>z.IdPreguntaEncriptado===this.ItemPregunta.IdPreguntaEncriptado);
-  //  console.log("LISTA DE RESPUETAS DE LA MATRIZ",this.LasRespuestasDeEstaPregunta);
-    
-
-    this._consultarPreguntaConfigurarMatriz(this.ItemPregunta.IdPreguntaEncriptado);
-    //this._crearTabla();
-   
   }
-
-
   formRespuesta: FormGroup;
-  
-
   _ver = true;
   _icon = "add";
-  _ocultar(){
-    console.log(this._ver);
-    
-    if(this._ver==true){
+  _ocultar() {
+    if (this._ver == true) {
       this._ver = false;
       this._icon = "remove";
-    }else{
+      this._consultarPreguntaConfigurarMatriz(this.ItemPregunta.IdPreguntaEncriptado);
+    } else {
       this._ver = true;
       this._icon = "add";
-
     }
   }
-  
-  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado){
-    // console.log(this.item.IdPreguntaEncriptado);
-     
-     this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado)
-       .then(data=>{
-         if (data['http']['codigo']=='200') {
-           console.log("matriz-->",data['respuesta']);
-           debugger
-           this._listaPreguntaConfigurarMatriz=data['respuesta'];
-           this._vistaPreguntaConfigurarMatriz2();
-           //this._crearTabla();
-         } else {
-           
-         }
-       }).catch(error=>{
- 
-       }).finally(()=>{
-
-       //console.log("_listaPreguntaConfigurarMatriz",this._listaPreguntaConfigurarMatriz);
-        
-      //   this._listaPreguntaConfigurarMatriz;
-     //   console.log("_listaPreguntaConfigurarMatriz",this._listaPreguntaConfigurarMatriz);
-        
-        
-        
-        
-
-        // this._vistaPreguntaConfigurarMatriz();
-        //  var matriz = {
-        //      IdPreguntaEncriptado : _IdPreguntaEncriptado,
-        //      filas: this.FilaOpcionUnoMatriz,
-        //      columnas : this.ColumnsOpcionDosMatriz
-        //  };
-         
-        // this._preguntaMatriz = matriz;
-        // console.log("_preguntaMatriz: ",matriz);
-        // for (let index = 0; index < matriz.filas.length; index++) {
-        //   const element = matriz.filas[index];
-        //   var iterator = {
-        //     fila: element
-        //     ,ConfigurarMatriz : this._listaPreguntaConfigurarMatriz.filter(t=>t.OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado)
-        //   }
-        //   this._matrizFinal.push(iterator);
-        // }
-        
-       });
-   }
- 
-  _vistaPreguntaConfigurarMatriz(){
-     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
-       this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz);
-     });
-     let unicosOpcionUno = [ ];
-     
-     this.FilaOpcionUnoMatriz.map((element,index)=>{
-       let x= unicosOpcionUno.find(data=>data.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado);
-       if (unicosOpcionUno.indexOf( x ) == -1){
-         unicosOpcionUno.push(element);
-       }
-     });
- 
-     this.FilaOpcionUnoMatriz = unicosOpcionUno;
-     console.log("FilaOpcionUnoMatriz",this.FilaOpcionUnoMatriz);
-     
-     //------------------------------------------------------------------------------------
-     this._listaPreguntaConfigurarMatriz.map((element,index)=>{
-       this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
-     });
- 
-     let unicosOpcionDos = [ ];
- 
-     this.ColumnsOpcionDosMatriz.map((element,index)=>{
-       let x= unicosOpcionDos.find(data=>data.IdOpcionDosMatrizEncriptado===element.IdOpcionDosMatrizEncriptado);
-       if (unicosOpcionDos.indexOf( x ) == -1){
-         unicosOpcionDos.push(element);
-       }
-     });
-     
- 
-     this.ColumnsOpcionDosMatriz = unicosOpcionDos;
- 
-    
- 
-     console.log("unicosOpcionDos",unicosOpcionDos);
-     
-   
-     
-  }
-
-  _vistaPreguntaConfigurarMatriz2(){
-    this._listaPreguntaConfigurarMatriz.map((element,index)=>{
-      this.FilaOpcionUnoMatriz.push(element.OpcionUnoMatriz); // se llena la lista de opciones uno no importa si estan repetidos.
-    });
-    let unicosOpcionUno = [ ]; //se crea una lista de opciones uno, para almacenar opciones uno sin repetir
-    
-    this.FilaOpcionUnoMatriz.map((element,index)=>{
-      let x= unicosOpcionUno.find(data=>data.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado);
-      if (unicosOpcionUno.indexOf( x ) == -1){
-        unicosOpcionUno.push(element); // se purga la lista solo agrupando las opciones uno.
+  getNiveles() {
+    let opciones: Array<Opciones> = [];
+    let aux = false;
+    for (let index = 0; index < this._listaPreguntaConfigurarMatriz.length; index++) {
+      aux = false
+      for (let index1 = 0; index1 < opciones.length; index1++) {
+        if (this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado == opciones[index1].idOpciones && this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion == opciones[index1].opciones) {
+         aux = true;
+        }
       }
-    });
-
-    this.FilaOpcionUnoMatriz = unicosOpcionUno;
-    console.log("FilaOpcionUnoMatriz",this.FilaOpcionUnoMatriz);
-
-    ///Columnas 
-
-    this._listaPreguntaConfigurarMatriz.map((element,index)=>{
-      this.ColumnsOpcionDosMatriz.push(element.OpcionDosMatriz);
-    });
-
-    let unicosOpcionDos = [ ];
-
-    this.ColumnsOpcionDosMatriz.map((element,index)=>{
-      let x= unicosOpcionDos.find(data=>data.IdOpcionDosMatrizEncriptado===element.IdOpcionDosMatrizEncriptado);
-      if (unicosOpcionDos.indexOf( x ) == -1){
-        unicosOpcionDos.push(element);
+      if (aux == false) {
+        let data:string
+        let tamano= this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion.length;
+        if(this.respuesta[0].dataRespuesta!=null){
+          var resp = this.respuesta.find(cues =>cues.descripcion.substr(0,tamano) === this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion);
+        }else{
+          resp = null;
+        }
+        if((resp == null) || (resp == undefined)){
+          data=null;
+       }else{
+        data=resp.dataRespuesta;
+       }
+        opciones.push({
+          idOpciones: this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado,
+          opciones: this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion,
+          nivel: this._listaPreguntaConfigurarMatriz[index].IdConfigurarMatrizEncriptado,
+          dataRespuesta: data
+        })
       }
-    });
-    
-   
-
-    this.ColumnsOpcionDosMatriz = unicosOpcionDos;
-
-   
-
-    console.log("unicosOpcionDos",unicosOpcionDos);
-    
-    
-    //// la matriz
-     
-    for (let index = 0; index < this.FilaOpcionUnoMatriz.length; index++) {
-      const element = this.FilaOpcionUnoMatriz[index];
-      let newarray  =  this._listaPreguntaConfigurarMatriz.filter(data=>data.OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado===element.IdOpcionUnoMatrizEncriptado);
-      console.log("array",newarray);
-
-      let array2 = [];
-
-      for (let index2 = 0; index2 < newarray.length; index2++) {
-        
-        const element2 = newarray[index2];
-        let elementoCeldaDeLaMatriz = {
-          radioButton : element2,
-          check: false
-        };
-        if (this.LasRespuestasDeEstaPregunta.length>0) {
-          for (let index3 = 0; index3 < this.LasRespuestasDeEstaPregunta.length; index3++) {
-            const element3 = this.LasRespuestasDeEstaPregunta[index3];
-            if (element2.IdConfigurarMatrizEncriptado===element3.IdRespuestaLogicaEncriptado) {
-              elementoCeldaDeLaMatriz.check = true;
-              break;
+    }
+    for (let j = 0; j < opciones.length; j++) {
+      let niveles: Array<Nivel> = [];
+      for (let i = 0; i < this._listaPreguntaConfigurarMatriz.length; i++) {
+        aux = false
+        if (opciones[j].idOpciones == this._listaPreguntaConfigurarMatriz[i].OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado) {
+          for (let index1 = 0; index1 < niveles.length; index1++) {
+            if (this._listaPreguntaConfigurarMatriz[i].OpcionDosMatriz.IdOpcionDosMatrizEncriptado == niveles[index1].idNivel) {
+              aux = true;
             }
           }
+          if (aux == false) {
+            niveles.push({
+              idNivel: this._listaPreguntaConfigurarMatriz[i].OpcionDosMatriz.IdOpcionDosMatrizEncriptado,
+              nivel: this._listaPreguntaConfigurarMatriz[i].OpcionDosMatriz.Descripcion,
+              idConfiguracionMatriz: this._listaPreguntaConfigurarMatriz[i].IdConfigurarMatrizEncriptado,
+              estado: "no"
+            })
+          }
         }
-
-        array2.push(elementoCeldaDeLaMatriz);
-        
-        
       }
-
-      let nuevo ={
-        Fila : element,
-        ListaConfigurarMatriz: newarray,
-        ListaConfigurarMatriz2: array2
-      };
-
-      this._matrizFinal.push(nuevo);
-
+      opciones[j] = {
+        idOpciones: opciones[j].idOpciones,
+        opciones: opciones[j].opciones,
+        nivel: niveles,
+        dataRespuesta: opciones[j].dataRespuesta
+      }
     }
-  
-    console.log("_matrizFinal bb",this._matrizFinal);
-     this.leyandaSuperior= this._matrizFinal[0].Fila.Pregunta.leyendaSuperior
-     this.leyandaLateral= this._matrizFinal[0].Fila.Pregunta.leyendaLateral
-     this.totalFilas=this._matrizFinal.length;
-     this.observacion=this._matrizFinal[0].Fila.Pregunta.Observacion
-    
- }
-
- _guardarOpcion(_idOpcionEncriptado){
-    console.log("seleccionada",_idOpcionEncriptado);
-    let id=  this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
-    debugger
+    let respuesta: Array<Respuesta> = [];
+    respuesta = this.getRespuesta();
+    let op = opciones.length
+    let bandera = 0;
+    let aux12
+    while (bandera < op) {
+      let niveles: Array<Nivel> = [];
+      for (let y = 0; y < opciones[bandera].nivel.length; y++) {
+        aux12 = false
+        for (let l = 0; l < respuesta.length; l++) {
+          if (opciones[bandera].nivel[y].idConfiguracionMatriz == respuesta[l].idRespuestaLogica) {
+            aux12 = true
+          }
+        }
+        if (aux12 == true) {
+          niveles.push({
+            idNivel: opciones[bandera].nivel[y].idNivel,
+            nivel: opciones[bandera].nivel[y].nivel,
+            idConfiguracionMatriz: opciones[bandera].nivel[y].idConfiguracionMatriz,
+            estado: "chequeado"
+          })
+        } else {
+          niveles.push({
+            idNivel: opciones[bandera].nivel[y].idNivel,
+            nivel: opciones[bandera].nivel[y].nivel,
+            idConfiguracionMatriz: opciones[bandera].nivel[y].idConfiguracionMatriz,
+            estado: "no"
+          })
+        }
+      }
+      opciones[bandera] = {
+        idOpciones: opciones[bandera].idOpciones,
+        opciones: opciones[bandera].opciones,
+        nivel: niveles,
+        dataRespuesta: opciones[bandera].dataRespuesta,
+      }
+      bandera++;
+    }
+    return opciones;
+  }
+  getRespuesta() {
+    let respuesta: Array<Respuesta> = [];
+    let aux = false;
+    for (let index = 0; index < this._listaPreguntaConfigurarMatriz.length; index++) {
+      aux = false
+      for (let index1 = 0; index1 < respuesta.length; index1++) {
+        if (this._listaPreguntaConfigurarMatriz[index].IdRespuestaLogica == respuesta[index1].idRespuestaLogica) {
+          aux = true;
+        }
+      }
+      if (aux == false) {
+        respuesta.push({
+          idRespuestaLogica: this._listaPreguntaConfigurarMatriz[index].IdRespuestaLogica,
+          descripcion: this._listaPreguntaConfigurarMatriz[index].DescripcionRespuestaAbierta,
+          dataRespuesta: this._listaPreguntaConfigurarMatriz[index].datoRespuestaMatriz
+        })
+      }
+    }
+    return respuesta;
+  }
+  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado) {
+    this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado, localStorage.getItem("IdAsignarEncuestadoEncriptado"),)
+      .then(data => {
+        if (data['http']['codigo'] == '200') {
+          debugger
+          this.matrizDesing.length = 0;
+          this._listaPreguntaConfigurarMatriz = data['respuesta'];
+          let opciones: Array<Opciones> = [];
+          this.totalFilas = opciones.length + 1;
+          this.respuesta = this.getRespuesta();
+          opciones = this.getNiveles();
+          this.observacion = this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Observacion;
+          this.matrizDesing.push({
+            leyendaLateral: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.leyendaLateral,
+            leyendaSuperior: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.leyendaSuperior,
+            opciones: opciones,
+            respuesta: this.respuesta,
+            idPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.IdPreguntaEncriptado,
+            descripcionPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Descripcion,
+          })
+          console.log('this.matrizDesing', this.matrizDesing);
+        }
+      }).catch(error => {
+        this.Toast("Error la cargar datos")
+      })
+  }
+  _guardarOpcion(_idOpcionEncriptado,op) {
+    let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
     this.respuestasService.respuesta_insertar(
-     id,
+      id,
       this.formRespuesta.get('_idPreguntaEncriptado').value,
       _idOpcionEncriptado,
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-      this.Identificador,null
-    ).then(data=>{
-      debugger
-      if (data['http']['codigo']=='200') {
-        console.log('======>la respuesta de la opcion',data['respuesta']);
-        
-      } else {
-        console.log('error 1',data['http']);
-        
+      this.Identificador, op
+    ).then(data => {
+      if (data['http']['codigo'] == '200') {
+        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
       }
-    }).catch(error=>{
-      console.log('error 2');
-
-    }).finally(()=>{});
+    }).catch(error => {
+      this.Toast("Error la cargar datos")
+    })
+  }
+  insertarpreguntaabierta(event, opcion: string) {
+    debugger
+    if(event.target.value){
+      this.respuestasService.insertar_DatosRespuesta(
+        event.target.value,
+        opcion,
+        localStorage.getItem("IdAsignarEncuestadoEncriptado"),
+        this.formRespuesta.get('_idPreguntaEncriptado').value)
+        .then(data => {
+          debugger
+          if (data['respuesta'] == 'Error al guardar') {
+            this.Toast("Error, seleccione primero una opción")
+          }else{
+            this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
+          }
+        }).catch(error => {
+          this.Toast("Error la cargar datos")
+        })
+    }
+  }
+  totalPreguntasRestantes(idpregunta:string){
+    this.preguntaBorrada.emit(idpregunta)
   }
 
-  
-  
-
+  async Toast(_mensaje: string, _duracion: number = 2000) {
+    const toast = await this.toastController.create({
+      message: _mensaje,
+      position: 'bottom',
+      animated: true,
+      duration: _duracion,
+      color: 'dark',
+      cssClass: 'toastFormato',
+      buttons: [
+        {
+          side: 'end',
+          icon: 'close-circle-outline',
+          role: 'cancel',
+        }
+      ]
+    });
+    toast.present();
+  }
 }
