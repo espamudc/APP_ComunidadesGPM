@@ -3,6 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
+import { Platform } from '@ionic/angular';
+import { NetworkService,ConnectionStatus } from 'src/app/services/network.service';
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.page.html',
@@ -16,7 +18,9 @@ export class InicioPage implements OnInit {
   };
   constructor(
     private router: Router,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private plt: Platform,
+    private networkService:NetworkService
   ) {
   }
   login(){
@@ -24,6 +28,14 @@ export class InicioPage implements OnInit {
   }
   ngOnInit() {
     this.menuController.enable(false);
+    this.plt.ready().then(() => {
+      if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
+        debugger
+      }else{
+        debugger
+      }
+    });
+
   }
   animationCreated(animationItem: AnimationItem): void {
     //console.log(animationItem);
