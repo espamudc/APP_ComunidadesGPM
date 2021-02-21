@@ -16,7 +16,7 @@
   </button>
   <button 
     [ngClass]="{'colordark':numeroCuestionarioEnProceso==0}" 
-    [disabled]="numeroCuestionarioEnProceso == '0'" 
+    [disabled]="numeroCuestionarioEnProceso == 0" 
     class="catalogoIzquierda" 
     (click)="encuestasEnProceso()"
   >
@@ -36,7 +36,7 @@
 </button>
   <button button 
     [ngClass]="{'colordark':numeroCuestionarioFinalizados==0}" 
-    [disabled]="numeroCuestionarioFinalizados == '0'" 
+    [disabled]="numeroCuestionarioFinalizados == 0" 
     class="catalogoIzquierda" 
     (click)="encuestasFinalizadas()"
   >
