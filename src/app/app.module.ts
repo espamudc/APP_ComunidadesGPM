@@ -7,7 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TipoPreguntaModule} from './components/tipo-pregunta/tipo-pregunta.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { Network } from '@ionic-native/network/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -15,8 +15,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { PreguntasRestantesPageModule } from './pages/preguntas-restantes/preguntas-restantes.module';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
+
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { ScreenMessengerPageModule } from './pages/screen-messenger/screen-messenger.module';
+import { AuthInterceptorService } from './interceptor/auth-interceptor.service';
 export function playerFactory() {
   return player;
 }
@@ -39,6 +41,11 @@ export function playerFactory() {
   ],
   exports:[],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    },
     Geolocation,
     StatusBar,
     SplashScreen,

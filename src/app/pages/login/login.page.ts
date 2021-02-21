@@ -65,6 +65,7 @@ export class LoginPage implements OnInit, AfterViewInit {
                    'TipoUsuario': element.TipoUsuario.Descripcion});
           });
           localStorage.setItem('TipoUsuario', JSON.stringify(user));
+          localStorage.setItem("token", data['token']);
           localStorage.setItem('authService', 'true');
           this.router.navigateByUrl("roles");
         } else {

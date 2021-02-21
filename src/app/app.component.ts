@@ -23,9 +23,11 @@ export class AppComponent implements OnInit {
   initializeApp() {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
+
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#239450');
+      
       this.a = localStorage.getItem('authService');
       if(this.a){
         this.router.navigateByUrl("roles");

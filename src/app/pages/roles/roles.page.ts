@@ -50,6 +50,7 @@ export class RolesPage implements OnInit {
             localStorage.removeItem('validarUser');
             localStorage.removeItem('TipoUsuario');
             localStorage.removeItem("_correo");
+            localStorage.removeItem('token');
             localStorage.removeItem('authService');
             localStorage.clear();
             this.router.navigateByUrl('/inicio');
@@ -66,6 +67,7 @@ export class RolesPage implements OnInit {
   onDestroy() {
     localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
     localStorage.removeItem('IdAsignarEncuestadoEncriptado');
+   
   }
   _escojerRol(_item:any) {
     localStorage.removeItem('IdAsignarUsuarioTipoUsuarioEncriptado');
