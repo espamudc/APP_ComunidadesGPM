@@ -9,12 +9,14 @@ import { SeleccionUnicaComponent } from './seleccion-unica/seleccion-unica.compo
 import { SeleccionMultipleComponent } from './seleccion-multiple/seleccion-multiple.component';
 import { ListCuestionarioComponent } from './list-cuestionario/list-cuestionario.component';
 import { MatrizAbiertaComponent } from './matriz-abierta/matriz-abierta.component';
+import { SeccionComponent } from './seccion/seccion.component';
 
 
 @NgModule({
   declarations: [
     AbiertaComponent,
     MatrizComponent,
+    SeccionComponent,
     SeleccionUnicaComponent,SeleccionMultipleComponent,
     ListCuestionarioComponent,MatrizAbiertaComponent],
   imports: [ CommonModule, FormsModule, IonicModule, RouterModule,ReactiveFormsModule]
@@ -22,6 +24,7 @@ import { MatrizAbiertaComponent } from './matriz-abierta/matriz-abierta.componen
     MatrizComponent,
     SeleccionUnicaComponent,
     SeleccionMultipleComponent,
+    SeccionComponent,
     ListCuestionarioComponent,MatrizAbiertaComponent]
 })
 export class TipoPreguntaModule { }

@@ -152,7 +152,7 @@ export class MatrizAbiertaComponent implements OnInit {
   }
   respuesta_insertarpreguntaabierta(event, indice: string, index: string) {
     const bar = event.target.value.trim();
-    if (event.target.value.length > 1) {
+    if (event.target.value.length >= 1) {
       let aux = this.opciones.length;
       let texto: string = index;
       for (let i = 0; i < aux; i++) {

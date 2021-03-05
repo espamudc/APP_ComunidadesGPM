@@ -19,6 +19,8 @@ import player from 'lottie-web';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { ScreenMessengerPageModule } from './pages/screen-messenger/screen-messenger.module';
 import { AuthInterceptorService } from './interceptor/auth-interceptor.service';
+
+
 export function playerFactory() {
   return player;
 }

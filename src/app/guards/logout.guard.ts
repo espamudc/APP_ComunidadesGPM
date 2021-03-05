@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 export class LogoutGuard implements CanActivate {
   constructor(private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    debugger
     let authLogin =localStorage.getItem("authService");
      if (authLogin) {
          return true;

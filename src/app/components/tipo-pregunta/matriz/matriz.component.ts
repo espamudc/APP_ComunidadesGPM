@@ -195,7 +195,6 @@ export class MatrizComponent implements OnInit {
     this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado, localStorage.getItem("IdAsignarEncuestadoEncriptado"),)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          debugger
           this.matrizDesing.length = 0;
           this._listaPreguntaConfigurarMatriz = data['respuesta'];
           let opciones: Array<Opciones> = [];
@@ -234,7 +233,6 @@ export class MatrizComponent implements OnInit {
     })
   }
   insertarpreguntaabierta(event, opcion: string) {
-    debugger
     if(event.target.value){
       this.respuestasService.insertar_DatosRespuesta(
         event.target.value,
@@ -242,7 +240,6 @@ export class MatrizComponent implements OnInit {
         localStorage.getItem("IdAsignarEncuestadoEncriptado"),
         this.formRespuesta.get('_idPreguntaEncriptado').value)
         .then(data => {
-          debugger
           if (data['respuesta'] == 'Error al guardar') {
             this.Toast("Error, seleccione primero una opción")
           }else{
