@@ -124,6 +124,7 @@ export class SeleccionUnicaComponent implements OnInit {
     ).then(data => {
       if (data['http']['codigo'] == '200') {
         //this.Toast("Datos Guardado")
+        event.target.value=this.RespuestaEncajonada;
         this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
       }
     }).catch(error => {

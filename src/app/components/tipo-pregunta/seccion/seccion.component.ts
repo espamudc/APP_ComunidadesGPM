@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component,  Input, OnInit,  } from '@angular/core';
 
 @Component({
   selector: 'app-seccion',
@@ -7,16 +7,21 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class SeccionComponent implements OnInit {
   sec:any
-  @Input() seccion: string;
+  @Input() i: number;
   @Input() seccionUltima: string;
-  @Output() seccionactual = new EventEmitter<string>();
-  constructor() { }
+
+  constructor() { 
+  }
+
   ngOnInit() {
-    if(this.seccion != this.seccionUltima ){
-      this.seccionUltima =this.seccion
-      this.sec=this.seccionUltima;
-      this.seccionactual.emit(this.seccion)
-     }
+    let tama= this.seccionUltima.length-1
+    if(this.i<tama){
+      let Ultima = this.seccionUltima[this.i+1]["Seccion"].Descripcion;
+      let seccion = this.seccionUltima[this.i]["Seccion"].Descripcion;
+      if((seccion != Ultima || this.i==0)){
+         this.sec=Ultima;
+        }
+    }
   }
 
 }

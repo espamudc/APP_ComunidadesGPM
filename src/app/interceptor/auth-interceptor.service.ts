@@ -27,10 +27,10 @@ export class AuthInterceptorService implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         //token expirado o token no válido
         if (err.status === 401) {
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/validar-usuario');
         }
 
-        return throwError( err );
+         return throwError( err );
 
       })
     );

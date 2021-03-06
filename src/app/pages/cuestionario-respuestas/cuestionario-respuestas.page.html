@@ -72,12 +72,13 @@
       </ion-col>
     </ion-slide>
   </ion-slides>
-  <div *ngFor="let _item_pregunta of listaPreguntas2" style="position: relative; clear: both;">
+  <div *ngFor="let _item_pregunta of listaPreguntas2 ; let i = index" style="position: relative; clear: both;">
    
-    <app-seccion style="color:#42d77d; font-size: 16px; "
-       [seccion]="_item_pregunta.Seccion.Descripcion" 
-       [seccionUltima]="seccionactual"
-       (seccionactual)="seccionActual($event)"></app-seccion>
+     <app-seccion 
+        style="color:#42d77d; font-size: 16px;"
+       [seccionUltima]="listaPreguntas2"
+       [i]="i">
+      </app-seccion>
 
     <app-seleccion-unica [ItemPregunta]="_item_pregunta" [Identificador]="_item_pregunta.TipoPregunta.Identificador"
       [IdCabeceraRespuestaEncriptado]="formCabeceraRespuesta.get('_idCabeceraRespuestaEncriptado').value"

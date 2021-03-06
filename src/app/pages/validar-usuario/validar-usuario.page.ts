@@ -48,6 +48,19 @@ export class ValidarUsuarioPage {
         this.Toast("Revise su conexión", 3000);
       })
   }
+  trash(){
+    localStorage.removeItem("TipoUsuario");
+    localStorage.removeItem("authService");
+    localStorage.removeItem("_correo");
+    localStorage.removeItem("token");
+    localStorage.removeItem("IdAsignarEncuestadoEncriptado");
+    localStorage.removeItem("IdVersionCuestionario");
+    localStorage.removeItem("IdAsignarUsuarioTipoUsuarioEncriptado");
+    localStorage.removeItem("TipoUsuario");
+  }
+  ngOnInit() {
+    this.trash();
+  }
   async Toast(_mensaje: string, _duracion: number = 2000) {
     const toast = await this.toastController.create({
       message: _mensaje,

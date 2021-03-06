@@ -22,7 +22,6 @@ import { ScreenMessengerPage } from '../../pages/screen-messenger/screen-messeng
 export class CuestionarioRespuestasPage implements OnInit {
   fichanombre: string = "Ficha técnica para levantamiento de información en la comunidad";
   fecha: any = new Date();
-  seccionactual:any;
   responsableCuestionario: string;
   responsableTelefono: string;
   formAsignarEncuestado: FormGroup;
@@ -113,9 +112,6 @@ export class CuestionarioRespuestasPage implements OnInit {
     });
     return await modal.present();
   }
-  seccionActual(sec:string){
-    this.seccionactual =sec; 
-  }
   preguntasRestantes(idPregunta:string){
     this.listaPreguntasRestantes = this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.IdPregunta !==idPregunta})
     this.totalPreguntasOpcionales= this.listaPreguntasRestantes.filter(function(preguntas){ return preguntas.Obligatorio==false}).length
@@ -180,7 +176,6 @@ export class CuestionarioRespuestasPage implements OnInit {
     let usuarioTecnico = this.formAsignarEncuestado.get('_idAsignarEncuestadoEncriptado').value;
    this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado, usuarioTecnico).then(data => {
       this.listaPreguntas2 = data["respuesta"];
-      this.seccionactual ="";
     }).catch(error => {
       this.Toast("Error al cargar datos")
     })
