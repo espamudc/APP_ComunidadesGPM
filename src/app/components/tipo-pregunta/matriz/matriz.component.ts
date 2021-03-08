@@ -86,11 +86,7 @@ export class MatrizComponent implements OnInit {
       if (aux == false) {
         let data:string
         let tamano= this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion.length;
-        if(this.respuesta[0].dataRespuesta!=null){
           var resp = this.respuesta.find(cues =>cues.descripcion.substr(0,tamano) === this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion);
-        }else{
-          resp = null;
-        }
         if((resp == null) || (resp == undefined)){
           data=null;
        }else{
@@ -210,7 +206,6 @@ export class MatrizComponent implements OnInit {
             idPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.IdPreguntaEncriptado,
             descripcionPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Descripcion,
           })
-          console.log('this.matrizDesing', this.matrizDesing);
         }
       }).catch(error => {
         this.Toast("Error la cargar datos")
