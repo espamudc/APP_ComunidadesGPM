@@ -9,10 +9,8 @@ export class SeccionComponent implements OnInit {
   sec:any
   @Input() i: number;
   @Input() seccionUltima: string;
-
   constructor() { 
   }
-
   ngOnInit() {
     let tama= this.seccionUltima.length-1
     if(this.i<tama){

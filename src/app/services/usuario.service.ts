@@ -34,4 +34,17 @@ export class UsuarioService {
         });
     });
   }
+  _updatetoken(correo: string) {
+    const body = new HttpParams()
+      .set('correo', correo)
+    return new Promise((resolve, reject) => {
+      this.http.post(url + 'token/update', body.toString(), { headers: this._header })
+        .subscribe(res => {
+          localStorage.setItem("token", res["token"]);
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
 }

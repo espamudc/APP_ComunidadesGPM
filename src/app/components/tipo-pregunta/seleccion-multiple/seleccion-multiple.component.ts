@@ -57,23 +57,24 @@ export class SeleccionMultipleComponent implements OnInit {
     this._listaOpcionesPreguntaSeleccion.forEach(function callback(currentValue, index, array) {
       if (bandera >= index) {
         if (currentValue.IdOpcionPreguntaSeleccion == currentValue.IdRespuestaLogica) {
-          almacen.push({
-            codigo: currentValue.IdRespuestaLogica,
-            descripcion: currentValue.DescripcionOpcionPreguntaSeleccion,
-            estado: 'chequeado'
-          });
+            almacen.push({
+              codigo: currentValue.IdOpcionPreguntaSeleccion,
+              descripcion: currentValue.DescripcionOpcionPreguntaSeleccion,
+              estado: 'chequeado'
+            });
         }
       }
-    });
+    }); 
     return almacen;
   }
   _pregunta_consultarPreguntasSeleccion() {
+    this.almacenRespuestas.length=0;
     this.respuestasService.consultarRespuestaPorPreguntaSeleccion(
       this.ItemPregunta.IdPreguntaEncriptado,
       localStorage.getItem("IdAsignarEncuestadoEncriptado"),
     ).then(data => {
       this._listaOpcionesPreguntaSeleccion = data['respuesta'];
-      this.almacenRespuestas = this.guadarRespuestas();
+      var recop = this.guadarRespuestas();
       let eliminar = this._listaOpcionesPreguntaSeleccion[0].TotalOpciones;
       if (this._listaOpcionesPreguntaSeleccion.length == eliminar) {
         this._listaOpcionesPreguntaSeleccion1 = this._listaOpcionesPreguntaSeleccion;
@@ -83,9 +84,15 @@ export class SeleccionMultipleComponent implements OnInit {
       let aux = false;
       for (let index = 0; index < this._listaOpcionesPreguntaSeleccion1.length; index++) {
         aux = false
-        for (let index1 = 0; index1 < this.almacenRespuestas.length; index1++) {
-          if (this._listaOpcionesPreguntaSeleccion1[index].IdOpcionPreguntaSeleccion == this.almacenRespuestas[index1].codigo) {
-            aux = true;
+        for (let index1 = 0; index1 < recop.length; index1++) {
+          if (this._listaOpcionesPreguntaSeleccion1[index].DescripcionOpcionPreguntaSeleccion == recop[index1].descripcion) {
+            aux = true
+            this.almacenRespuestas.push({
+              codigo: this._listaOpcionesPreguntaSeleccion1[index].IdOpcionPreguntaSeleccion,
+              descripcion: this._listaOpcionesPreguntaSeleccion1[index].DescripcionOpcionPreguntaSeleccion,
+              estado: 'chequeado'
+            });
+
           }
         }
         if (aux == false) {
@@ -96,9 +103,8 @@ export class SeleccionMultipleComponent implements OnInit {
           });
         }
       }
-      this.almacenRespuestas.sort(this.OrdenarArray);
     }).catch(error => {
-      this.Toast("Error la cargar datos")
+      this.Toast("No se pueden cargar las opciones")
     })
   }
   OrdenarArray(a, b) {

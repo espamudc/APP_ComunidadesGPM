@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Network } from '@ionic-native/network/ngx';
-
+import { UsuarioService } from '../services/usuario.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -15,8 +15,10 @@ export enum ConnectionStatus{
 })
 export class NetworkService {
   token:any;
+  id:any;
   private status: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.Offline);
   constructor(private network: Network, 
+    public usuarioService:  UsuarioService,
     private toastController: ToastController,
     private plt: Platform,
     private splashScreen: SplashScreen,
@@ -28,6 +30,7 @@ export class NetworkService {
       this.statusBar.overlaysWebView(false);
       this.statusBar.backgroundColorByHexString('#239450');
       this.token = localStorage.getItem('token');
+      this.accessToken();
       if(this.token){
         this.router.navigateByUrl("roles");
         }
@@ -36,6 +39,29 @@ export class NetworkService {
       this.status.next(status);
     });
    }
+   ngOnDestroy(){
+    let toast = this.toastController.create({
+      message: `salí de la app`,
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.then(toast => toast.present());
+    if (this.id) {
+      clearInterval(this.id);
+      let toast = this.toastController.create({
+        message: `borré interval`,
+        duration: 3000,
+        position: 'bottom'
+      });
+      toast.then(toast => toast.present());
+    }
+   }
+  public accessToken(): void {  
+   this.id = setInterval(() => {
+      this.usuarioService._updatetoken(localStorage.getItem('_correo')) 
+    },  1680000);
+  }
+//1680000
    public initializeNetworkEvents() {
     this.network.onDisconnect().subscribe(() => {
       if (this.status.getValue() === ConnectionStatus.Online) {
