@@ -61,7 +61,7 @@ export class MapaPage implements OnInit {
       if (data["http"].codigo == 200) {
         this.idAsignarEncuestado = data["respuesta"].idAsignarEncuestado;
         this.idModeloPublicado = data["respuesta"].idModeloPublicado;
-        window.open("http://apigpm.manabi.gob.ec:8080/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado);
+        window.open("https://apigpm.manabi.gob.ec/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado);
       } else {
         this.Toast("No existe caracterización para mostrar");
       }
@@ -99,11 +99,11 @@ export class MapaPage implements OnInit {
   }
   getCoordenadas() {
     this.geolocation.getCurrentPosition().then((resp) => {
-       this.latitud = resp.coords.latitude;
-       this.longitud = resp.coords.longitude;
-      //CALCETA
-     // this.latitud = -0.848615;
-     // this.longitud = -80.161396;
+      // this.latitud = resp.coords.latitude;
+      // this.longitud = resp.coords.longitude;
+      //CALCETA -0.864485, -80.526624
+      this.latitud = -0.864485;
+      this.longitud = -80.526624;
         //QUIROGA
      // this.latitud = -0.881365;
       // this.longitud = -80.094749;

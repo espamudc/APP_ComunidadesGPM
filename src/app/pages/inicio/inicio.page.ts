@@ -28,6 +28,12 @@ export class InicioPage implements OnInit {
   }
   ngOnInit() {
     this.menuController.enable(false);
+    this.cargarPLatformular();
+  }
+  ionViewWillEnter(){
+    this.cargarPLatformular();
+  }
+  cargarPLatformular() {
     this.plt.ready().then(() => {
       if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
         debugger
@@ -35,7 +41,6 @@ export class InicioPage implements OnInit {
         debugger
       }
     });
-
   }
   animationCreated(animationItem: AnimationItem): void {
     //console.log(animationItem);

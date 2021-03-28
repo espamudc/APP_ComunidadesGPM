@@ -25,6 +25,7 @@ export class NetworkService {
     private statusBar: StatusBar,
     private router: Router) {
     this.plt.ready().then(() => {
+      debugger
       this.splashScreen.hide();
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
@@ -40,25 +41,26 @@ export class NetworkService {
     });
    }
    ngOnDestroy(){
-    let toast = this.toastController.create({
-      message: `salí de la app`,
-      duration: 3000,
-      position: 'bottom'
-    });
-    toast.then(toast => toast.present());
+    // let toast = this.toastController.create({
+    //   message: `salí de la app`,
+    //   duration: 3000,
+    //   position: 'bottom'
+    // });
+   // toast.then(toast => toast.present());
     if (this.id) {
       clearInterval(this.id);
-      let toast = this.toastController.create({
-        message: `borré interval`,
-        duration: 3000,
-        position: 'bottom'
-      });
-      toast.then(toast => toast.present());
+      // let toast = this.toastController.create({
+      //   message: `borré interval`,
+      //   duration: 3000,
+      //   position: 'bottom'
+      // });
+      // toast.then(toast => toast.present());
     }
    }
   public accessToken(): void {  
    this.id = setInterval(() => {
       this.usuarioService._updatetoken(localStorage.getItem('_correo')) 
+      console.log('token actualizado')
     },  1680000);
   }
 //1680000

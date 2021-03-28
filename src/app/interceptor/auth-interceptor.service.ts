@@ -32,14 +32,11 @@ export class AuthInterceptorService implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         //token expirado o token no válido
         if (err.status === 401) {
-          debugger
-        
-           
-         // this.router.navigateByUrl('/tabs/home');
+
+          this.router.navigateByUrl('/tabs/home');
         }
 
-        return throwError( "" );
-
+        return throwError( err );
       })
     );
   }
