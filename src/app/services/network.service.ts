@@ -61,6 +61,13 @@ export class NetworkService {
    this.id = setInterval(() => {
       this.usuarioService._updatetoken(localStorage.getItem('_correo')) 
       console.log('token actualizado')
+      let toast = this.toastController.create({
+        message: `token actualizado`,
+        duration: 3000,
+         position: 'bottom'
+       });
+       toast.then(toast => toast.present());
+
     },  1680000);
   }
 //1680000
