@@ -7,6 +7,7 @@ import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { ReporteEjecutivoPageRoutingModule } from './reporte-ejecutivo-routing.module';
 
 import { ReporteEjecutivoPage } from './reporte-ejecutivo.page';
+import { TabModule } from 'src/app/components/tab/tab.module';
 
 @NgModule({
   imports: [
@@ -14,8 +15,9 @@ import { ReporteEjecutivoPage } from './reporte-ejecutivo.page';
     FormsModule,
     IonicModule,
     AutocompleteLibModule,
-    ReporteEjecutivoPageRoutingModule
+    ReporteEjecutivoPageRoutingModule,
+    TabModule
   ],
-  declarations: [ReporteEjecutivoPage]
+  declarations: [ReporteEjecutivoPage],
 })
 export class ReporteEjecutivoPageModule {}

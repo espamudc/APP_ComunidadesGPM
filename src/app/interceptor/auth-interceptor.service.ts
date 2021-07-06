@@ -3,13 +3,13 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-
+import { UsuarioService } from '../services/usuario.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,    public usuarioService:  UsuarioService,) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
   
     const token: string = localStorage.getItem('token');
@@ -32,10 +32,9 @@ export class AuthInterceptorService implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         //token expirado o token no válido
         if (err.status === 401) {
-
+          this.usuarioService._updatetoken(localStorage.getItem('_correo')) 
           this.router.navigateByUrl('/tabs/home');
         }
-
         return throwError( err );
       })
     );
