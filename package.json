@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@angular/service-worker": "~8.2.14",
     "@capacitor/core": "1.5.1",
     "@ionic-native/core": "^5.27.0",
     "@ionic-native/geolocation": "^5.27.0",

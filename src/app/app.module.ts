@@ -19,6 +19,8 @@ import player from 'lottie-web';
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import { ScreenMessengerPageModule } from './pages/screen-messenger/screen-messenger.module';
 import { AuthInterceptorService } from './interceptor/auth-interceptor.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 export function playerFactory() {
@@ -38,7 +40,7 @@ export function playerFactory() {
     TipoPreguntaModule,
     PreguntasRestantesPageModule,
     ScreenMessengerPageModule,
-    IonicStorageModule.forRoot(),LottieModule.forRoot({ player: playerFactory })
+    IonicStorageModule.forRoot(),LottieModule.forRoot({ player: playerFactory }), ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     
   ],
   exports:[],
