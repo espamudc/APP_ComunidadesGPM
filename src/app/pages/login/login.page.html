@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-buttons slot="start" fill="solid">
       <ion-button routerLink="../validar-usuario" class="ion-no-border">
-        <ion-icon slot="icon-only" style="color:white" ios="chevron-back-outline" name="chevron-back-outline"></ion-icon>
+        <ion-icon  ios="chevron-back-outline" md="chevron-back-sharp"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -25,7 +25,7 @@
           </ion-item>
           <ion-item>
             <ion-button [disabled]="esValido" (click)="_validarCredenciales()" size="default" expand="full"
-              style="width: 100%;" class="ion-no-padding">
+              style="width: 100%"  class="ion-no-padding">
               Iniciar sesión
             </ion-button>
           </ion-item>
