@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { MapaService } from '../../services/mapa.service';
+
 import { CabeceraRespuestaService } from '../../services/cabecera-respuesta.service';
 import { ToastController } from '@ionic/angular';
+
 var map;
 declare var mapboxgl;
 @Component({
@@ -17,13 +19,15 @@ export class MapaPage implements OnInit {
   idAsignarEncuestado: string;
   idModeloPublicado: string;
   datos: any;
+  srcPdfidAsignarEncuestado:any;
+  srcPdfidModeloPublicado:any
   constructor(private geolocation: Geolocation,
-    private mapaService: MapaService,
     private cabeceraRespuestaService: CabeceraRespuestaService,
-    private toastController: ToastController) { }
-
+    private toastController: ToastController,
+) { }
+   
   ngOnInit() {
-    this.getCoordenadas();
+   this.getCoordenadas();
   }
   addMarket() {
     var el = document.createElement('div');
@@ -39,8 +43,8 @@ export class MapaPage implements OnInit {
     for (let i = 0; i < data.length; i++) {
       var el = document.createElement('div');
       var h1 = document.createElement('div');
-      h1.innerHTML = `<p>Comunidad: ${data[i].NombreComunidad}</p>
-      <button type="button">Caracterización</button>`;
+      h1.innerHTML = `<p>Comunidad: <b> ${data[i].NombreComunidad}</b></p>
+      <button type="button" style="color:red; border: solid 1px red">Caracterización</button>`;
       el.className = 'marker';
       el.style.backgroundImage = 'url(../../../../../assets/img/location.png)';
       el.style.width = '32px';
@@ -48,7 +52,7 @@ export class MapaPage implements OnInit {
       h1.addEventListener('click', () => {
         this.getCaracterizacion(data[i].idComunidad);
       });
-      let popup = new mapboxgl.Popup({ offset: 25, closeOnClick: true }) // add popups 
+      let popup = new mapboxgl.Popup({ closeOnClick: true }) // add popups 
         .setDOMContent(h1);
       let marcador = new mapboxgl.Marker(el)
         .setLngLat([data[i].longitud, data[i].latitud])
@@ -57,15 +61,41 @@ export class MapaPage implements OnInit {
     }
   }
   getCaracterizacion(idComunidad?: string): void {
+    debugger
     this.cabeceraRespuestaService._obtenerCaracterizacion(idComunidad).then(data => {
       if (data["http"].codigo == 200) {
-        this.idAsignarEncuestado = data["respuesta"].idAsignarEncuestado;
+       // this.idAsignarEncuestado = data["respuesta"].idAsignarEncuestado.slice(0, -1);
+       // this.idModeloPublicado = data["respuesta"].idModeloPublicado.slice(0, -1);
+       // this.router.navigateByUrl(`/visorpdf/${this.idAsignarEncuestado}/${this.idModeloPublicado}`);
+       this.idAsignarEncuestado = data["respuesta"].idAsignarEncuestado;
+       this.idModeloPublicado = data["respuesta"].idModeloPublicado;
+       window.open("https://apigpm.manabi.gob.ec/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado);
+      
+     /*  this.idAsignarEncuestado = data["respuesta"].idAsignarEncuestado;
         this.idModeloPublicado = data["respuesta"].idModeloPublicado;
-        window.open("https://apigpm.manabi.gob.ec/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado);
+       let path = "http://apigpm.manabi.gob.ec:8080/Caracterizacion/Caracterizacion?Encuesta=" + this.idAsignarEncuestado + "&Caracterizacion=" + this.idModeloPublicado;
+      
+       let filePath = this.file.applicationDirectory + 'www/assets';
+        
+          if (this.platform.is('android')) {
+                let fakeName = Date.now();
+                this.file.copyFile(filePath, 'francesco2019.pdf', this.file.dataDirectory, `${fakeName}.pdf`)
+                .then((result) => {
+                  this.fileOpener.open(result.nativeURL, 'application/pdf');
+                 }).catch(err=>{
+                  console.log("Error to copy Image = ", err)
+                })
+          } else {
+            const options: DocumentViewerOptions = { title: 'Caracterización'}
+            this.document.viewDocument(`${filePath}/francesco2019.pdf`, 'application/pdf', options);
+          }*/
       } else {
         this.Toast("No existe caracterización para mostrar");
       }
     }).catch(error => {
+      debugger
+    console.log(error);
+    debugger
       this.Toast("Error al generar la caracterización");
     })
   }
@@ -99,11 +129,12 @@ export class MapaPage implements OnInit {
   }
   getCoordenadas() {
     this.geolocation.getCurrentPosition().then((resp) => {
-      // this.latitud = resp.coords.latitude;
-      // this.longitud = resp.coords.longitude;
+       this.latitud = resp.coords.latitude;
+       this.longitud = resp.coords.longitude;
       //CALCETA -0.864485, -80.526624
-      this.latitud = -0.864485;
-      this.longitud = -80.526624;
+      //gilces  -0.864485, -80.526624
+      //this.latitud = -0.864485;
+      //this.longitud = -80.526624;
         //QUIROGA
      // this.latitud = -0.881365;
       // this.longitud = -80.094749;

@@ -25,7 +25,6 @@ export class NetworkService {
     private statusBar: StatusBar,
     private router: Router) {
     this.plt.ready().then(() => {
-      debugger
       this.splashScreen.hide();
       this.statusBar.styleDefault();
       this.statusBar.overlaysWebView(false);
@@ -33,6 +32,7 @@ export class NetworkService {
       this.token = localStorage.getItem('token');
       this.accessToken();
       if(this.token){
+        this.usuarioService._updatetoken(localStorage.getItem('_correo')) 
         this.router.navigateByUrl("roles");
         }
       this.initializeNetworkEvents();
@@ -41,34 +41,14 @@ export class NetworkService {
     });
    }
    ngOnDestroy(){
-    // let toast = this.toastController.create({
-    //   message: `salí de la app`,
-    //   duration: 3000,
-    //   position: 'bottom'
-    // });
-   // toast.then(toast => toast.present());
     if (this.id) {
       clearInterval(this.id);
-      // let toast = this.toastController.create({
-      //   message: `borré interval`,
-      //   duration: 3000,
-      //   position: 'bottom'
-      // });
-      // toast.then(toast => toast.present());
     }
    }
   public accessToken(): void {  
    this.id = setInterval(() => {
       this.usuarioService._updatetoken(localStorage.getItem('_correo')) 
-      console.log('token actualizado')
-      let toast = this.toastController.create({
-        message: `token actualizado`,
-        duration: 3000,
-         position: 'bottom'
-       });
-       toast.then(toast => toast.present());
-
-    },  1680000);
+    },  3360000);
   }
 //1680000
    public initializeNetworkEvents() {
