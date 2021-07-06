@@ -129,12 +129,12 @@ export class MapaPage implements OnInit {
   }
   getCoordenadas() {
     this.geolocation.getCurrentPosition().then((resp) => {
-       this.latitud = resp.coords.latitude;
-       this.longitud = resp.coords.longitude;
+      // this.latitud = resp.coords.latitude;
+     //  this.longitud = resp.coords.longitude;
       //CALCETA -0.864485, -80.526624
       //gilces  -0.864485, -80.526624
-      //this.latitud = -0.864485;
-      //this.longitud = -80.526624;
+      this.latitud = -0.864485;
+     this.longitud = -80.526624;
         //QUIROGA
      // this.latitud = -0.881365;
       // this.longitud = -80.094749;
