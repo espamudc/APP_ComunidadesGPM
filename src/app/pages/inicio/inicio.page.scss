@@ -1,16 +1,27 @@
 .container{
-    text-align: center;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  
 }
 ion-slides {
-    height: 100%;
-  }
-  ion-toolbar {
-    --background-color: transparent;
-    --ion-color-base: transparent !important;
-  }
+  height: 100%;
+}
+ion-toolbar {
+  --background-color: transparent;
+  --ion-color-base: transparent !important;
+}
+
+.ct{
+  width: 94%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.logoimagen {
+  width:100%;
+  max-width:630px;
+  display:inline-block;
+}

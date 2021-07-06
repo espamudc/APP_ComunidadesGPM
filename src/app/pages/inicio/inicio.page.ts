@@ -36,9 +36,9 @@ export class InicioPage implements OnInit {
   cargarPLatformular() {
     this.plt.ready().then(() => {
       if (this.networkService.getCurrentNetworkStatus() == ConnectionStatus.Offline) {
-        debugger
+       
       }else{
-        debugger
+  
       }
     });
   }
