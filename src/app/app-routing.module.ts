@@ -66,7 +66,12 @@ const routes: Routes = [
   {
     path: 'versiones/:id',
     loadChildren: () => import('./pages/versiones/versiones.module').then( m => m.VersionesPageModule)
+  },
+  {
+    path: 'comunidades/:idc/:idv',
+    loadChildren: () => import('./pages/comunidades/comunidades.module').then( m => m.ComunidadesPageModule)
   }
+
 
 
 

@@ -6,18 +6,14 @@
       <ion-title>Versiones</ion-title>
   </ion-toolbar>
 </ion-header>
-
-
 <ion-content>
   <ion-list>
-
-    <ion-item lines="full" *ngFor="let item of versiones">
+    <ion-item lines="full" *ngFor="let item of versiones" (click)="nextPage(item.IdCabeceraVersionCuestionarioEncriptado)">
       <ion-label class="ion-text-wrap capitalize">
         Característica: {{item.Caracteristica}}<br>
         Versión: {{item.Version}} 
-              <p class="firstUppercase"><span>Fecha:</span> {{item.FechaCreacion | date: 'yyyy-MM-dd'}}</p>
+              <p class="firstUppercase"><span>Fecha de creación:</span> {{item.FechaCreacion | date: 'yyyy-MM-dd'}}</p>
       </ion-label>
-    
       <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
