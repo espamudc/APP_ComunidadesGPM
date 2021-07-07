@@ -58,9 +58,14 @@ const routes: Routes = [
     path: 'reporte-ejecutivo',
     canActivate: [LoginGuard],
     loadChildren: () => import('./pages/reporte-ejecutivo/reporte-ejecutivo.module').then( m => m.ReporteEjecutivoPageModule)
-  },  {
+  },
+  {
     path: 'search',
     loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+  },
+  {
+    path: 'versiones/:id',
+    loadChildren: () => import('./pages/versiones/versiones.module').then( m => m.VersionesPageModule)
   }
 
 

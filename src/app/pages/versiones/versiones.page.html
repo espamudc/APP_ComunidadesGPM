@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="gpm-success">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="search"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Versiones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+
+    <ion-item lines="full" *ngFor="let item of versiones">
+      <ion-label class="ion-text-wrap capitalize">
+        Característica: {{item.Caracteristica}}<br>
+        Versión: {{item.Version}} 
+              <p class="firstUppercase"><span>Fecha:</span> {{item.FechaCreacion | date: 'yyyy-MM-dd'}}</p>
+      </ion-label>
+    
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<app-tab></app-tab>

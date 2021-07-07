@@ -40,4 +40,33 @@ export class AsignarEncuestadoService {
         });
     });
   }
+
+  
+  _consultarCuestionarioGeneriocoPorIdAsignarUsuarioTipoUsuarioEncriptado(
+    _IdAsignarUsuarioTipoUsuarioEncriptado:any
+  ){
+    const _body = new HttpParams();
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'asignarresponsable_consultarporidasignarusuariotipousuario?_idAsignarUsuarioTipoUsuarioEncriptado='+_IdAsignarUsuarioTipoUsuarioEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
+  _consultarCabeceraVersionCuestionario(
+    _IdCuestionarioGenericoEncriptado
+  ){
+    const _body = new HttpParams()
+    ;
+    return new Promise((resolve, reject) => {
+      this.http.post(url+'cabeceraversioncuestionario_consultarporidcuestionariogenerico?_idCuestionarioGenericoEncriptado='+_IdCuestionarioGenericoEncriptado,_body.toString(),{headers:this._header})
+                .subscribe(res=>{
+                  resolve(res);
+                },(err)=>{
+                  reject(err);
+                });
+    });
+  }
 }

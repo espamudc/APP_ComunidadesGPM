@@ -1,4 +1,14 @@
 ion-title{
-  
     font-size: 14px;
+  }
+
+  
+  .capitalize{
+    text-transform: lowercase;
+  }
+  .capitalize:first-letter{
+    text-transform: uppercase;
+  }
+  .firstUppercase:first-letter{
+    text-transform: uppercase;
   }
