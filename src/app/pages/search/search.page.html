@@ -6,16 +6,13 @@
       <ion-title>Cuestionarios</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-list>
-
     <ion-item lines="full" *ngFor="let item of cuestionarios" (click)="nextPage(item.CuestionarioGenerico.IdCuestionarioGenericoEncriptado)">
       <ion-label class="ion-text-wrap capitalize">
              {{item.CuestionarioGenerico.Nombre }} 
               <p class="firstUppercase"><span>Fecha:</span> {{item.FechaAsignacion | date: 'yyyy-MM-dd'}}</p>
       </ion-label>
-    
       <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
