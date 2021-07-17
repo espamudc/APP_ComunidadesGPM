@@ -28,6 +28,7 @@
           <app-respuesta-abierta *ngIf="item.TipoPregunta.Identificador==1" [Item]="item"> </app-respuesta-abierta>
           <app-respuesta-seleccion-unica *ngIf="item.TipoPregunta.Identificador==2" [Item]="item"></app-respuesta-seleccion-unica>
           <app-respuesta-seleccion-unica *ngIf="item.TipoPregunta.Identificador==3" [Item]="item"></app-respuesta-seleccion-unica>
+          <app-respuesta-matriz-abierta *ngIf="item.TipoPregunta.Identificador==6" [Item]="item"></app-respuesta-matriz-abierta>
         </p>
       </li>
     </ul>

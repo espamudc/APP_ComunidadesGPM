@@ -1,0 +1,26 @@
+#main-container{
+    margin: 150px auto;
+    width: 600px ;
+}
+table{
+    background-color: white;
+    text-align: center;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td{
+    border: solid 1px black;
+    padding: 10px;
+}
+thead{
+    background-color: #2dd36f;
+    border-bottom: solid 2px #0F362d;
+    color: white;
+}
+
+td:hover{
+    // background: var(--ion-color-primary);
+    background-color: #ebebeb;
+    color: black;
+}
