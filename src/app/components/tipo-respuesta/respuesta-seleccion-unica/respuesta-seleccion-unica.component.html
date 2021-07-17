@@ -1,0 +1,14 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th style="width: 30%;"># veces </th>
+      <th style="width: 70%;">Respuesta</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of respuestas">
+      <td> {{item.VecesRepetidas}} </td>
+      <td> {{item.DescripcionRespuestaSeleccion}} </td>
+    </tr>
+  </tbody>
+</table>
