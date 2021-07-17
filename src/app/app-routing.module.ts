@@ -70,7 +70,12 @@ const routes: Routes = [
   {
     path: 'comunidades/:idc/:idv',
     loadChildren: () => import('./pages/comunidades/comunidades.module').then( m => m.ComunidadesPageModule)
+  },
+  {
+    path: 'preguntas/:idcu/:idve/:idco',
+    loadChildren: () => import('./pages/preguntas/preguntas.module').then( m => m.PreguntasPageModule)
   }
+
 
 
 

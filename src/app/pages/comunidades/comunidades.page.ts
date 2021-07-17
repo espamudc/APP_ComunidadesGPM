@@ -8,14 +8,16 @@ import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.se
 })
 export class ComunidadesPage implements OnInit {
 comunidades:any
+idc:string;
+idv:string;
   constructor(private asignarEncuestadoService:AsignarEncuestadoService,
     private activatedRoute:ActivatedRoute,
     private router:Router) { }
 
   ngOnInit() {
-    let idc= this.activatedRoute.snapshot.paramMap.get('idc');
-    let idv= this.activatedRoute.snapshot.paramMap.get('idv');
-    this.obtenerComunidadesVersionesCuestionario(idc,idv)
+    this.idc= this.activatedRoute.snapshot.paramMap.get('idc');
+    this.idv= this.activatedRoute.snapshot.paramMap.get('idv');
+    this.obtenerComunidadesVersionesCuestionario(this.idc,this.idv)
   }
   obtenerComunidadesVersionesCuestionario(idc:string,idv:string) {
     this.asignarEncuestadoService._consultarComunidadesPorVersion(
@@ -23,5 +25,9 @@ comunidades:any
     ).then(data => {
       this.comunidades=data["respuesta"]
     })
+  }
+
+  verPreguntas(idcomunidad:string){
+    this.router.navigate(['preguntas', this.idc,this.idv,idcomunidad])
   }
 }

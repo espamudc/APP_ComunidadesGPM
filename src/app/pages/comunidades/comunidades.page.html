@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
   <ion-list>
-    <ion-item lines="full" *ngFor="let item of comunidades">
+    <ion-item lines="full" *ngFor="let item of comunidades" (click)="verPreguntas(item.IdComunidadEncriptado)">
       <ion-label class="ion-text-wrap">
         Comunidad: {{item.NombreComunidad}}<br>
         <p class="firstUppercase">Parroquia: {{item.Parroquia.NombreParroquia}}</p>

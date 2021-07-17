@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="gpm-success">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="search"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Preguntas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+    <ion-slide *ngFor="let item of listComponents" style="width: auto; height: 60px">
+      <ion-col (click)="mostarPreguntas(item)">
+        <ion-chip color="success">
+          <ion-label style="font-size: 12px !important;">{{item.Descripcion |uppercase}}</ion-label>
+        </ion-chip>
+      </ion-col>
+    </ion-slide>
+  </ion-slides>
+
+  <div id="faq">
+    <ul>
+      <li *ngFor="let item of listaPreguntas">
+        <input type="checkbox" checked>
+        <i></i>
+        <h2> {{ quitarRandom(item.Descripcion) }}</h2>
+        <p>
+          <app-respuesta-abierta *ngIf="item.TipoPregunta.Identificador==1" [Item]="item"> </app-respuesta-abierta></p>
+      </li>
+    </ul>
+  
+  </div>
+</ion-content>
+<app-tab></app-tab>
