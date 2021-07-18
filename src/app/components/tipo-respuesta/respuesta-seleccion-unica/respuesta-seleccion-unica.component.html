@@ -1,4 +1,5 @@
-<table class="table">
+<span style="color: red;font-size: 12px;" *ngIf="loadingMatriz">Cargando... <img src="assets/img/ajax-loader.gif" alt=""></span>
+<table class="table" [hidden]="loadingMatriz">
   <thead>
     <tr>
       <th style="width: 30%;"># veces </th>

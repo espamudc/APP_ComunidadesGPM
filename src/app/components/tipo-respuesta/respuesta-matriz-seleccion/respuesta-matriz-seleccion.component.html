@@ -1,4 +1,6 @@
-<table class="table" *ngFor="let matriz of matrizDesing">
+
+<span style="color: red;font-size: 12px;" *ngIf="loadingMatriz">Cargando... <img src="assets/img/ajax-loader.gif" alt=""></span>
+<table class="table" *ngFor="let matriz of matrizDesing" [hidden]="loadingMatriz" >
   <thead>
     <th [attr.rowspan]="totalFilas+2"><b>{{matriz.leyendaLateral}}</b></th>
     <tr>

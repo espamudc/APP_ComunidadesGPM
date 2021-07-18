@@ -15,6 +15,7 @@ export class PreguntasPage implements OnInit {
   idcu:string;
   idve:string;
   idco:string;
+  loadingMatriz:boolean=true;
   listComponents: any[] = [];
   constructor(private asignarEncuestadoService:AsignarEncuestadoService,
     private activatedRoute:ActivatedRoute,
@@ -38,6 +39,7 @@ export class PreguntasPage implements OnInit {
       
       this.listaPreguntas=data["respuesta"].listaPreguntas
       this.Preguntas=data["respuesta"].listaPreguntas
+      this.loadingMatriz=false;
     })
   }
   quitarRandom(val) {
@@ -58,6 +60,7 @@ export class PreguntasPage implements OnInit {
   //mostrar preguntas por componente
   mostarPreguntas(item: any) {
     this.listaPreguntas=this.Preguntas.filter(i=>i.Componente.Descripcion==item.Descripcion)
+    this.loadingMatriz=false;
   }
   //Mensajes
   async Toast(_mensaje: string, _duracion: number = 2000) {

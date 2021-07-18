@@ -34,6 +34,8 @@ interface MatrizDesing {
 })
 export class RespuestaMatrizSeleccionComponent implements OnInit {
   @Input() Item :any ={};
+  @Input() idvercuestionario :any ={};
+  @Input() idcomunidad :any ={};
   op:any;
   leyandaSuperior: string;
   leyandaLateral: string;
@@ -42,7 +44,7 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
   _listaPreguntaConfigurarMatriz: any[] = [];
   matrizDesing: Array<MatrizDesing> = [];
   respuesta: Array<Respuesta> = [];
-  loadingMatriz:boolean=false;
+  loadingMatriz:boolean=true;
   constructor(private preguntasService:PreguntasService, private toastController:ToastController) { }
   ngOnInit() {
     this._consultarPreguntaConfigurarMatriz(this.Item.IdPreguntaEncriptado);
@@ -85,6 +87,7 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
       let niveles: Array<Nivel> = [];
       for (let i = 0; i < this._listaPreguntaConfigurarMatriz.length; i++) {
         aux = false
+        
         if (opciones[j].idOpciones == this._listaPreguntaConfigurarMatriz[i].OpcionUnoMatriz.IdOpcionUnoMatrizEncriptado) {
           for (let index1 = 0; index1 < niveles.length; index1++) {
             if (this._listaPreguntaConfigurarMatriz[i].OpcionDosMatriz.IdOpcionDosMatrizEncriptado == niveles[index1].idNivel) {
@@ -126,12 +129,19 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
         if (aux12 == true) {
           var opcionNivel=opciones[bandera].opciones+","+opciones[bandera].nivel[y].nivel 
           var totalvecesRespuesta= this.Item['ListaRespuestas'].find(l => l.DescripcionRespuestaAbierta==opcionNivel)
+          let vr;
+          if((totalvecesRespuesta == null) || (totalvecesRespuesta == undefined)){
+            vr = 0;
+         }else{
+           vr=totalvecesRespuesta.VecesRepetidas;
+         }
+
           niveles.push({
             idNivel: opciones[bandera].nivel[y].idNivel,
             nivel: opciones[bandera].nivel[y].nivel,
             idConfiguracionMatriz: opciones[bandera].nivel[y].idConfiguracionMatriz,
             estado: "chequeado",
-            totalrespuesta:totalvecesRespuesta.VecesRepetidas
+            totalrespuesta:vr
           })
         } else {
           niveles.push({
@@ -175,7 +185,7 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
     return respuesta;
   }
   _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado) {
-    this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado, localStorage.getItem("IdAsignarEncuestadoEncriptado"),)
+    this.preguntasService._consultarPreguntaConfigurarMatrizRespuesta(_IdPreguntaEncriptado, this.idcomunidad,this.idvercuestionario)
       .then(data => {
         if (data['http']['codigo'] == '200') {
           this.matrizDesing.length = 0;
@@ -193,9 +203,12 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
             idPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.IdPreguntaEncriptado,
             descripcionPregunta: this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Descripcion,
           })
+         
         }
+        this.loadingMatriz=false;
       }).catch(error => {
         this.Toast("Error la cargar datos")
+        this.loadingMatriz=false;
       })
   }
   async Toast(_mensaje: string, _duracion: number = 2000) {

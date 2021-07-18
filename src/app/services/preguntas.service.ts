@@ -44,6 +44,17 @@ export class PreguntasService {
         });
     });
   }
+  _consultarPreguntaConfigurarMatrizRespuesta(_IdPreguntaEncriptado: string, _IdComunidad:string , IdVersionCuestionario: string) {
+    const urlApi = url + `configurarmatriz_seleccionrespuesta?_idPreguntaEncriptado=${_IdPreguntaEncriptado}&_idcomunidad=${_IdComunidad}&_idversioncuestionario=${IdVersionCuestionario}`;
+    return new Promise((resolve, reject) => {
+      this.http.get(urlApi)
+        .subscribe(res => {
+          resolve(res);
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
   PreguntasPorcomponentes(idComponente: string, usuarioTecnico: string) {
     const urlApi = url + `/pregunta/componente?idcomponente=${idComponente}&idusuariotecnico=${usuarioTecnico}`;
     return new Promise((resolve, reject) => {

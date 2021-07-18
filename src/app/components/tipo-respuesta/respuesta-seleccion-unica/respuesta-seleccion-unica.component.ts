@@ -8,11 +8,12 @@ import { Component, OnInit,Input } from '@angular/core';
 export class RespuestaSeleccionUnicaComponent implements OnInit {
   @Input() Item: any = {};
   respuestas:any=[];
+  loadingMatriz:boolean=true;
   constructor() { }
 
   ngOnInit() {
-
     this.respuestas= this.Item.ListaRespuestas;
+    this.loadingMatriz=false;
   }
 
 }
