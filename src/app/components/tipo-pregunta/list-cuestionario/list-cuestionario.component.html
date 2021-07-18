@@ -5,12 +5,19 @@
    *ngFor="let item of cuestionario; let i = index"
    [disabled]="item.CuestionarioFinalizado == '1'"
 >
+
   <ion-label>
-    <ion-label color="success">{{item.nombreCuestionario | uppercase}} </ion-label> 
+    <ion-label color="success">{{item.nombreCuestionario | uppercase}}  </ion-label> 
+    <ion-label color="success">Versión: {{item.Version}}  </ion-label> 
+    <h3 style="font-size: 10px; color: brown;"> 
+      <ion-icon name="calendar-outline"></ion-icon>
+      Fecha de Creación : {{item.FechaCreacion | date: 'yyyy-MM-dd'}}
+    </h3>
     <h3 style="font-size: 10px; color: brown;"> 
       <ion-icon name="calendar-outline"></ion-icon>
       Fecha de publicación : {{item.FechaPublicacionCuestionario | date: 'yyyy-MM-dd'}}
     </h3>
+   
     <h3 style="font-size: 12px; ">Cantón: {{item.nombreCanton}}  </h3>
     <h3 style="font-size: 12px; ">Parroquia : {{item.nombreParroquia}}</h3>
     <h3 style="font-size: 12px; ">Comunidad : {{item.nombreComunidad}}</h3>
