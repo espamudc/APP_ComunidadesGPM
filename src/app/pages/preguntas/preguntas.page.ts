@@ -3,6 +3,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.service';
 import { ComponentesService } from 'src/app/services/componentes.service';
 import { ToastController } from '@ionic/angular';
+import { PreguntasService } from '../../services/preguntas.service';
 @Component({
   selector: 'app-preguntas',
   templateUrl: './preguntas.page.html',
@@ -10,13 +11,17 @@ import { ToastController } from '@ionic/angular';
 })
 export class PreguntasPage implements OnInit {
   listaPreguntas:any
+  Preguntas:any
   idcu:string;
   idve:string;
   idco:string;
   listComponents: any[] = [];
   constructor(private asignarEncuestadoService:AsignarEncuestadoService,
     private activatedRoute:ActivatedRoute,
-    private router:Router, private componentesService:ComponentesService, private toastController:ToastController) { }
+    private router:Router, 
+    private componentesService:ComponentesService, 
+    private toastController:ToastController,
+    private preguntasService:PreguntasService) { }
 
   ngOnInit() {
     this.idcu= this.activatedRoute.snapshot.paramMap.get('idcu');
@@ -30,7 +35,9 @@ export class PreguntasPage implements OnInit {
     (
       idcuestionario,idversion,idcomundiad
     ).then(data => {
+      
       this.listaPreguntas=data["respuesta"].listaPreguntas
+      this.Preguntas=data["respuesta"].listaPreguntas
     })
   }
   quitarRandom(val) {
@@ -50,13 +57,7 @@ export class PreguntasPage implements OnInit {
   }
   //mostrar preguntas por componente
   mostarPreguntas(item: any) {
-  
-   //let _idAsignarEncuestadoEncriptado
-  //  this.preguntasService.PreguntasPorcomponentes(item.IdComponenteEncriptado, usuarioTecnico).then(data => {
-  //     this.listaPreguntas2 = data["respuesta"];
-  //   }).catch(error => {
-  //     this.Toast("Error al cargar datos")
-  //   })
+    this.listaPreguntas=this.Preguntas.filter(i=>i.Componente.Descripcion==item.Descripcion)
   }
   //Mensajes
   async Toast(_mensaje: string, _duracion: number = 2000) {

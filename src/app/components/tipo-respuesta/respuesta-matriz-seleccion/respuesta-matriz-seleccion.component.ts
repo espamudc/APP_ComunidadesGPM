@@ -44,11 +44,9 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
   respuesta: Array<Respuesta> = [];
   loadingMatriz:boolean=false;
   constructor(private preguntasService:PreguntasService, private toastController:ToastController) { }
-
   ngOnInit() {
     this._consultarPreguntaConfigurarMatriz(this.Item.IdPreguntaEncriptado);
   }
-
   getNiveles() {
     let opciones: Array<Opciones> = [];
     let aux = false;
@@ -62,11 +60,13 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
       if (aux == false) {
         let data:string
         let tamano= this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion.length;
-        if(this.respuesta[0].descripcion!=null){
-          var resp = this.respuesta.find(cues =>cues.descripcion.substr(0,tamano) === this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion);
-        }
-        else{
-          resp = null;
+        if(this.respuesta.length !=0){
+          if(this.respuesta[0].descripcion!=null){
+            var resp = this.respuesta.find(cues =>cues.descripcion.substr(0,tamano) === this._listaPreguntaConfigurarMatriz[index].OpcionUnoMatriz.Descripcion);
+          }
+          else{
+            resp = null;
+          }
         }
         if((resp == null) || (resp == undefined)){
           data=null;
@@ -178,7 +178,6 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
     this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado, localStorage.getItem("IdAsignarEncuestadoEncriptado"),)
       .then(data => {
         if (data['http']['codigo'] == '200') {
-          debugger
           this.matrizDesing.length = 0;
           this._listaPreguntaConfigurarMatriz = data['respuesta'];
           let opciones: Array<Opciones> = [];
