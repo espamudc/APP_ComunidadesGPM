@@ -1,13 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { PreguntasService } from 'src/app/services/preguntas.service';
-import { RespuestasService } from 'src/app/services/respuestas.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 interface Nivel {
   idNivel: string
   nivel: string
   idConfiguracionMatriz: string,
-  estado: string
+  estado: string,
+  totalrespuesta:string
 }
 interface Opciones {
   idOpciones: string
@@ -29,16 +28,13 @@ interface MatrizDesing {
   descripcionPregunta: string
 }
 @Component({
-  selector: 'app-matriz',
-  templateUrl: './matriz.component.html',
-  styleUrls: ['./matriz.component.scss'],
+  selector: 'app-respuesta-matriz-seleccion',
+  templateUrl: './respuesta-matriz-seleccion.component.html',
+  styleUrls: ['./respuesta-matriz-seleccion.component.scss'],
 })
-export class MatrizComponent implements OnInit {
-  @Input() ItemPregunta: any = {};
-  @Input() ListaRespuestas: any[] = [];
-  @Input() IdCabeceraRespuestaEncriptado: string;
-  @Input() Identificador: string;
-  @Output() preguntaBorrada = new EventEmitter<string>();
+export class RespuestaMatrizSeleccionComponent implements OnInit {
+  @Input() Item :any ={};
+  op:any;
   leyandaSuperior: string;
   leyandaLateral: string;
   totalFilas: number;
@@ -46,33 +42,13 @@ export class MatrizComponent implements OnInit {
   _listaPreguntaConfigurarMatriz: any[] = [];
   matrizDesing: Array<MatrizDesing> = [];
   respuesta: Array<Respuesta> = [];
-  constructor(private preguntasService: PreguntasService,
-    private respuestasService: RespuestasService,
-    private toastController: ToastController) {
-    this.formRespuesta = new FormGroup({
-      _idCabeceraRespuestaEncriptado: new FormControl('', [Validators.required]),
-      _idPreguntaEncriptado: new FormControl('', [Validators.required]),
-      _idRespuestaLogicaEncriptado: new FormControl('', [Validators.required]),
-      _descripcion: new FormControl('', [Validators.required])
-    });
-  }
+  loadingMatriz:boolean=false;
+  constructor(private preguntasService:PreguntasService, private toastController:ToastController) { }
+
   ngOnInit() {
-    this.formRespuesta.get('_idCabeceraRespuestaEncriptado').setValue(this.IdCabeceraRespuestaEncriptado);
-    this.formRespuesta.get('_idPreguntaEncriptado').setValue(this.ItemPregunta.IdPreguntaEncriptado);
+    this._consultarPreguntaConfigurarMatriz(this.Item.IdPreguntaEncriptado);
   }
-  formRespuesta: FormGroup;
-  _ver = true;
-  _icon = "add";
-  _ocultar() {
-    if (this._ver == true) {
-      this._ver = false;
-      this._icon = "remove";
-      this._consultarPreguntaConfigurarMatriz(this.ItemPregunta.IdPreguntaEncriptado);
-    } else {
-      this._ver = true;
-      this._icon = "add";
-    }
-  }
+
   getNiveles() {
     let opciones: Array<Opciones> = [];
     let aux = false;
@@ -120,7 +96,8 @@ export class MatrizComponent implements OnInit {
               idNivel: this._listaPreguntaConfigurarMatriz[i].OpcionDosMatriz.IdOpcionDosMatrizEncriptado,
               nivel: this._listaPreguntaConfigurarMatriz[i].OpcionDosMatriz.Descripcion,
               idConfiguracionMatriz: this._listaPreguntaConfigurarMatriz[i].IdConfigurarMatrizEncriptado,
-              estado: "no"
+              estado: "no",
+              totalrespuesta:"0"
             })
           }
         }
@@ -147,18 +124,22 @@ export class MatrizComponent implements OnInit {
           }
         }
         if (aux12 == true) {
+          var opcionNivel=opciones[bandera].opciones+","+opciones[bandera].nivel[y].nivel 
+          var totalvecesRespuesta= this.Item['ListaRespuestas'].find(l => l.DescripcionRespuestaAbierta==opcionNivel)
           niveles.push({
             idNivel: opciones[bandera].nivel[y].idNivel,
             nivel: opciones[bandera].nivel[y].nivel,
             idConfiguracionMatriz: opciones[bandera].nivel[y].idConfiguracionMatriz,
-            estado: "chequeado"
+            estado: "chequeado",
+            totalrespuesta:totalvecesRespuesta.VecesRepetidas
           })
         } else {
           niveles.push({
             idNivel: opciones[bandera].nivel[y].idNivel,
             nivel: opciones[bandera].nivel[y].nivel,
             idConfiguracionMatriz: opciones[bandera].nivel[y].idConfiguracionMatriz,
-            estado: "no"
+            estado: "no",
+            totalrespuesta:"0"
           })
         }
       }
@@ -197,11 +178,12 @@ export class MatrizComponent implements OnInit {
     this.preguntasService._consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado, localStorage.getItem("IdAsignarEncuestadoEncriptado"),)
       .then(data => {
         if (data['http']['codigo'] == '200') {
+          debugger
           this.matrizDesing.length = 0;
           this._listaPreguntaConfigurarMatriz = data['respuesta'];
           let opciones: Array<Opciones> = [];
           this.totalFilas = opciones.length + 1;
-          this.respuesta = this.getRespuesta();
+          this.respuesta=this.getRespuesta().filter(i=>i.dataRespuesta!=null);
           opciones = this.getNiveles();
           this.observacion = this._listaPreguntaConfigurarMatriz[0].OpcionUnoMatriz.Pregunta.Observacion;
           this.matrizDesing.push({
@@ -217,44 +199,6 @@ export class MatrizComponent implements OnInit {
         this.Toast("Error la cargar datos")
       })
   }
-  _guardarOpcion(_idOpcionEncriptado,op) {
-    let id = this.formRespuesta.get('_idCabeceraRespuestaEncriptado').value
-    this.respuestasService.respuesta_insertar(
-      id,
-      this.formRespuesta.get('_idPreguntaEncriptado').value,
-      _idOpcionEncriptado,
-      localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-      this.Identificador, op
-    ).then(data => {
-      if (data['http']['codigo'] == '200') {
-        this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
-      }
-    }).catch(error => {
-      this.Toast("Error la cargar datos")
-    })
-  }
-  insertarpreguntaabierta(event, opcion: string) {
-    if(event.target.value){
-      this.respuestasService.insertar_DatosRespuesta(
-        event.target.value,
-        opcion,
-        localStorage.getItem("IdAsignarEncuestadoEncriptado"),
-        this.formRespuesta.get('_idPreguntaEncriptado').value)
-        .then(data => {
-          if (data['respuesta'] == 'Error al guardar') {
-            this.Toast("Error, seleccione primero una opción")
-          }else{
-            this.totalPreguntasRestantes(this.ItemPregunta.IdPreguntaEncriptado);
-          }
-        }).catch(error => {
-          this.Toast("Error la cargar datos")
-        })
-    }
-  }
-  totalPreguntasRestantes(idpregunta:string){
-    this.preguntaBorrada.emit(idpregunta)
-  }
-
   async Toast(_mensaje: string, _duracion: number = 2000) {
     const toast = await this.toastController.create({
       message: _mensaje,
@@ -273,4 +217,5 @@ export class MatrizComponent implements OnInit {
     });
     toast.present();
   }
+
 }

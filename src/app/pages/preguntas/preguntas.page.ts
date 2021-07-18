@@ -31,7 +31,6 @@ export class PreguntasPage implements OnInit {
       idcuestionario,idversion,idcomundiad
     ).then(data => {
       this.listaPreguntas=data["respuesta"].listaPreguntas
-      debugger
     })
   }
   quitarRandom(val) {

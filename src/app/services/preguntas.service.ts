@@ -33,7 +33,7 @@ export class PreguntasService {
         });
     });
   }
-  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado: string, _IdAsignadoEncuestado: string) {
+  _consultarPreguntaConfigurarMatriz(_IdPreguntaEncriptado: string, _IdAsignadoEncuestado: any) {
     const urlApi = url + `configurarmatriz_consultarporidpregunta?_idPreguntaEncriptado=${_IdPreguntaEncriptado}&_IdAsignarEncuestado=${_IdAsignadoEncuestado}`;
     return new Promise((resolve, reject) => {
       this.http.get(urlApi)

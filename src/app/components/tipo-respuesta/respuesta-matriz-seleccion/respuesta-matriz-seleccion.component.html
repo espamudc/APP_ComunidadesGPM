@@ -1,0 +1,30 @@
+<table class="table" *ngFor="let matriz of matrizDesing">
+  <thead>
+    <th [attr.rowspan]="totalFilas+2"><b>{{matriz.leyendaLateral}}</b></th>
+    <tr>
+      <th colspan="5"> {{matriz.leyendaSuperior}}</th>
+    </tr>
+    <tr>
+      <th scope="col" *ngFor="let columna of matriz.opciones[0].nivel" style="width:15%">{{columna.nivel}}</th>
+      <th *ngIf="observacion">
+        Observación
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let op of matriz.opciones; let i = index">
+      <th scope="row"><b>{{op.opciones}}</b></th>
+      <td *ngFor="let nive of op.nivel" color="success">
+        {{nive.totalrespuesta}}
+        <span *ngFor="let resp of matriz.respuesta" >
+          <span *ngIf="resp.descripcion == op.opciones+','+nive.nivel">
+              <a href="www.google.com">-</a> 
+          </span>
+        </span>
+      </td>
+      <td  >
+       {{op.dataRespuesta}}
+      </td>
+    </tr>
+  </tbody>
+</table>
