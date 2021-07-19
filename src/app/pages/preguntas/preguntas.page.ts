@@ -4,6 +4,7 @@ import { AsignarEncuestadoService } from 'src/app/services/asignar-encuestado.se
 import { ComponentesService } from 'src/app/services/componentes.service';
 import { ToastController } from '@ionic/angular';
 import { PreguntasService } from '../../services/preguntas.service';
+import { LoadingService } from 'src/app/services/loading.service';
 @Component({
   selector: 'app-preguntas',
   templateUrl: './preguntas.page.html',
@@ -17,29 +18,36 @@ export class PreguntasPage implements OnInit {
   idco:string;
   loadingMatriz:boolean=true;
   listComponents: any[] = [];
+  totalPreguntas:number;
+
   constructor(private asignarEncuestadoService:AsignarEncuestadoService,
     private activatedRoute:ActivatedRoute,
     private router:Router, 
     private componentesService:ComponentesService, 
     private toastController:ToastController,
-    private preguntasService:PreguntasService) { }
-
+    private preguntasService:PreguntasService,
+    public loadingService: LoadingService) { }
   ngOnInit() {
+
     this.idcu= this.activatedRoute.snapshot.paramMap.get('idcu');
     this.idve= this.activatedRoute.snapshot.paramMap.get('idve');
     this.idco= this.activatedRoute.snapshot.paramMap.get('idco');
     this.getComponents(this.idve);
    this.verPreguntas(this.idcu,this.idve,this.idco);
   }
-  verPreguntas(idcuestionario:string, idversion:string, idcomundiad:string){
+   verPreguntas(idcuestionario:string, idversion:string, idcomundiad:string){
+    this.loadingService.present();
     this.asignarEncuestadoService._cuestionariogenerico_consultarporpreguntaRandom
     (
       idcuestionario,idversion,idcomundiad
     ).then(data => {
-      
       this.listaPreguntas=data["respuesta"].listaPreguntas
       this.Preguntas=data["respuesta"].listaPreguntas
       this.loadingMatriz=false;
+      this.totalPreguntas=this.listaPreguntas.length;
+      this.loadingService.dismiss();
+    }).catch(error=>{
+      this.loadingService.dismiss();
     })
   }
   quitarRandom(val) {
@@ -48,7 +56,6 @@ export class PreguntasPage implements OnInit {
     var cadenaFinal= cad.substring(count,7);
     return cadenaFinal;
    }
-
   //Obtener componentes por cuestionario
   getComponents(idversrioncuestionario: string) {
     this.componentesService.componentesPorEncuesta(idversrioncuestionario).then(data => {
@@ -61,6 +68,8 @@ export class PreguntasPage implements OnInit {
   mostarPreguntas(item: any) {
     this.listaPreguntas=this.Preguntas.filter(i=>i.Componente.Descripcion==item.Descripcion)
     this.loadingMatriz=false;
+    this.totalPreguntas=this.listaPreguntas.length;
+    //this.dismiss();
   }
   //Mensajes
   async Toast(_mensaje: string, _duracion: number = 2000) {

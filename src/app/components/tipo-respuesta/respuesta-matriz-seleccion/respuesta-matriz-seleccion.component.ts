@@ -1,6 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { PreguntasService } from 'src/app/services/preguntas.service';
 import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 interface Nivel {
   idNivel: string
   nivel: string
@@ -42,13 +43,20 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
   totalFilas: number;
   observacion: boolean;
   _listaPreguntaConfigurarMatriz: any[] = [];
+  arrayObservaciones: any[] = [];
   matrizDesing: Array<MatrizDesing> = [];
   respuesta: Array<Respuesta> = [];
   loadingMatriz:boolean=true;
-  constructor(private preguntasService:PreguntasService, private toastController:ToastController) { }
+  alert:any;
+  constructor(private preguntasService:PreguntasService, 
+    private toastController:ToastController,
+    public alertController: AlertController) { }
   ngOnInit() {
+    
     this._consultarPreguntaConfigurarMatriz(this.Item.IdPreguntaEncriptado);
   }
+ 
+
   getNiveles() {
     let opciones: Array<Opciones> = [];
     let aux = false;
@@ -210,6 +218,49 @@ export class RespuestaMatrizSeleccionComponent implements OnInit {
         this.Toast("Error la cargar datos")
         this.loadingMatriz=false;
       })
+  }
+
+  async  consultarObservaciones(idrespuestaLogica:string){
+     let  d =  this.preguntasService._consultarObservacionesRespuestaMatrizSeleccion(idrespuestaLogica,this.idcomunidad,this.idvercuestionario);
+     d.then(data=>{
+      if (data['http']['codigo'] == '200') {
+        this.arrayObservaciones=data["respuesta"];
+        var mensaje="<span style='font-size:10px;text-align:left'>";
+        var i=1;
+        this.arrayObservaciones.forEach(element => {
+          mensaje +=i+". "+element.Datos+"</br>"
+          i++;
+        });
+        mensaje+="</span>";
+       this.alerta(mensaje);
+      }
+    })
+   
+  }
+
+
+  async alerta(mensaje:string){
+    this.alert = await this.alertController.create({
+      // cssClass: 'my-custom-class',
+       subHeader: 'Observaciones',
+       message: '<span style="font-size:9px;">'+mensaje+'</span>',
+       buttons: [
+         {
+          text: 'Ok',
+          handler: () => {
+             this.alert.dismiss();
+          }
+        }
+      ]
+   });
+   await this.alert.present();
+
+  }
+  async dismiss(){
+    await this.alert.dismiss();
+  }
+  onDestroy() {
+    this.dismiss();
   }
   async Toast(_mensaje: string, _duracion: number = 2000) {
     const toast = await this.toastController.create({

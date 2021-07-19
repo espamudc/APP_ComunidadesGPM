@@ -17,15 +17,14 @@
       </ion-col>
     </ion-slide>
   </ion-slides>
-  <span style="color: red; font-size: 12px;" *ngIf="loadingMatriz">Cargando preguntas... <img src="assets/img/ajax-loader.gif" alt=""></span>
+  <span style="color:#239450; font-size: 12px; margin-left: 12px;" [hidden]="loadingMatriz">Total preguntas: {{totalPreguntas}}</span>
   <div id="faq" [hidden]="loadingMatriz">
     <ul>
-      <li *ngFor="let item of listaPreguntas" >
-        <input type="checkbox" checked>
+      <li *ngFor="let item of listaPreguntas; let i = index" [id]="i" >
+        <input type="checkbox" checked> 
         <i></i>
         <h2> {{ quitarRandom(item.Descripcion) }}</h2>
         <p style="width: 100%; height: auto ">
-          
           <app-respuesta-abierta *ngIf="item.TipoPregunta.Identificador==1" [Item]="item"> </app-respuesta-abierta>
           <app-respuesta-seleccion-unica *ngIf="item.TipoPregunta.Identificador==2" [Item]="item"></app-respuesta-seleccion-unica>
           <app-respuesta-seleccion-unica *ngIf="item.TipoPregunta.Identificador==3" [Item]="item"></app-respuesta-seleccion-unica>
@@ -34,7 +33,6 @@
         </p>
       </li>
     </ul>
-  
   </div>
 </ion-content>
 <app-tab></app-tab>

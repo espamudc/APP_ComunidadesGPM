@@ -8,9 +8,9 @@
     </tr>
     <tr>
       <th scope="col" *ngFor="let columna of matriz.opciones[0].nivel" style="width:15%">{{columna.nivel}}</th>
-      <th *ngIf="observacion">
+      <!-- <th *ngIf="observacion">
         Observación
-      </th>
+      </th> -->
     </tr>
   </thead>
   <tbody>
@@ -19,14 +19,14 @@
       <td *ngFor="let nive of op.nivel" color="success">
         {{nive.totalrespuesta}}
         <span *ngFor="let resp of matriz.respuesta" >
-          <span *ngIf="resp.descripcion == op.opciones+','+nive.nivel">
-              <a href="www.google.com">-</a> 
+          <span *ngIf="resp.descripcion == op.opciones+','+nive.nivel" (click)="consultarObservaciones(resp.idRespuestaLogica)" >
+              <br><a><ion-icon name="eye-outline"></ion-icon></a> 
           </span>
         </span>
       </td>
-      <td *ngIf="observacion" >
+      <!-- <td *ngIf="observacion" >
        {{op.dataRespuesta}}
-      </td>
+      </td> -->
     </tr>
   </tbody>
 </table>
